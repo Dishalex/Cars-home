@@ -1,0 +1,22 @@
+[tool.poetry]
+name = "cars-home"
+version = "0.1.0"
+description = ""
+authors = []
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.11"
+fastapi = "^0.111.0"
+sqlalchemy = "^2.0.29"
+python-multipart = "^0.0.9"
+cloudinary = "^1.40.0"
+alembic = "^1.13.1"
+asyncpg = "^0.29.0"
+python-jose = "^3.3.0"
+bcrypt = "^4.1.2"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
