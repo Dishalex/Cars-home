@@ -11,7 +11,7 @@ class Base(DeclarativeBase):
     pass
 
 
-class TimeStampMixin(Base):
+class TimeStampMixin:
     """Mixin class providing timestamp information (created_at, updated_at) for SQLAlchemy models."""
 
     id: Mapped[int] = mapped_column(primary_key=True)
@@ -23,15 +23,16 @@ class TimeStampMixin(Base):
     )
 
 
-class Picture(TimeStampMixin):
+class Picture(TimeStampMixin, Base):
     """SQLAlchemy model representing the 'pictures' table in the database."""
 
     __tablename__ = "pictures"
+    find_plate: Mapped[str] = mapped_column(String(32), nullable=False, unique=True)
     url: Mapped[str] = mapped_column(String(255), nullable=False)
     cloudinary_public_id: Mapped[str] = mapped_column(String, nullable=False)
-    user_id: Mapped[int] = mapped_column(ForeignKey("users.id"))
-    user: Mapped["User"] = relationship(
-        "User", back_populates="pictures", lazy="joined", cascade="all, delete"
+    history_id: Mapped[int] = mapped_column(ForeignKey("history.id"))
+    history: Mapped["History"] = relationship(
+        "History", back_populates="pictures", lazy="joined", cascade="all, delete"
     )
 
 
@@ -42,7 +43,7 @@ class Role(enum.Enum):
     user: str = "user"
 
 
-class User(TimeStampMixin):
+class User(TimeStampMixin, Base):
     """SQLAlchemy model representing the 'users' table in the database."""
 
     __tablename__ = "users"
@@ -68,7 +69,7 @@ class User(TimeStampMixin):
     )
 
 
-class Car(TimeStampMixin):
+class Car(TimeStampMixin, Base):
     __tablename__ = "cars"
     plate: Mapped[str] = mapped_column(String(32), nullable=False, unique=True)
     model: Mapped[str] = mapped_column(String(128), nullable=True)
@@ -85,7 +86,7 @@ class Car(TimeStampMixin):
     )
 
 
-class Blacklisted(TimeStampMixin):
+class Blacklisted(TimeStampMixin, Base):
     """SQLAlchemy model representing the 'blacklisted' table in the database."""
 
     __tablename__ = "blacklisted"
@@ -96,7 +97,7 @@ class Blacklisted(TimeStampMixin):
     )
 
 
-class ParkingRate(TimeStampMixin):
+class ParkingRate(TimeStampMixin, Base):
     __tablename__ = "parking_rates"
     rate_per_hour: Mapped[float] = mapped_column(Float, default=10, nullable=True)
     rate_per_day: Mapped[float] = mapped_column(Float, default=150, nullable=True)
@@ -104,7 +105,7 @@ class ParkingRate(TimeStampMixin):
     number_free_spaces: Mapped[int] = mapped_column(Integer, nullable=True)
 
 
-class History(TimeStampMixin):
+class History(TimeStampMixin, Base):
     """SQLAlchemy model representing the 'history' table in the database."""
 
     __tablename__ = "history"
