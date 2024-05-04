@@ -58,12 +58,11 @@ class User(TimeStampMixin, Base):
     )
 
     car: Mapped["Car"] = relationship(
-        "Car", back_populates="user", uselist=True, lazy="joined", cascade="all, delete"
+        "Car", back_populates="user", lazy="joined", cascade="all, delete"
     )
     history: Mapped["History"] = relationship(
         "History",
         back_populates="user",
-        uselist=True,
         lazy="joined",
         cascade="all, delete",
     )
@@ -78,6 +77,9 @@ class Car(TimeStampMixin, Base):
         Integer, ForeignKey("users.id", ondelete="CASCADE"), nullable=True
     )
 
+    history: Mapped["History"] = relationship(
+        "History", back_populates="car", lazy="joined", cascade="all, delete"
+    )
     blacklisted_tokens: Mapped["Blacklisted"] = relationship(
         "Blacklisted", back_populates="cars", lazy="joined", cascade="all, delete"
     )
@@ -109,7 +111,7 @@ class History(TimeStampMixin, Base):
     """SQLAlchemy model representing the 'history' table in the database."""
 
     __tablename__ = "history"
-    plate_number: Mapped[str] = mapped_column(
+    plate: Mapped[str] = mapped_column(
         String(50), ForeignKey("cars.plate"), nullable=False
     )
     entry_time: Mapped[DateTime] = mapped_column(
@@ -129,24 +131,22 @@ class History(TimeStampMixin, Base):
     rate_per_day: Mapped[int] = mapped_column(
         Integer, ForeignKey("parking_rates.rate_per_day")
     )
+
     car: Mapped["Car"] = relationship(
         "Car",
         back_populates="history",
-        uselist=True,
         lazy="joined",
         cascade="all, delete",
     )
-    pictures: Mapped["Picture"] = relationship(
+    picture: Mapped["Picture"] = relationship(
         "Picture",
         back_populates="history",
-        uselist=True,
         lazy="joined",
         cascade="all, delete",
     )
     rates: Mapped["ParkingRate"] = relationship(
         "ParkingRate",
         back_populates="history",
-        uselist=True,
         lazy="joined",
         cascade="all, delete",
     )
