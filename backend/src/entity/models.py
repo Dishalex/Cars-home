@@ -1,7 +1,18 @@
 import enum
 from datetime import date
+from typing import List
 
-from sqlalchemy import String, ForeignKey, DateTime, func, Enum, Integer, Float
+from sqlalchemy import (
+    String,
+    ForeignKey,
+    DateTime,
+    func,
+    Enum,
+    Integer,
+    Float,
+    Table,
+    Column,
+)
 from sqlalchemy.orm import Mapped, mapped_column, DeclarativeBase, relationship
 
 
@@ -30,10 +41,10 @@ class Picture(TimeStampMixin, Base):
     find_plate: Mapped[str] = mapped_column(String(32), nullable=False, unique=True)
     url: Mapped[str] = mapped_column(String(255), nullable=False)
     cloudinary_public_id: Mapped[str] = mapped_column(String, nullable=False)
-    history_id: Mapped[int] = mapped_column(ForeignKey("history.id"))
-    history: Mapped["History"] = relationship(
-        "History", back_populates="pictures", lazy="joined", cascade="all, delete"
-    )
+    # history_id: Mapped[int] = mapped_column(ForeignKey("history.id"))
+    # history: Mapped["History"] = relationship(
+    #     "History", back_populates="pictures", lazy="joined", cascade="all, delete"
+    # )
 
 
 class Role(enum.Enum):
@@ -41,6 +52,14 @@ class Role(enum.Enum):
 
     admin: str = "admin"
     user: str = "user"
+
+
+user_car_association = Table(
+    "user_car_association",
+    Base.metadata,
+    Column("user_id", Integer, ForeignKey("users.id", ondelete="CASCADE")),
+    Column("car_id", Integer, ForeignKey("cars.id")),
+)
 
 
 class User(TimeStampMixin, Base):
@@ -57,25 +76,23 @@ class User(TimeStampMixin, Base):
         "role", Enum(Role), default=Role.user, nullable=True
     )
 
-    car: Mapped["Car"] = relationship(
-        "Car", back_populates="user", lazy="joined", cascade="all, delete"
-    )
     history: Mapped["History"] = relationship(
         "History",
         back_populates="user",
         lazy="joined",
         cascade="all, delete",
     )
+    cars: Mapped[List["Car"]] = relationship(
+        secondary=user_car_association, back_populates="users", lazy="joined"
+    )
 
 
 class Car(TimeStampMixin, Base):
+    """SQLAlchemy model representing the 'cars' table in the database."""
     __tablename__ = "cars"
     plate: Mapped[str] = mapped_column(String(32), nullable=False, unique=True)
     model: Mapped[str] = mapped_column(String(128), nullable=True)
     ban: Mapped[bool] = mapped_column(default=False, nullable=True)
-    user_id: Mapped[int] = mapped_column(
-        Integer, ForeignKey("users.id", ondelete="CASCADE"), nullable=True
-    )
 
     history: Mapped["History"] = relationship(
         "History", back_populates="car", lazy="joined", cascade="all, delete"
@@ -83,8 +100,8 @@ class Car(TimeStampMixin, Base):
     blacklisted_tokens: Mapped["Blacklisted"] = relationship(
         "Blacklisted", back_populates="cars", lazy="joined", cascade="all, delete"
     )
-    user: Mapped["User"] = relationship(
-        "User", back_populates="cars", lazy="joined", cascade="all, delete"
+    user: Mapped[List["User"]] = relationship(
+        secondary=user_car_association, back_populates="cars", lazy="joined"
     )
 
 
@@ -100,9 +117,10 @@ class Blacklisted(TimeStampMixin, Base):
 
 
 class ParkingRate(TimeStampMixin, Base):
+    """SQLAlchemy model representing the 'parking_rates' table in the database."""
     __tablename__ = "parking_rates"
-    rate_per_hour: Mapped[float] = mapped_column(Float, default=10, nullable=True)
-    rate_per_day: Mapped[float] = mapped_column(Float, default=150, nullable=True)
+    rate_per_hour: Mapped[float] = mapped_column(Float, default=10.0, nullable=True)
+    rate_per_day: Mapped[float] = mapped_column(Float, default=150.0, nullable=True)
     number_of_spaces: Mapped[int] = mapped_column(Integer, default=100, nullable=True)
     number_free_spaces: Mapped[int] = mapped_column(Integer, nullable=True)
 
@@ -125,12 +143,7 @@ class History(TimeStampMixin, Base):
     paid: Mapped[bool] = mapped_column(default=False, nullable=True)
     car_id: Mapped[int] = mapped_column(Integer, ForeignKey("cars.id"))
     picture_id: Mapped[int] = mapped_column(Integer, ForeignKey("pictures.id"))
-    rate_per_hour: Mapped[int] = mapped_column(
-        Integer, ForeignKey("parking_rates.rate_per_hour")
-    )
-    rate_per_day: Mapped[int] = mapped_column(
-        Integer, ForeignKey("parking_rates.rate_per_day")
-    )
+    rate_id: Mapped[int] = mapped_column(Integer, ForeignKey("parking_rates.id"))
 
     car: Mapped["Car"] = relationship(
         "Car",
