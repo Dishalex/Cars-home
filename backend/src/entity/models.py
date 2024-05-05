@@ -41,10 +41,6 @@ class Picture(TimeStampMixin, Base):
     find_plate: Mapped[str] = mapped_column(String(32), nullable=False, unique=True)
     url: Mapped[str] = mapped_column(String(255), nullable=False)
     cloudinary_public_id: Mapped[str] = mapped_column(String, nullable=False)
-    # history_id: Mapped[int] = mapped_column(ForeignKey("history.id"))
-    # history: Mapped["History"] = relationship(
-    #     "History", back_populates="pictures", lazy="joined", cascade="all, delete"
-    # )
 
 
 class Role(enum.Enum):
@@ -89,7 +85,9 @@ class User(TimeStampMixin, Base):
 
 class Car(TimeStampMixin, Base):
     """SQLAlchemy model representing the 'cars' table in the database."""
+
     __tablename__ = "cars"
+    credit: Mapped[float] = mapped_column(Float, nullable=True)
     plate: Mapped[str] = mapped_column(String(32), nullable=False, unique=True)
     model: Mapped[str] = mapped_column(String(128), nullable=True)
     ban: Mapped[bool] = mapped_column(default=False, nullable=True)
@@ -118,6 +116,7 @@ class Blacklisted(TimeStampMixin, Base):
 
 class ParkingRate(TimeStampMixin, Base):
     """SQLAlchemy model representing the 'parking_rates' table in the database."""
+
     __tablename__ = "parking_rates"
     rate_per_hour: Mapped[float] = mapped_column(Float, default=10.0, nullable=True)
     rate_per_day: Mapped[float] = mapped_column(Float, default=150.0, nullable=True)
@@ -129,9 +128,6 @@ class History(TimeStampMixin, Base):
     """SQLAlchemy model representing the 'history' table in the database."""
 
     __tablename__ = "history"
-    plate: Mapped[str] = mapped_column(
-        String(50), ForeignKey("cars.plate"), nullable=False
-    )
     entry_time: Mapped[DateTime] = mapped_column(
         DateTime, default=func.now(), nullable=True
     )

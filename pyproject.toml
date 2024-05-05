@@ -16,6 +16,7 @@ asyncpg = "^0.29.0"
 python-jose = "^3.3.0"
 bcrypt = "^4.1.2"
 pydantic-settings = "^2.2.1"
+aiogram = "^3.5.0"
 
 
 [tool.poetry.group.dev.dependencies]
