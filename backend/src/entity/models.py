@@ -41,6 +41,9 @@ class Picture(TimeStampMixin, Base):
     find_plate: Mapped[str] = mapped_column(String(32), nullable=False, unique=True)
     url: Mapped[str] = mapped_column(String(255), nullable=False)
     cloudinary_public_id: Mapped[str] = mapped_column(String, nullable=False)
+    history: Mapped["History"] = relationship(
+        "History", back_populates="picture", lazy="joined", cascade="all, delete"
+    )
 
 
 class Role(enum.Enum):
@@ -71,13 +74,6 @@ class User(TimeStampMixin, Base):
     role: Mapped[Enum] = mapped_column(
         "role", Enum(Role), default=Role.user, nullable=True
     )
-
-    history: Mapped["History"] = relationship(
-        "History",
-        back_populates="user",
-        lazy="joined",
-        cascade="all, delete",
-    )
     cars: Mapped[List["Car"]] = relationship(
         secondary=user_car_association, back_populates="users", lazy="joined"
     )
@@ -96,9 +92,9 @@ class Car(TimeStampMixin, Base):
         "History", back_populates="car", lazy="joined", cascade="all, delete"
     )
     blacklisted_tokens: Mapped["Blacklisted"] = relationship(
-        "Blacklisted", back_populates="cars", lazy="joined", cascade="all, delete"
+        "Blacklisted", back_populates="car", lazy="joined", cascade="all, delete"
     )
-    user: Mapped[List["User"]] = relationship(
+    users: Mapped[List["User"]] = relationship(
         secondary=user_car_association, back_populates="cars", lazy="joined"
     )
 
@@ -122,6 +118,9 @@ class ParkingRate(TimeStampMixin, Base):
     rate_per_day: Mapped[float] = mapped_column(Float, default=150.0, nullable=True)
     number_of_spaces: Mapped[int] = mapped_column(Integer, default=100, nullable=True)
     number_free_spaces: Mapped[int] = mapped_column(Integer, nullable=True)
+    history: Mapped["History"] = relationship(
+        "History", back_populates="rates", lazy="joined", cascade="all, delete",
+    )
 
 
 class History(TimeStampMixin, Base):
