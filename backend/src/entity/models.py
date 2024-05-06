@@ -81,7 +81,9 @@ class User(TimeStampMixin, Base):
 
 class Car(TimeStampMixin, Base):
     """SQLAlchemy model representing the 'cars' table in the database."""
+
     __tablename__ = "cars"
+    credit: Mapped[float] = mapped_column(Float, nullable=True)
     plate: Mapped[str] = mapped_column(String(32), nullable=False, unique=True)
     model: Mapped[str] = mapped_column(String(128), nullable=True)
     ban: Mapped[bool] = mapped_column(default=False, nullable=True)
@@ -110,6 +112,7 @@ class Blacklisted(TimeStampMixin, Base):
 
 class ParkingRate(TimeStampMixin, Base):
     """SQLAlchemy model representing the 'parking_rates' table in the database."""
+
     __tablename__ = "parking_rates"
     rate_per_hour: Mapped[float] = mapped_column(Float, default=10.0, nullable=True)
     rate_per_day: Mapped[float] = mapped_column(Float, default=150.0, nullable=True)
