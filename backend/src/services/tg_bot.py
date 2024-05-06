@@ -5,9 +5,9 @@ from aiogram.methods import DeleteWebhook
 from aiogram.types import *
 
 from backend.src import config
-from constants import *
-from filters import Admin
-from handlers import rt
+from backend.src.services.constants import *
+from backend.src.services.filters import Admin
+from backend.src.services.handlers import rt
 
 bot = Bot(config.TG_TOKEN)
 dp = Dispatcher()

@@ -68,8 +68,8 @@ class User(TimeStampMixin, Base):
     full_name: Mapped[str] = mapped_column(String(50))
     email: Mapped[str] = mapped_column(String(150), nullable=False, unique=True)
     password: Mapped[str] = mapped_column(String(255), nullable=False)
-    phone_number: Mapped[str] = mapped_column(String(150), nullable=False)
-    telegram: Mapped[str] = mapped_column(String(150), nullable=False)
+    phone_number: Mapped[str] = mapped_column(String(150), nullable=False, unique=True)
+    telegram_id: Mapped[str] = mapped_column(String(50), nullable=True)
     refresh_token: Mapped[str] = mapped_column(String(255), nullable=True)
     role: Mapped[Enum] = mapped_column(
         "role", Enum(Role), default=Role.user, nullable=True
