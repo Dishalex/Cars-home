@@ -4,7 +4,7 @@ from aiogram import Router
 from aiogram.filters import CommandStart, Command
 from aiogram.types import *
 
-from backend.src.services.constants import *
+from src.services.constants import *
 
 rt = Router()
 calendar = Calendar()

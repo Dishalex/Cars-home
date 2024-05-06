@@ -9,10 +9,10 @@ from passlib.context import CryptContext
 from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from backend.src.conf.config import config
-from backend.src.database.db import get_db
-from backend.src.entity.models import Blacklisted
-from backend.src.repository import users as repository_users
+from src.conf.config import config
+from src.database.db import get_db
+from src.entity.models import Blacklisted
+from src.repository import users as repository_users
 
 
 class Auth:

@@ -4,11 +4,11 @@ from fastapi.security import OAuth2PasswordRequestForm, HTTPAuthorizationCredent
 from sqlalchemy.ext.asyncio import AsyncSession
 import logging
 
-from backend.src.database.db import get_db
-from backend.src.entity.models import User
-from backend.src.repository import users as repositories_users
-from backend.src.schemas.user_schema import UserSchema, TokenSchema, UserResponse
-from backend.src.services.auth import auth_service
+from src.database.db import get_db
+from src.entity.models import User
+from src.repository import users as repositories_users
+from src.schemas.user_schema import UserSchema, TokenSchema, UserResponse
+from src.services.auth import auth_service
 
 router = APIRouter(prefix="/auth", tags=["auth"])
 get_refresh_token = HTTPBearer()

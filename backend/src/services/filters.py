@@ -1,7 +1,7 @@
 from aiogram.filters import Filter
 from aiogram.types import Message
 
-from backend.src.conf.config import config
+from src.conf.config import config
 
 
 class Admin(Filter):

@@ -3,8 +3,8 @@ from fastapi import FastAPI, Depends, HTTPException, Request
 from fastapi.responses import JSONResponse
 from sqlalchemy import text
 from sqlalchemy.ext.asyncio import AsyncSession
-from backend.src.database.db import get_db
-from backend.src.routes import auth_routes, user_routes
+from src.database.db import get_db
+from src.routes import auth_routes, user_routes
 
 import logging
 

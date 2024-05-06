@@ -3,10 +3,10 @@ from fastapi import Depends
 from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from backend.src.database.db import get_db
-from backend.src.entity.models import User, Picture, Role
-from backend.src.schemas.user_schema import UserSchema, UserUpdate
-from backend.src.services import auth
+from src.database.db import get_db
+from src.entity.models import User, Picture, Role
+from src.schemas.user_schema import UserSchema, UserUpdate
+from src.services import auth
 
 
 async def get_user_by_email(email: str, db: AsyncSession = Depends(get_db)):

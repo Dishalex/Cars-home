@@ -1,6 +1,6 @@
-from backend.src import bot
+from src import bot
 
-from backend.src.services.constants import NOTIFICATIONS
+from src.services.constants import NOTIFICATIONS
 
 async def notification(user, option):
     await bot.send_message(
