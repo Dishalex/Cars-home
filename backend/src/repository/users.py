@@ -127,26 +127,6 @@ async def update_user(email: str, user_update: UserUpdate, db: AsyncSession):
         return None
 
 
-async def get_picture_count(db: AsyncSession, user: User):
-    """
-    Get the count of pictures associated with a user and update the user instance.
-
-    :param db: Asynchronous SQLAlchemy session (dependency injection).
-    :type db: AsyncSession
-    :param user: User instance for which the picture count is to be retrieved.
-    :type user: User
-    """
-    stmt = select(Picture).filter_by(user=user)
-    pictures = await db.execute(stmt)
-
-    if pictures is None:
-        picture_count = 1
-    else:
-        picture_count = len(pictures.unique().all())
-    user.picture_count = picture_count
-    await db.commit()
-    await db.refresh(user)
-
 
 async def ban_user(username: str, db: AsyncSession):
     """
