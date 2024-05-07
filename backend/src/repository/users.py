@@ -42,7 +42,7 @@ async def create_user(body: UserSchema, db: AsyncSession = Depends(get_db)):
     if is_first_user:
         new_user = User(**body.model_dump(), role=Role.admin)
     else:
-        new_user = User(**body.model_dump(), role=Role.user)
+        new_user = User(**body.model_dump())
 
     db.add(new_user)
     await db.commit()
@@ -77,32 +77,6 @@ async def update_token(user: User, token: str | None, db: AsyncSession):
     """
     user.refresh_token = token
     await db.commit()
-
-
-async def update_avatar(full_name, url: str, db: AsyncSession, public_id) -> User:
-    """
-    Update the avatar for a user and add a new picture entry to the database.
-
-    :param full_name: Full name of the user.
-    :type full_name: str
-    :param url: URL of the new avatar.
-    :type url: str
-    :param db: Asynchronous SQLAlchemy session (dependency injection).
-    :type db: AsyncSession
-    :param public_id: Public ID associated with the avatar in Cloudinary.
-    :type public_id: str
-    :return: The updated user instance.
-    :rtype: User
-    """
-    user = await get_user_by_username(full_name, db)
-    user.avatar = url
-    picture = Picture(url=url, cloudinary_public_id=public_id, description=None, user_id=user.id)
-    db.add(picture)
-    db.add(user)
-    await db.commit()
-    await db.refresh(picture)
-    await db.refresh(user)
-    return user
 
 
 async def get_user_by_username(full_name: str, db: AsyncSession = Depends(get_db)):

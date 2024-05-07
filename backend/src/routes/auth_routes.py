@@ -23,7 +23,7 @@ async def signup(body: UserSchema, db: AsyncSession = Depends(get_db)):
     try:
         exist_user = await repositories_users.get_user_by_username(body.full_name, db)
         if exist_user:
-            logger.error(f"Attempt to register with existing username: {body.full_name}")
+            logger.error(f"Attempt to register with existing user: {body.full_name}")
             raise HTTPException(status_code=status.HTTP_409_CONFLICT, detail="Account already exists")
 
         body.password = auth_service.get_password_hash(body.password)
@@ -55,9 +55,9 @@ async def login(body: OAuth2PasswordRequestForm = Depends(), db: AsyncSession = 
 
     if not auth_service.verify_password(body.password, user.password):
         raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Invalid password")
-    # if user.ban:
-    #     raise HTTPException(
-    #         status_code=status.HTTP_401_UNAUTHORIZED, detail="You were banned by an administrator")
+    if user.ban:
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED, detail="You were banned by an administrator")
     # Generate JWT
     access_token = await auth_service.create_access_token(data={"sub": user.email})
     refresh = await auth_service.create_refresh_token(data={"sub": user.email})

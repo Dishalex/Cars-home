@@ -1,8 +1,8 @@
-"""Init
+"""Initial migration
 
-Revision ID: efe8de57ee7a
+Revision ID: 27896de480e6
 Revises: 
-Create Date: 2024-05-07 16:46:52.806478
+Create Date: 2024-05-07 19:35:06.596265
 
 """
 from typing import Sequence, Union
@@ -12,7 +12,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision: str = 'efe8de57ee7a'
+revision: str = '27896de480e6'
 down_revision: Union[str, None] = None
 branch_labels: Union[str, Sequence[str], None] = None
 depends_on: Union[str, Sequence[str], None] = None
@@ -59,6 +59,7 @@ def upgrade() -> None:
     sa.Column('telegram_id', sa.String(length=50), nullable=True),
     sa.Column('refresh_token', sa.String(length=255), nullable=True),
     sa.Column('role', sa.Enum('admin', 'user', name='role'), nullable=True),
+    sa.Column('ban', sa.Boolean(), nullable=True),
     sa.Column('id', sa.Integer(), nullable=False),
     sa.Column('created_at', sa.DateTime(), nullable=True),
     sa.Column('updated_at', sa.DateTime(), nullable=True),
@@ -68,11 +69,11 @@ def upgrade() -> None:
     )
     op.create_table('blacklisted_tokens',
     sa.Column('token', sa.String(length=255), nullable=True),
-    sa.Column('car_id', sa.Integer(), nullable=True),
+    sa.Column('user_id', sa.Integer(), nullable=True),
     sa.Column('id', sa.Integer(), nullable=False),
     sa.Column('created_at', sa.DateTime(), nullable=True),
     sa.Column('updated_at', sa.DateTime(), nullable=True),
-    sa.ForeignKeyConstraint(['car_id'], ['cars.id'], ),
+    sa.ForeignKeyConstraint(['user_id'], ['cars.id'], ),
     sa.PrimaryKeyConstraint('id')
     )
     op.create_table('history',
