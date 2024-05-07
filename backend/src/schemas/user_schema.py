@@ -4,7 +4,7 @@ from typing import Optional
 
 from pydantic import BaseModel, EmailStr, Field
 
-from src.entity.models import Role
+from backend.src.entity.models import Role
 
 
 class UserSchema(BaseModel):

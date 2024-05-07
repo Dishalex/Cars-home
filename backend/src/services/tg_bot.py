@@ -4,10 +4,10 @@ from aiogram import Bot, Dispatcher
 from aiogram.methods import DeleteWebhook
 from aiogram.types import *
 
-from src import config
-from src.services.constants import *
-from src.services.filters import Admin
-from src.services.handlers import rt
+from backend.src import config
+from .constants import *
+from .filters import Admin
+from .handlers import rt
 
 # bot = Bot(config.TG_TOKEN)
 # dp = Dispatcher()
