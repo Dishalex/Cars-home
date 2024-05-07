@@ -8,6 +8,7 @@
 5. За потреби виконати міграції БД **alembic upgrade head**
 6. Запуск серверу однією з команд:
    **uvicorn backend.main:app --host localhost --port 8000 --reload**
+
    або з використанням логування:
    **uvicorn backend.main:app --host localhost --port 8000 --reload --log-level debug > logs.txt**
 
