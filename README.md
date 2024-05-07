@@ -1,3 +1,17 @@
+# Коротка інформація щодо запуску сервера
+
+1. Створити локальну копію гілки із вказанням імені користувача та фічі що міняється
+2. Ініціалізувати віртуальне оточення **poetry shell**
+3. Оновити залежності **poetry update**
+   Подальші дії виконувати з кореневого каталогу: **CARS-HOME**
+5. За потреби виконати міграції БД **alembic upgrade head**
+6. Запуск серверу однією з команд:
+   **uvicorn backend.main:app --host localhost --port 8000 --reload**
+   або з використанням логування:
+   **uvicorn backend.main:app --host localhost --port 8000 --reload --log-level debug > logs.txt**
+
+
+
 # Cars-home
 Team 4 Python Data Science project
 
