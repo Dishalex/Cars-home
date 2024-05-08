@@ -127,7 +127,6 @@ async def update_user(email: str, user_update: UserUpdate, db: AsyncSession):
         return None
 
 
-
 async def ban_user(username: str, db: AsyncSession):
     """
     Ban a user by updating the 'ban' attribute in the database.

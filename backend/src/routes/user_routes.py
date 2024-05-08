@@ -23,7 +23,6 @@ async def get_current_user(user: User = Depends(auth_service.get_current_user), 
     :return: The information of the currently authenticated user.
     :rtype: UserResponse
     """
-    await repositories_users.get_picture_count(db, user)
     return user
 
 
@@ -41,7 +40,6 @@ async def get_user_profile(username: str, db: AsyncSession = Depends(get_db)):
     :raises HTTPException: If the user is not found.
     """
     user_info = await repositories_users.get_user_by_username(username, db)
-    await repositories_users.get_picture_count(db, user_info)
 
     if not user_info:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="User not found.")

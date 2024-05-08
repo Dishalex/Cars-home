@@ -93,14 +93,6 @@ class Blacklisted(TimeStampMixin, Base):
         "User", back_populates="blacklisted_tokens", lazy="joined", cascade="all, delete"
     )
 
-# class Blacklisted(TimeStampMixin, Base):
-#     """SQLAlchemy model representing the 'blacklisted' table in the database."""
-#     __tablename__ = "blacklisted"
-#     user_id: Mapped[int] = mapped_column(Integer, ForeignKey("users.id"), nullable=True)
-#     token: Mapped[str] = mapped_column(String(255), nullable=True)
-#
-#     user = relationship("User", back_populates="blacklisted_tokens")
-
 
 class Car(TimeStampMixin, Base):
     """SQLAlchemy model representing the 'cars' table in the database."""
@@ -114,9 +106,6 @@ class Car(TimeStampMixin, Base):
     history: Mapped["History"] = relationship(
         "History", back_populates="car", lazy="joined", cascade="all, delete"
     )
-    # blacklisted_tokens: Mapped["Blacklisted"] = relationship(
-    #     "Blacklisted", back_populates="car", lazy="joined", cascade="all, delete"
-    # )
     users: Mapped[List["User"]] = relationship(
         secondary=user_car_association, back_populates="cars", lazy="joined"
     )
