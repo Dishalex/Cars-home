@@ -2,10 +2,10 @@ from aiogram.types import InlineKeyboardMarkup, InlineKeyboardButton
 
 
 USR_COMMANDS = (
-    ("show", "Показати авто"),
-    ("add", "Додати авто"),
-    ("remove", "Видалити авто"),
-    ("history", "Історія"),
+    ("show", "Показати авто", "Список твоїх авто і інформація про них."),
+    ("add", "Додати авто", "Додає нове авто в твій список."),
+    ("remove", "Видалити авто", "Видаляє авто з твого списку."),
+    ("history", "Історія", "Ціни і час паркування."),
     ("help", "Інструкція"),
 )
 
@@ -13,7 +13,7 @@ ADM_COMMANDS = USR_COMMANDS + (
     ("settings", "Налаштування"),
     ("Id", "Ваш ІД"),
 )
-command_list = "\n".join([f"- {comm[0]}" for comm in USR_COMMANDS[:-1]])
+command_list = "\n".join([f"- {command[0]}" for command in USR_COMMANDS[:-1]])
 
 KB_HELP = InlineKeyboardMarkup(
     inline_keyboard=[
@@ -26,19 +26,19 @@ KB_HELP = InlineKeyboardMarkup(
 KB_LIMIT = InlineKeyboardMarkup(
     inline_keyboard=[
         [
-            InlineKeyboardButton(text="Поповнити картку", callback_data="limit"),
+            InlineKeyboardButton(text="Поповнити картку"),
         ]
     ]
 )
-KB_BAN = InlineKeyboardMarkup(
+KB_SUPPORT = InlineKeyboardMarkup(
     inline_keyboard=[
         [
-            InlineKeyboardButton(text="Підтримка", callback_data="ban"),
+            InlineKeyboardButton(text="Підтримка"),
         ]
     ]
 )
 
-START = 'Привіт! Я помічник паркування. Тисни <b>"Старт"</b>, щоб почати.'
+START = "Почнімо з реєстрації. Або тисни <b>/help</b> щоб дізнатись можливості."
 HELP = (
     "Тут ви можете отримати інформацію про всі команди\n\n"
     "<b>Зараз доступні такі команди:</b>\n"
@@ -46,9 +46,18 @@ HELP = (
     "Про яку команду тобі розповісти?"
 )
 NOTIFICATIONS = {
-    "in": {"message": "Авто прибуло в парк"},
-    "out": {"message": "Авто покинуло парк"},
+    "in": {
+        "message": "Авто прибуло в парк. Якщо це помилка, зверніться до підтримки",
+        "reply_markup": KB_SUPPORT,
+    },
+    "out": {
+        "message": "Авто покинуло парк. Якщо це помилка, зверніться до підтримки",
+        "reply_markup": KB_SUPPORT,
+    },
     "limit": {"message": "Перевищено встановлені ліміти", "reply_markup": KB_LIMIT},
     "rate": {"message": "Тарифи змінено"},
-    "ban": {"message": "Ваше авто в чорному списку", "reply_markup": KB_BAN},
+    "ban": {
+        "message": "Ваше авто в чорному списку. Дізнатись більше - зверніться до підтримки",
+        "reply_markup": KB_SUPPORT,
+    },
 }
