@@ -12,8 +12,8 @@ from .handlers import rt
 # bot = Bot(config.TG_TOKEN)
 # dp = Dispatcher()
 # dp.include_router(rt)
-
-
+#
+#
 # async def main():
 #     await bot(DeleteWebhook(drop_pending_updates=True))
 #     if Admin():
@@ -24,7 +24,7 @@ from .handlers import rt
 #         await dp.start_polling(bot)
 #     finally:
 #         await bot.session.close()
-
-
+#
+#
 # if __name__ == '__main__':
 #     asyncio.run(main())

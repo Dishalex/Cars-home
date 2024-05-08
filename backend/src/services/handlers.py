@@ -1,13 +1,10 @@
-from calendar import Calendar
-
-from aiogram import Router
+from aiogram import Router, F
 from aiogram.filters import CommandStart, Command
 from aiogram.types import *
 
 from .constants import *
 
 rt = Router()
-calendar = Calendar()
 
 
 @rt.message(CommandStart())
