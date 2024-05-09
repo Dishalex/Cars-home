@@ -116,7 +116,7 @@ class ParkingRate(TimeStampMixin, Base):
 
     __tablename__ = "parking_rates"
     rate_per_hour: Mapped[float] = mapped_column(Float, default=10.0, nullable=True)
-    rate_per_day: Mapped[float] = mapped_column(Float, default=150.0, nullable=True)
+    rate_per_day: Mapped[float] = mapped_column(Float, default=5.0, nullable=True)
     number_of_spaces: Mapped[int] = mapped_column(Integer, default=100, nullable=True)
     number_free_spaces: Mapped[int] = mapped_column(Integer, nullable=True)
     history: Mapped["History"] = relationship(
