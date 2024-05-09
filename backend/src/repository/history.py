@@ -1,4 +1,7 @@
-from sqlalchemy import select, func, between, DateTime, null
+from datetime import datetime, timezone
+
+
+from sqlalchemy import select, func, between, null
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from backend.src.entity.models import History, Car, ParkingRate
@@ -18,7 +21,7 @@ async def find_history_exit_time(find_plate: str, picture_id: int, session: Asyn
         for history in history_entries:
             if history.car_id == car_id:
                 found_entry = True
-                history.exit_time = func.now()
+                history.exit_time = datetime.now()
 
                 rate_per_hour, rate_per_day = get_parking_rates_for_date(history.entry_time)
 
@@ -33,11 +36,11 @@ async def find_history_exit_time(find_plate: str, picture_id: int, session: Asyn
                 history.parking_time = duration_hours
                 history.cost = cost
 
-                car_credit = car_row.credit
-                if car_credit >= cost:
+                car_row.credit -= cost
+                session.add(car_row)      
+                
+                if car_row.credit >= 0:
                     history.paid = True
-                    car_row.credit -= cost
-                    session.add(car_row)
 
                 await session.commit()
                 await update_parking_spaces(session)
@@ -49,8 +52,8 @@ async def find_history_exit_time(find_plate: str, picture_id: int, session: Asyn
         return history
 
 
-async def calculate_parking_duration(entry_time: DateTime, exit_time: DateTime) -> float:
-    duration = func.timestampdiff(func.SECOND, entry_time, exit_time)
+async def calculate_parking_duration(entry_time: datetime, exit_time: datetime) -> float:
+    duration = exit_time - entry_time
     return duration / 3600.0
 
 
@@ -58,7 +61,7 @@ async def calculate_parking_cost(duration_hours: float, rate_per_hour: float) ->
     return duration_hours * rate_per_hour
 
 
-async def get_parking_rates_for_date(entry_time: DateTime, session: AsyncSession) -> Tuple[float, float]:
+async def get_parking_rates_for_date(entry_time: datetime, session: AsyncSession) -> Tuple[float, float]:
     rates = await session.execute(
         select(ParkingRate).filter(ParkingRate.created_at <= entry_time)
         .order_by(ParkingRate.created_at.desc()).limit(1)
@@ -71,7 +74,7 @@ async def get_parking_rates_for_date(entry_time: DateTime, session: AsyncSession
 
 
 async def create_history_entry(find_plate: str, picture_id: int, session: AsyncSession) -> History:
-    entry_time = func.now()
+    entry_time = datetime.now()
 
     car = await session.execute(select(Car).filter(Car.plate == find_plate))
     car_row = car.scalar_one_or_none()
@@ -101,7 +104,7 @@ async def get_history_entries_with_null_exit_time(session: AsyncSession) -> Sequ
     return history_entries
 
 
-async def get_history_entries_by_period(start_time: DateTime, end_time: DateTime, session: AsyncSession) -> Sequence[
+async def get_history_entries_by_period(start_time: datetime, end_time: datetime, session: AsyncSession) -> Sequence[
     History]:
     query = select(History).filter(between(History.entry_time, start_time, end_time))
     result = await session.execute(query)
