@@ -18,6 +18,8 @@ bcrypt = "^4.1.2"
 pydantic-settings = "^2.2.1"
 passlib = "^1.7.4"
 aiogram = "^3.5.0"
+bs4 = "^0.0.2"
+aiohttp = "^3.9.5"
 
 
 [tool.poetry.group.dev.dependencies]
