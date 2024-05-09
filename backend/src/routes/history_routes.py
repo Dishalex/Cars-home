@@ -1,9 +1,9 @@
 # backend/src/routes/history_routes.py
 from typing import List
-
+from datetime import datetime
 from fastapi import APIRouter, HTTPException, Depends, status
 from sqlalchemy.ext.asyncio import AsyncSession
-from sqlalchemy import func, DateTime
+# from sqlalchemy import func, DateTime
 
 from backend.src.database.db import get_db
 from backend.src.repository import history as repositories_history
@@ -23,7 +23,7 @@ async def find_history_exit_time_route(session: AsyncSession = Depends(get_db)):
 
 
 @router.get("/get_entries_by_period/{start_time}/{end_time}", response_model=List[HistorySchema])
-async def get_history_entries_by_period_route(start_time: DateTime, end_time: DateTime,
+async def get_history_entries_by_period_route(start_time: datetime, end_time: datetime,
                                               session: AsyncSession = Depends(get_db)):
     history_entries = await repositories_history.get_history_entries_by_period(start_time, end_time, session)
     return history_entries

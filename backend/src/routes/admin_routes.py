@@ -27,8 +27,11 @@ async def read_car(plate: str, db: AsyncSession = Depends(get_db),
                    admin: User = Depends(auth_service.get_current_admin)):
     car_repository = CarRepository(db)
     car = await car_repository.get_car_by_plate(plate)
+    print(car)
     if car is None:
         return JSONResponse(status_code=404, content={"message": "Car not found"})
+        # raise HTTPException(status_code=400, detail="Error creating the car")
+
     return car
 
 
@@ -46,7 +49,7 @@ async def read_cars_by_user(user_id: int, db: AsyncSession = Depends(get_db),
     return await car_repository.get_cars_by_user(user_id)
 
 
-@router.put("/cars/{plate}", response_model=dict, status_code=200)
+@router.patch("/cars/{plate}", response_model=dict, status_code=200)
 async def update_car(plate: str, car_update: CarUpdate, db: AsyncSession = Depends(get_db),
                      admin: User = Depends(auth_service.get_current_admin)):
     car_repository = CarRepository(db)

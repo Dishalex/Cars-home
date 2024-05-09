@@ -40,21 +40,18 @@ class CarRepository:
         return cars
 
     async def update_car(self, plate: str, car_update: CarUpdate):
-        async with self.db.begin() as transaction:
-            try:
-                statement = select(Car).where(Car.plate == plate)
-                result = await self.db.execute(statement)
-                car = result.scalars().first()
-                if car is None:
-                    await transaction.rollback()
-                    return None
-                for var, value in car_update.dict(exclude_unset=True).items():
-                    setattr(car, var, value)
-                await transaction.commit()
-                return car
-            except Exception as e:
-                await transaction.rollback()
-                raise HTTPException(status_code=500, detail=str(e))
+
+        statement = select(Car).where(Car.plate == plate)
+        result = await self.db.execute(statement)
+        car = result.scalars().first()
+        if car is None:
+            return None
+        for var, value in car_update.dict(exclude_unset=True).items():
+            setattr(car, var, value)
+        await self.db.commit()
+        await self.db.refresh(car)
+        return car
+
 
     async def delete_car(self, plate: str):
         statement = delete(Car).where(Car.plate == plate)

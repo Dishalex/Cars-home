@@ -1,7 +1,7 @@
 from datetime import datetime, timezone
 from typing import Optional, Union
 from uuid import UUID
-from sqlalchemy import func, DateTime
+# from sqlalchemy import func, DateTime
 
 from pydantic import BaseModel, Field
     
@@ -10,8 +10,8 @@ from pydantic import BaseModel, Field
 
 class HistoryUpdate(BaseModel):
     """Pydantic model for validating incoming history data for updating."""
-    entry_time: Optional[DateTime]
-    exit_time: Optional[DateTime]
+    entry_time: Optional[datetime]
+    exit_time: Optional[datetime]
     parking_time: Optional[float]
     cost: Optional[float]
     paid: Optional[bool]
@@ -22,8 +22,8 @@ class HistoryUpdate(BaseModel):
 
 class HistorySchema(BaseModel):
     """Pydantic model for validating incoming history data."""
-    entry_time: DateTime = Field(default_factory=func.now())
-    exit_time: DateTime = Field(default_factory=func.now())
+    entry_time: datetime
+    exit_time: datetime
     parking_time: float
     cost: float
     paid: bool
@@ -35,8 +35,8 @@ class HistorySchema(BaseModel):
 class HistoryResponse(BaseModel):
     """Pydantic model for serializing history data in responses."""
     id: int
-    entry_time: DateTime
-    exit_time: DateTime
+    entry_time: datetime
+    exit_time: datetime
     parking_time: float
     cost: float
     paid: bool
