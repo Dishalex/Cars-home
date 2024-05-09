@@ -38,6 +38,9 @@ class UserUpdate(BaseModel):
     phone_number: Optional[str]
     telegram_id: Optional[str]
 
+    class Config:
+        from_attributes = True
+
 
 class AnotherUsers(BaseModel):
     """Pydantic model for serializing simplified user data in responses."""

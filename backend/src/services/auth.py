@@ -11,7 +11,7 @@ from sqlalchemy.ext.asyncio import AsyncSession
 
 from backend.src.conf.config import config
 from backend.src.database.db import get_db
-from backend.src.entity.models import Blacklisted
+from backend.src.entity.models import Blacklisted, User, Role
 from backend.src.repository import users as repository_users
 
 
@@ -189,6 +189,12 @@ class Auth:
             raise credentials_exception
         if user.ban:
             raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail="Your account has been banned.")
+        return user
+
+    async def get_current_admin(self, token: str = Depends(oauth2_scheme), db: AsyncSession = Depends(get_db)):
+        user = await self.get_current_user(token, db)
+        if user.role != Role.admin:
+            raise HTTPException(status_code=403, detail="Not authorized to access this resource")
         return user
 
 
