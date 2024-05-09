@@ -76,7 +76,7 @@ class User(TimeStampMixin, Base):
     )
     ban: Mapped[bool] = mapped_column(default=False, nullable=True)
     blacklisted_tokens: Mapped["Blacklisted"] = relationship(
-        "Blacklisted", back_populates="user", lazy='joined'
+        "Blacklisted", back_populates="user", lazy='joined', uselist=True
     )
     cars: Mapped[List["Car"]] = relationship(
         secondary=user_car_association, back_populates="users", lazy="joined"

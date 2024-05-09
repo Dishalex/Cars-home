@@ -14,18 +14,18 @@ import logging
 app = FastAPI()
 
 # Налаштування логера
-logger = logging.getLogger("myapp")
-logging.basicConfig(level=logging.DEBUG)
-
-@app.exception_handler(Exception)
-async def universal_exception_handler(request: Request, exc: Exception):
-    """Обробник усіх винятків"""
-    logger.error(f"Unhandled exception: {exc} - Path: {request.url.path}")
-    # Можете додати будь-яку додаткову обробку тут
-    return JSONResponse(
-        status_code=500,
-        content={"message": "Internal Server Error"},
-    )
+# logger = logging.getLogger("myapp")
+# logging.basicConfig(level=logging.DEBUG)
+#
+# @app.exception_handler(Exception)
+# async def universal_exception_handler(request: Request, exc: Exception):
+#     """Обробник усіх винятків"""
+#     logger.error(f"Unhandled exception: {exc} - Path: {request.url.path}")
+#     # Можете додати будь-яку додаткову обробку тут
+#     return JSONResponse(
+#         status_code=500,
+#         content={"message": "Internal Server Error"},
+#     )
 
 
 app.include_router(auth_routes.router, prefix="/api")
