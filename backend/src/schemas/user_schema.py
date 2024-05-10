@@ -13,7 +13,7 @@ class UserSchema(BaseModel):
     email: EmailStr
     password: str = Field(min_length=4, max_length=20)
     phone_number: str = Field(min_length=10, max_length=20)
-    telegram_id: str = Field(min_length=2, max_length=50)
+    telegram_id: int = Field(min_length=2, max_length=50)
 
 
 class UserResponse(BaseModel):
@@ -22,7 +22,7 @@ class UserResponse(BaseModel):
     full_name: str
     email: EmailStr
     phone_number: str
-    telegram_id: str
+    telegram_id: int
     role: Role
     created_at: datetime
 
@@ -36,7 +36,7 @@ class UserUpdate(BaseModel):
     email: Optional[EmailStr]
     password: Optional[str]
     phone_number: Optional[str]
-    telegram_id: Optional[str]
+    telegram_id: Optional[int]
 
     class Config:
         from_attributes = True
@@ -47,7 +47,7 @@ class AnotherUsers(BaseModel):
     full_name: str
     email: EmailStr
     phone_number: str
-    telegram_id: str
+    telegram_id: int
     created_at: datetime
 
 

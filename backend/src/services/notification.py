@@ -1,6 +1,6 @@
 from backend.src import bot
 
-from .constants import NOTIFICATIONS
+from backend.src.services.constants import NOTIFICATIONS
 
 
 async def notification(user_id, option):

@@ -1,6 +1,6 @@
 # backend/src/repository/users.py
 from fastapi import Depends
-from sqlalchemy import select
+from sqlalchemy import select, or_
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from backend.src.database.db import get_db
@@ -24,6 +24,26 @@ async def get_user_by_email(email: str, db: AsyncSession = Depends(get_db)):
     user = await db.execute(stmt)
     user = user.unique().scalar_one_or_none()
     return user
+
+
+async def get_user_by_tg_or_number(telegram_id: int = None, number: int = None, db: AsyncSession = Depends(get_db)):
+    """
+    Retrieve a user from the database based on either telegram_id or phone_number.
+
+    :param telegram_id: telegram id of the user to be retrieved.
+    :type telegram_id: int
+    :param number: number of the user to be retrieved.
+    :type number: int
+    :param db: Asynchronous SQLAlchemy session (dependency injection).
+    :type db: AsyncSession
+    :return: The retrieved user or None if not found.
+    :rtype: User or None
+    """
+    if telegram_id or number:
+        stmt = select(User).where(or_(User.telegram_id == telegram_id, User.phone_number == number))
+        user = await db.execute(stmt)
+        user = user.unique().scalar_one_or_none()
+        return user
 
 
 async def create_user(body: UserSchema, db: AsyncSession = Depends(get_db)):
