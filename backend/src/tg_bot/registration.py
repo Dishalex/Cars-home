@@ -1,4 +1,4 @@
-from aiogram import Router, F
+from aiogram import Router
 from aiogram.fsm.context import FSMContext
 from aiogram.fsm.state import State, StatesGroup
 from aiogram.types import *
@@ -6,7 +6,7 @@ from aiogram.types import *
 # from backend.src.routes.user_routes import update_own_profile
 # from backend.src.schemas.user_schema import UserUpdate
 # from backend.src.repository.users import get_user_by_tg_or_number, update_user
-from backend.src.services.constants import *
+from backend.src.tg_bot.constants import *
 
 rtr = Router()
 
