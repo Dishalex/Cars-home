@@ -1,12 +1,12 @@
 # backend/main.py
-from fastapi import FastAPI, Depends, HTTPException, Request
-from fastapi.responses import JSONResponse
+# import logging
+
+from fastapi import FastAPI, Depends, HTTPException
 from sqlalchemy import text
 from sqlalchemy.ext.asyncio import AsyncSession
+
 from backend.src.database.db import get_db
 from backend.src.routes import auth_routes, admin_routes, user_routes, history_routes, parking_routes
-
-import logging
 
 # logging.basicConfig(level=logging.DEBUG,
 #                     format='%(asctime)s - %(levelname)s - %(message)s')
@@ -34,6 +34,7 @@ app.include_router(user_routes.router, prefix="/api")
 app.include_router(history_routes.router, prefix="/api")
 app.include_router(parking_routes.router, prefix="/api")
 
+
 # Health Check endpoint
 @app.get("/api/healthchecker")
 async def healthchecker(db: AsyncSession = Depends(get_db)):
@@ -47,10 +48,3 @@ async def healthchecker(db: AsyncSession = Depends(get_db)):
     except Exception as e:
         print(e)
         raise HTTPException(status_code=500, detail="Error connecting to the database")
-
-
-
-
-
-
-
