@@ -3,8 +3,10 @@ from fastapi import APIRouter, Depends, HTTPException
 from fastapi.responses import JSONResponse
 from sqlalchemy.ext.asyncio import AsyncSession
 from backend.src.repository.car_repository import CarRepository
+from backend.src.repository.parking import create_rate, update_rate
 from backend.src.schemas.car_schemas import CarSchema, CarUpdate, CarResponse, NewCarResponse
 from backend.src.database import get_db
+from backend.src.schemas.parking_schema import ParkingRateSchema, ParkingRateUpdate
 from backend.src.services.auth import auth_service
 from backend.src.entity.models import User, Role
 
@@ -22,6 +24,26 @@ async def create_car(car_data: CarSchema, db: AsyncSession = Depends(get_db),
     return NewCarResponse.from_orm(new_car)
 
 
+@router.post("/parking-rates", response_model=ParkingRateSchema, status_code=201)
+async def create_parking_rate(rate_data: ParkingRateSchema, db: AsyncSession = Depends(get_db),
+                              admin: User = Depends(auth_service.get_current_admin)):
+    new_rate = await create_rate(db, rate_data)
+    if not new_rate:
+        return JSONResponse(status_code=404, content={"message": "Error creating the parking rate"})
+        # raise HTTPException(status_code=400, detail="Error creating the parking rate")
+    return new_rate
+
+
+@router.patch("/parking-rates/{rate_id}", status_code=201)
+async def update_parking_rate(rate_id: int, rate_data: ParkingRateUpdate, db: AsyncSession = Depends(get_db),
+                              admin: User = Depends(auth_service.get_current_admin)):
+    new_rate = await update_rate(db, rate_id, rate_data)
+    if not new_rate:
+        return JSONResponse(status_code=404, content={"message": "Error updating the parking rate"})
+    else:
+        return {"message": "Parking rate updated successfully"}
+
+
 @router.get("/cars/{plate}", response_model=NewCarResponse, status_code=200)
 async def read_car(plate: str, db: AsyncSession = Depends(get_db),
                    admin: User = Depends(auth_service.get_current_admin)):
@@ -31,7 +53,6 @@ async def read_car(plate: str, db: AsyncSession = Depends(get_db),
     if car is None:
         return JSONResponse(status_code=404, content={"message": "Car not found"})
         # raise HTTPException(status_code=400, detail="Error creating the car")
-
     return car
 
 
