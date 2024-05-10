@@ -19,7 +19,7 @@ USR_COMMANDS = {
 ADM_COMMANDS = {
     **USR_COMMANDS,
     "settings": {"name": "Налаштування"},
-    "Id": {"name": "Ваш ІД"},
+    "id": {"name": "Ваш ІД"},
 }
 command_list = "\n".join(
     [f"* {command} - {info.get('name')}" for command, info in USR_COMMANDS.items()]
@@ -30,7 +30,15 @@ KB_START = ReplyKeyboardMarkup(
         [KeyboardButton(text="Поділитись номером", request_contact=True)],
     ],
     one_time_keyboard=True,
+    resize_keyboard=True,
     input_field_placeholder="Більше можливостей після реєстріції",
+)
+KB_SITE = InlineKeyboardMarkup(
+    inline_keyboard=[
+        [
+            InlineKeyboardButton(text="Або зареєструйтесь на сайті", url=f"{HOST}/api/auth/signup"),
+        ]
+    ]
 )
 KB_REGISTERED = InlineKeyboardMarkup(
     inline_keyboard=[
@@ -62,11 +70,12 @@ KB_SUPPORT = InlineKeyboardMarkup(
     ]
 )
 
-START = "Почнімо з реєстрації. Тисни <b>/Поділитись номером</b> внизу. Або тисни <b>/help</b> щоб дізнатись можливості."
+START = "Почнімо з реєстрації. Тисни <b>Поділитись номером</b> внизу. Або тисни <b>/help</b> щоб дізнатись можливості."
 REGISTERED = "Ви зареєстровані! Можете подивитись дані про свої авто"
 FULLNAME = "Введіть своє ім'я"
 EMAIL = "Введіть свій email"
 PASSWORD = "Введіть свій пароль"
+PLATE = "Залишилось зареєструвати авто. Введіть номер авто"
 HELP = (
     "Тут ви можете отримати інформацію про всі команди\n\n"
     "<b>Зараз доступні такі команди:</b>\n"

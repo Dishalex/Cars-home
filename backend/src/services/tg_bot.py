@@ -19,10 +19,9 @@ async def main():
 
     await bot(DeleteWebhook(drop_pending_updates=True))
 
-    if Admin():
-        await bot.set_my_commands([BotCommand(command=command[0], description=command[1]) for command in ADM_COMMANDS])
-    else:
-        await bot.set_my_commands([BotCommand(command=command[0], description=command[1]) for command in USR_COMMANDS])
+    await bot.set_my_commands(
+            [BotCommand(command=command, description=info.get("name")) for command, info in USR_COMMANDS.items()]
+    )
 
     try:
         await dp.start_polling(bot)

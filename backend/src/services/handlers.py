@@ -10,6 +10,10 @@ rt = Router()
 
 @rt.message(CommandStart())
 async def starting(message: Message):
+    async with ClientSession(HOST) as session:
+        async with await session.get('/api/healthchecker') as response:
+            await message.answer(str(response.status))
+            await message.answer(await response.text())
     await message.answer(START, 'HTML', reply_markup=KB_START)
 
 
@@ -45,7 +49,7 @@ async def get_cars(callback: CallbackQuery):
     await show(callback.message)
 
 
-@rt.message(Command('Id'))
+@rt.message(Command('id'))
 async def get_id(message: Message):
     if message.reply_to_message and message.reply_to_message.contact:
         await message.reply(
