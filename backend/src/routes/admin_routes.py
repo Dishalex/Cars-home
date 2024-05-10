@@ -1,11 +1,12 @@
-
 from fastapi import APIRouter, Depends, HTTPException
 from fastapi.responses import JSONResponse
 from sqlalchemy.ext.asyncio import AsyncSession
 from backend.src.repository.car_repository import CarRepository
 from backend.src.schemas.car_schemas import CarSchema, CarUpdate, CarResponse, NewCarResponse
+from backend.src.schemas.history_schema import HistoryUpdate, HistorySchema
 from backend.src.database import get_db
 from backend.src.services.auth import auth_service
+from backend.src.repository import history as repositories_history
 from backend.src.entity.models import User, Role
 
 router = APIRouter(prefix="/admin", tags=["admin"])
@@ -72,3 +73,45 @@ async def delete_car(plate: str, db: AsyncSession = Depends(get_db),
         return JSONResponse(status_code=404, content={"message": "Car not found"})
     await car_repository.delete_car(plate)
     return JSONResponse(status_code=200, content={"message": "Car deleted successfully"})
+
+
+@router.put("/update_paid/{plate}", response_model=HistorySchema)
+async def update_paid(plate: str, history_update: HistoryUpdate,
+                      session: AsyncSession = Depends(get_db),
+                      admin: User = Depends(auth_service.get_current_admin)):
+    try:
+        history_entry = await repositories_history.update_paid(plate, history_update, session)
+        if history_entry is None:
+            return JSONResponse(status_code=404, content={"message": "History entry not found"})
+        return history_entry
+    except HTTPException as e:
+        return JSONResponse(status_code=e.status_code, content={"message": e.detail})
+    except Exception as e:
+        return JSONResponse(status_code=500, content={"message": str(e)})
+
+
+@router.put("/update_car_history/{plate}", response_model=HistorySchema)
+async def update_car_history(plate: str, history_update: HistoryUpdate,
+                             session: AsyncSession = Depends(get_db),
+                             admin: User = Depends(auth_service.get_current_admin)):
+    try:
+        history_entry = await repositories_history.update_car_history(plate, history_update, session)
+        if history_entry is None:
+            return JSONResponse(status_code=404, content={"message": "History entry not found"})
+        return history_entry
+    except HTTPException as e:
+        return JSONResponse(status_code=e.status_code, content={"message": e.detail})
+    except Exception as e:
+        return JSONResponse(status_code=500, content={"message": str(e)})
+
+
+
+@router.delete("/delete_history/{plate}", response_model=dict, status_code=200)
+async def delete_history(plate: str, db: AsyncSession = Depends(get_db),
+                         admin: User = Depends(auth_service.get_current_admin)):
+    try:
+        await repositories_history.delete_history(plate)
+
+    except Exception as e:
+        return JSONResponse(status_code=500, content={"message": str(e)})
+

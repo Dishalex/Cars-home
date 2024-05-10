@@ -1,11 +1,11 @@
-from datetime import datetime, timezone
+from datetime import datetime, timedelta
 
-
-from sqlalchemy import select, func, between, null
+from sqlalchemy import select, between, null, and_, delete
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from backend.src.entity.models import History, Car, ParkingRate
 from typing import List, Sequence, Tuple
+from backend.src.schemas.history_schema import HistoryUpdate
 
 
 async def find_history_exit_time(find_plate: str, picture_id: int, session: AsyncSession) -> History:
@@ -37,8 +37,8 @@ async def find_history_exit_time(find_plate: str, picture_id: int, session: Asyn
                 history.cost = cost
 
                 car_row.credit -= cost
-                session.add(car_row)      
-                
+                session.add(car_row)
+
                 if car_row.credit >= 0:
                     history.paid = True
 
@@ -54,7 +54,8 @@ async def find_history_exit_time(find_plate: str, picture_id: int, session: Asyn
 
 async def calculate_parking_duration(entry_time: datetime, exit_time: datetime) -> float:
     duration = exit_time - entry_time
-    return duration / 3600.0
+    hours = duration / timedelta(hours=1)
+    return hours
 
 
 async def calculate_parking_cost(duration_hours: float, rate_per_hour: float) -> float:
@@ -137,3 +138,46 @@ async def update_parking_spaces(session: AsyncSession):
         parking_rate_row.number_free_spaces = parking_rate_row.number_of_spaces - num_entries
         session.add(parking_rate_row)
         await session.commit()
+
+
+async def update_paid(self, plate: str, history_update: HistoryUpdate):
+    statement = select(History).where(
+        and_(History.car.has(plate=plate), History.paid == False)
+    )
+    result = await self.db.execute(statement)
+    history_entry = result.scalars().first()
+
+    if history_entry is None:
+        return None
+
+    for var, value in history_update.dict(exclude_unset=True).items():
+        setattr(history_entry, var, value)
+
+    await self.db.commit()
+    await self.db.refresh(history_entry)
+    return history_entry
+
+
+async def update_car_history(self, plate: str, history_update: HistoryUpdate):
+    statement = select(History).where(
+        and_(History.picture.has(find_plate=plate), History.car_id == null())
+    )
+    result = await self.db.execute(statement)
+    history_entry = result.scalars().first()
+
+    if history_entry is None:
+        return None
+
+    for var, value in history_update.dict(exclude_unset=True).items():
+        setattr(history_entry, var, value)
+
+    await self.db.commit()
+    await self.db.refresh(history_entry)
+    return history_entry
+
+
+async def delete_history(self, plate: str):
+    statement = delete(History).where(History.car.has(plate=plate))
+    await self.db.execute(statement)
+    await self.db.commit()
+    return {"detail": "History deleted"}

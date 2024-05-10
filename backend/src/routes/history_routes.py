@@ -39,3 +39,4 @@ async def get_history_entries_with_null_car_id_route(session: AsyncSession = Dep
 async def get_history_entries_with_null_paid(session: AsyncSession = Depends(get_db)):
     history_entries = await repositories_history.get_history_entries_with_null_paid(session)
     return history_entries
+
