@@ -3,7 +3,8 @@ from sqlalchemy import select, delete
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.orm import selectinload
 from sqlalchemy.exc import SQLAlchemyError
-from backend.src.schemas.car_schema import CarCreate, CarUpdate
+# from backend.src.schemas.car_schema import CarCreate, CarUpdate
+from backend.src.schemas.car_schemas import CarSchema, CarUpdate
 from backend.src.entity.models import Car, User
 
 
@@ -11,12 +12,18 @@ class CarRepository:
     def __init__(self, db_session: AsyncSession):
         self.db = db_session
 
-    async def add_car(self, car_data: CarCreate):
+    async def add_car(self, car_data: CarSchema):
         new_car = Car(**car_data.dict())
         self.db.add(new_car)
         await self.db.commit()
         await self.db.refresh(new_car)
         return new_car
+
+    async def get_car_by_plate(self, plate: str):
+        result = await self.db.execute(select(Car).where(Car.plate == plate))
+        car = result.scalars().first()
+        # car.history = car.history if car.history is not None else []
+        return car
 
     async def get_all_cars(self):
         result = await self.db.execute(
@@ -33,16 +40,19 @@ class CarRepository:
         return cars
 
     async def update_car(self, plate: str, car_update: CarUpdate):
-        async with self.db.begin() as transaction:
-            statement = select(Car).where(Car.plate == plate)
-            result = await self.db.execute(statement)
-            car = result.scalars().first()
-            if car is None:
-                return None
-            for var, value in car_update.dict(exclude_unset=True).items():
-                setattr(car, var, value)
-            await transaction.commit()
-            return car
+
+        statement = select(Car).where(Car.plate == plate)
+        result = await self.db.execute(statement)
+        car = result.scalars().first()
+        if car is None:
+            return None
+        for var, value in car_update.dict(exclude_unset=True).items():
+            setattr(car, var, value)
+        await self.db.commit()
+        await self.db.refresh(car)
+        return car
+
+
     async def delete_car(self, plate: str):
         statement = delete(Car).where(Car.plate == plate)
         await self.db.execute(statement)

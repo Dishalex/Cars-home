@@ -109,3 +109,4 @@ async def logout(user: User = Depends(auth_service.get_current_user), db: AsyncS
     await auth_service.add_token_to_blacklist(user.id, user.refresh_token, db)
 
     return {"message": "Logout successful."}
+

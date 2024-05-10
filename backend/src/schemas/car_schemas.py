@@ -10,7 +10,8 @@ class CarUpdate(BaseModel):
     credit: Optional[float]
     plate: Optional[str]
     model: Optional[str]
-    ban: Optional[bool]
+    # ban: Optional[bool]
+    ban: bool = Field(default=False, nullable=True)
 
 
 class CarSchema(BaseModel):
@@ -18,7 +19,8 @@ class CarSchema(BaseModel):
     credit: Optional[float]
     plate: str
     model: Optional[str]
-    ban: Optional[bool]
+    # ban: Optional[bool]
+    ban: bool = Field(default=False, nullable=True)
 
 
 class CarResponse(BaseModel):
@@ -29,8 +31,22 @@ class CarResponse(BaseModel):
     model: Optional[str]
     ban: Optional[bool]
     history: List[Union[UUID, int]]
-    blacklisted_tokens: List[Union[UUID, int]]
+    # blacklisted_tokens: List[Union[UUID, int]]
     users: List[Union[UUID, int]]
 
     class Config:
-        orm_mode = True
+        # orm_mode = True
+        from_attributes = True
+
+
+class NewCarResponse(BaseModel):
+    """Pydantic model for serializing car data in responses."""
+    id: int
+    credit: Optional[float]
+    plate: str
+    model: Optional[str]
+    ban: Optional[bool]
+    users: List[Union[UUID, int]]
+
+    class Config:
+        from_attributes = True

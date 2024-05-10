@@ -13,7 +13,6 @@
    **uvicorn backend.main:app --host localhost --port 8000 --reload --log-level debug > logs.txt**
 
 
-
 # Cars-home
 Team 4 Python Data Science project
 
@@ -68,3 +67,5 @@ _Додатково:_
 
 - Створення докладної покрокової інструкції щодо встановлення та використання вашого проєкту.
 
+# Database relations scheme:
+![car_park6 - public-diagram](https://github.com/Dishalex/Cars-home/assets/131618968/fb9d735b-00ea-4f83-a75c-7152f87d6962)
