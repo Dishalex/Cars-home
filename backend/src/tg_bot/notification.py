@@ -1,6 +1,6 @@
 from backend.src import bot
 
-from backend.src.services.constants import NOTIFICATIONS
+from backend.src.tg_bot.constants import NOTIFICATIONS
 
 
 async def notification(user_id, option):

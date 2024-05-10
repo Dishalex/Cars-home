@@ -3,7 +3,7 @@ from aiogram.filters import CommandStart, Command
 from aiogram.types import *
 from aiohttp import ClientSession
 
-from backend.src.services.constants import *
+from backend.src.tg_bot.constants import *
 
 rt = Router()
 

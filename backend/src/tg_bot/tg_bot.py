@@ -5,10 +5,9 @@ from aiogram.methods import DeleteWebhook
 from aiogram.types import *
 
 from backend.src.conf.config import config
-from backend.src.services.constants import *
-from backend.src.services.filters import Admin
-from backend.src.services.handlers import rt
-from backend.src.services.registration import rtr
+from backend.src.tg_bot.constants import *
+from backend.src.tg_bot.handlers import rt
+from backend.src.tg_bot.registration import rtr
 
 
 async def main():
