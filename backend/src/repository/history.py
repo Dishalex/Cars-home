@@ -1,6 +1,6 @@
 from datetime import datetime, timedelta
 
-from sqlalchemy import select, between, null, and_, delete
+from sqlalchemy import select, between, null, and_, delete, desc
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from backend.src.entity.models import History, Car, ParkingRate
@@ -8,20 +8,20 @@ from typing import List, Sequence, Tuple
 from backend.src.schemas.history_schema import HistoryUpdate
 
 
-async def find_history_exit_time(find_plate: str, picture_id: int, session: AsyncSession) -> History:
+async def create_exit(find_plate: str, picture_id: int, session: AsyncSession):
     history_entries = await get_history_entries_with_null_exit_time(session)
-    found_entry = False
+    number_free_spaces = await update_parking_spaces(session)
+    number_free_spaces +=1
+
+    exit_time = datetime.now()
     car = await session.execute(select(Car).filter(Car.plate == find_plate))
     car_row = car.scalar_one_or_none()
-
     if car_row:
-        car_id = car_row.id
-        found_entry = False
-
         for history in history_entries:
-            if history.car_id == car_id:
-                found_entry = True
-                history.exit_time = datetime.now()
+            if history.car_id == car_row.id:
+
+                history.exit_time = exit_time
+                history.number_free_spaces = number_free_spaces
 
                 rate_per_hour, rate_per_day = get_parking_rates_for_date(history.entry_time)
 
@@ -43,13 +43,38 @@ async def find_history_exit_time(find_plate: str, picture_id: int, session: Asyn
                     history.paid = True
 
                 await session.commit()
-                await update_parking_spaces(session)
-
                 return history
+    else:
+        history_new = History(exit_time=exit_time, picture_id=picture_id, number_free_spaces=number_free_spaces)
+        session.add(history_new)
+        await session.commit()
+        return history_new
 
-    if not found_entry:
-        history = await create_history_entry(find_plate, picture_id, session)
-        return history
+    return None
+
+
+async def create_entry(find_plate: str, picture_id: int, session: AsyncSession) -> History:
+    entry_time = datetime.now()
+    number_free_spaces = await update_parking_spaces(session)
+    number_free_spaces -= 1
+    car = await session.execute(select(Car).filter(Car.plate == find_plate))
+    car_row = car.scalar_one_or_none()
+
+    if car_row:
+        car_id = car_row.id
+    else:
+
+        history_new = History(entry_time=entry_time, picture_id=picture_id, number_free_spaces=number_free_spaces)
+        session.add(history_new)
+        await session.commit()
+        return history_new
+
+    history_new = History(entry_time=entry_time, car_id=car_id, picture_id=picture_id,
+                          number_free_spaces=number_free_spaces)
+    session.add(history_new)
+    await session.commit()
+
+    return history_new
 
 
 async def calculate_parking_duration(entry_time: datetime, exit_time: datetime) -> float:
@@ -72,30 +97,6 @@ async def get_parking_rates_for_date(entry_time: datetime, session: AsyncSession
         return rate_row.rate_per_hour, rate_row.rate_per_day
     else:
         return ParkingRate.rate_per_hour.default.arg, ParkingRate.rate_per_day.default.arg
-
-
-async def create_history_entry(find_plate: str, picture_id: int, session: AsyncSession) -> History:
-    entry_time = datetime.now()
-
-    car = await session.execute(select(Car).filter(Car.plate == find_plate))
-    car_row = car.scalar_one_or_none()
-
-    if car_row:
-        car_id = car_row.id
-    else:
-
-        history_new = History(entry_time=entry_time, picture_id=picture_id)
-        session.add(history_new)
-        await session.commit()
-        return history_new
-
-    history_new = History(entry_time=entry_time, car_id=car_id, picture_id=picture_id)
-    session.add(history_new)
-    await session.commit()
-
-    await update_parking_spaces(session)
-
-    return history_new
 
 
 async def get_history_entries_with_null_exit_time(session: AsyncSession) -> Sequence[History]:
@@ -131,13 +132,31 @@ async def update_parking_spaces(session: AsyncSession):
     history_entries = await get_history_entries_with_null_exit_time(session)
     num_entries = len(history_entries)
 
-    parking_rate = await session.execute(select(ParkingRate))
-    parking_rate_row = parking_rate.scalar_one_or_none()
+    latest_parking_rate = await get_latest_parking_rate(session)
+    latest_parking_rate_spaces = latest_parking_rate.number_of_spaces if latest_parking_rate else 0
 
-    if parking_rate_row:
-        parking_rate_row.number_free_spaces = parking_rate_row.number_of_spaces - num_entries
-        session.add(parking_rate_row)
-        await session.commit()
+    number_free_spaces = latest_parking_rate_spaces - num_entries
+
+    if number_free_spaces == 0:
+        number_free_spaces = 100
+
+    return number_free_spaces
+
+
+async def get_latest_parking_rate(session: AsyncSession):
+    query = select(ParkingRate).order_by(desc(ParkingRate.created_at)).limit(1)
+    result = await session.execute(query)
+    parking_rate = result.scalar_one_or_none()
+    return parking_rate
+
+
+async def get_latest_parking_rate_with_free_spaces(session: AsyncSession):
+    query = select(History).order_by(desc(History.created_at)).limit(1)
+    result = await session.execute(query)
+    latest_entry = result.scalar_one_or_none()
+    if latest_entry:
+        return latest_entry.number_free_spaces
+    return None
 
 
 async def update_paid(self, plate: str, history_update: HistoryUpdate):

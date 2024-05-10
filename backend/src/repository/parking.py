@@ -29,12 +29,12 @@ async def update_rate(session: AsyncSession, rate_id: int, rate_data: ParkingRat
     return rate
 
 
-async def get_latest_parking_rate_with_free_spaces(session: AsyncSession) -> ParkingRate:
-    subquery = (
-        select(func.max(ParkingRate.created_at))
-        .filter(ParkingRate.number_free_spaces > 0)
-        .scalar_subquery()
-    )
-    query = select(ParkingRate).filter(ParkingRate.created_at == subquery)
-    result = await session.execute(query)
-    return result.scalar_one_or_none()
+# async def get_latest_parking_rate_with_free_spaces(session: AsyncSession) -> ParkingRate:
+#     subquery = (
+#         select(func.max(ParkingRate.created_at))
+#         .filter(ParkingRate.number_free_spaces > 0)
+#         .scalar_subquery()
+#     )
+#     query = select(ParkingRate).filter(ParkingRate.created_at == subquery)
+#     result = await session.execute(query)
+#     return result.scalar_one_or_none()

@@ -17,6 +17,7 @@ class HistoryUpdate(BaseModel):
     paid: Optional[bool]
     car_id: Optional[Union[UUID, int]]
     picture_id: Optional[Union[UUID, int]]
+    number_free_spaces: Optional[int]
     rate_id: Optional[Union[UUID, int]]
 
 
@@ -29,6 +30,7 @@ class HistorySchema(BaseModel):
     paid: bool
     car_id: Union[UUID, int]
     picture_id: Union[UUID, int]
+    number_free_spaces: Optional[int]
     rate_id: Union[UUID, int]
 
 
@@ -42,5 +44,6 @@ class HistoryResponse(BaseModel):
     paid: bool
     car: Union[UUID, int]
     picture: Union[UUID, int]
+    number_free_spaces: Optional[int]
     rate: Union[UUID, int]
 
