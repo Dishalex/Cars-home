@@ -21,6 +21,7 @@ async def create_car(car_data: CarSchema, db: AsyncSession = Depends(get_db),
         return JSONResponse(status_code=400, content={"message": "Not authorized to access this resource"})
     car_repository = CarRepository(db)
     new_car = await car_repository.add_car(car_data)
+
     if new_car is None:
         # raise HTTPException(status_code=400, detail="Error creating the car")
         return JSONResponse(status_code=400, content={"message": "Error creating the car"})
@@ -61,8 +62,8 @@ async def read_car(plate: str, db: AsyncSession = Depends(get_db),
     car_repository = CarRepository(db)
     car = await car_repository.get_car_by_plate(plate)
     if car is None:
-        return JSONResponse(status_code=404, content={"message": "Car not found"})
-        # raise HTTPException(status_code=400, detail="Error creating the car")
+        # return JSONResponse(status_code=404, content={"message": "Car not found"})
+        raise HTTPException(status_code=400, detail="Error creating the car")
     return car
 
 

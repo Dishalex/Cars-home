@@ -1,72 +1,85 @@
-INFO:     127.0.0.1:56690 - "GET /docs HTTP/1.1" 200 OK
-INFO:     127.0.0.1:56690 - "GET /openapi.json HTTP/1.1" 200 OK
-INFO:     127.0.0.1:42488 - "POST /api/auth/signup HTTP/1.1" 201 Created
-500: (sqlalchemy.dialects.postgresql.asyncpg.IntegrityError) <class 'asyncpg.exceptions.UniqueViolationError'>: duplicate key value violates unique constraint "users_phone_number_key"
-DETAIL:  Key (phone_number)=(stringstri) already exists.
-[SQL: INSERT INTO users (full_name, email, password, phone_number, telegram_id, refresh_token, role, ban, created_at, updated_at) VALUES ($1::VARCHAR, $2::VARCHAR, $3::VARCHAR, $4::VARCHAR, $5::INTEGER, $6::VARCHAR, $7::role, $8::BOOLEAN, now(), now()) RETURNING users.id, users.created_at, users.updated_at]
-[parameters: ('string', 'user@example.com', '$2b$12$H.ge7oEEKH.n2hWJwsxvnuBCwx3SQvYrFnvf8kRlM52OqIUg8bVbm', 'stringstri', 0, None, 'user', False)]
-(Background on this error at: https://sqlalche.me/e/20/gkpj)
-INFO:     127.0.0.1:43416 - "POST /api/auth/signup HTTP/1.1" 500 Internal Server Error
-INFO:     127.0.0.1:38622 - "POST /api/auth/signup HTTP/1.1" 201 Created
-500: 409: Account already exists
-INFO:     127.0.0.1:39556 - "POST /api/auth/signup HTTP/1.1" 500 Internal Server Error
-500: (sqlalchemy.dialects.postgresql.asyncpg.IntegrityError) <class 'asyncpg.exceptions.UniqueViolationError'>: duplicate key value violates unique constraint "users_email_key"
-DETAIL:  Key (email)=(user@example.com) already exists.
-[SQL: INSERT INTO users (full_name, email, password, phone_number, telegram_id, refresh_token, role, ban, created_at, updated_at) VALUES ($1::VARCHAR, $2::VARCHAR, $3::VARCHAR, $4::VARCHAR, $5::INTEGER, $6::VARCHAR, $7::role, $8::BOOLEAN, now(), now()) RETURNING users.id, users.created_at, users.updated_at]
-[parameters: ('string2', 'user@example.com', '$2b$12$EylxOHi.aRy0.1JtlU26ZecQRWMzddwjg66L2RYWO9IGk2vIqyZaO', '0000000002', 0, None, 'user', False)]
-(Background on this error at: https://sqlalche.me/e/20/gkpj)
-INFO:     127.0.0.1:53096 - "POST /api/auth/signup HTTP/1.1" 500 Internal Server Error
-500: (sqlalchemy.dialects.postgresql.asyncpg.IntegrityError) <class 'asyncpg.exceptions.UniqueViolationError'>: duplicate key value violates unique constraint "users_telegram_id_key"
-DETAIL:  Key (telegram_id)=(0) already exists.
-[SQL: INSERT INTO users (full_name, email, password, phone_number, telegram_id, refresh_token, role, ban, created_at, updated_at) VALUES ($1::VARCHAR, $2::VARCHAR, $3::VARCHAR, $4::VARCHAR, $5::INTEGER, $6::VARCHAR, $7::role, $8::BOOLEAN, now(), now()) RETURNING users.id, users.created_at, users.updated_at]
-[parameters: ('string2', 'user2@example.com', '$2b$12$cSyX3KjtaSV8VcW8Is/wnuTAbkjvpcX2g7joiaTKakX3Lt/RGRzAe', '0000000002', 0, None, 'user', False)]
-(Background on this error at: https://sqlalche.me/e/20/gkpj)
-INFO:     127.0.0.1:33714 - "POST /api/auth/signup HTTP/1.1" 500 Internal Server Error
-INFO:     127.0.0.1:60316 - "POST /api/auth/signup HTTP/1.1" 201 Created
-INFO:     127.0.0.1:33364 - "POST /api/auth/signup HTTP/1.1" 201 Created
-INFO:     127.0.0.1:58328 - "POST /api/auth/signup HTTP/1.1" 201 Created
-INFO:     127.0.0.1:36140 - "POST /api/auth/login HTTP/1.1" 200 OK
-INFO:     127.0.0.1:60260 - "GET /docs HTTP/1.1" 200 OK
-INFO:     127.0.0.1:60260 - "GET /openapi.json HTTP/1.1" 200 OK
-INFO:     127.0.0.1:47728 - "POST /api/auth/signup HTTP/1.1" 422 Unprocessable Entity
-INFO:     127.0.0.1:60770 - "POST /api/auth/signup HTTP/1.1" 422 Unprocessable Entity
-INFO:     127.0.0.1:59490 - "POST /api/auth/signup HTTP/1.1" 201 Created
-INFO:     127.0.0.1:35702 - "GET /docs HTTP/1.1" 200 OK
-INFO:     127.0.0.1:35702 - "GET /openapi.json HTTP/1.1" 200 OK
+INFO:     127.0.0.1:44382 - "GET /docs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:44382 - "GET /openapi.json HTTP/1.1" 200 OK
+401: Invalid email
+INFO:     127.0.0.1:57974 - "POST /api/auth/login HTTP/1.1" 500 Internal Server Error
+INFO:     127.0.0.1:56462 - "POST /api/auth/login HTTP/1.1" 200 OK
+INFO:     127.0.0.1:36536 - "GET /api/admin/cars HTTP/1.1" 200 OK
+INFO:     127.0.0.1:37312 - "POST /api/admin/cars HTTP/1.1" 201 Created
+INFO:     127.0.0.1:34808 - "POST /api/admin/cars HTTP/1.1" 201 Created
+INFO:     127.0.0.1:36644 - "POST /api/admin/cars HTTP/1.1" 201 Created
+INFO:     127.0.0.1:60712 - "POST /api/admin/cars HTTP/1.1" 201 Created
+INFO:     127.0.0.1:49082 - "POST /api/admin/cars HTTP/1.1" 201 Created
+INFO:     127.0.0.1:48432 - "GET /api/admin/cars HTTP/1.1" 200 OK
+INFO:     127.0.0.1:46268 - "GET /docs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:46268 - "GET /openapi.json HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60808 - "POST /api/auth/login HTTP/1.1" 200 OK
+'Car' object has no attribute 'user_ids'
+INFO:     127.0.0.1:49666 - "POST /api/admin/cars HTTP/1.1" 500 Internal Server Error
+INFO:     127.0.0.1:56522 - "GET /docs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56522 - "GET /openapi.json HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58936 - "POST /api/auth/login HTTP/1.1" 200 OK
 1 validation errors:
-  {'type': 'int_type', 'loc': ('response', 'telegram_id'), 'msg': 'Input should be a valid integer', 'input': None}
+  {'type': 'model_attributes_type', 'loc': ('response',), 'msg': 'Input should be a valid dictionary or object to extract fields from', 'input': (<backend.src.entity.models.Car object at 0x77ef477c8090>, [12])}
 
-INFO:     127.0.0.1:50278 - "POST /api/auth/signup HTTP/1.1" 500 Internal Server Error
-500: 409: Account already exists
-INFO:     127.0.0.1:37368 - "POST /api/auth/signup HTTP/1.1" 500 Internal Server Error
+INFO:     127.0.0.1:37152 - "POST /api/admin/cars HTTP/1.1" 500 Internal Server Error
+INFO:     127.0.0.1:60386 - "GET /docs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60386 - "GET /openapi.json HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60386 - "POST /api/auth/login HTTP/1.1" 200 OK
+INFO:     127.0.0.1:42628 - "POST /api/admin/cars HTTP/1.1" 201 Created
+INFO:     127.0.0.1:43426 - "GET /docs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:43426 - "GET /openapi.json HTTP/1.1" 200 OK
+INFO:     127.0.0.1:43426 - "POST /api/auth/login HTTP/1.1" 200 OK
 1 validation errors:
-  {'type': 'int_type', 'loc': ('response', 'telegram_id'), 'msg': 'Input should be a valid integer', 'input': None}
+  {'type': 'int_type', 'loc': ('response', 'users', 0), 'msg': 'Input should be a valid integer', 'input': <backend.src.entity.models.User object at 0x77f50d5b4710>}
 
-INFO:     127.0.0.1:44270 - "POST /api/auth/signup HTTP/1.1" 500 Internal Server Error
-INFO:     127.0.0.1:45444 - "POST /api/auth/signup HTTP/1.1" 201 Created
-500: 409: Account already exists
-INFO:     127.0.0.1:54194 - "POST /api/auth/signup HTTP/1.1" 500 Internal Server Error
-500: (sqlalchemy.dialects.postgresql.asyncpg.IntegrityError) <class 'asyncpg.exceptions.UniqueViolationError'>: duplicate key value violates unique constraint "users_telegram_id_key"
-DETAIL:  Key (telegram_id)=(0) already exists.
-[SQL: INSERT INTO users (full_name, email, password, phone_number, telegram_id, refresh_token, role, ban, created_at, updated_at) VALUES ($1::VARCHAR, $2::VARCHAR, $3::VARCHAR, $4::VARCHAR, $5::INTEGER, $6::VARCHAR, $7::role, $8::BOOLEAN, now(), now()) RETURNING users.id, users.created_at, users.updated_at]
-[parameters: ('string9', 'user9@example.com', '$2b$12$nFBkpf43SB6Ru5OO6zqwwuNjhgfaRi.dzEU/TT8JnIrH.7M99OVOS', 'stringstri9', 0, None, 'user', False)]
+INFO:     127.0.0.1:47774 - "POST /api/admin/cars HTTP/1.1" 500 Internal Server Error
+INFO:     127.0.0.1:42714 - "GET /docs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:42714 - "GET /openapi.json HTTP/1.1" 200 OK
+INFO:     127.0.0.1:44154 - "POST /api/auth/login HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56464 - "POST /api/admin/cars HTTP/1.1" 201 Created
+INFO:     127.0.0.1:38148 - "GET /docs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:38148 - "GET /openapi.json HTTP/1.1" 200 OK
+INFO:     127.0.0.1:59134 - "POST /api/auth/login HTTP/1.1" 200 OK
+INFO:     127.0.0.1:33526 - "POST /api/admin/cars HTTP/1.1" 201 Created
+INFO:     127.0.0.1:46820 - "GET /api/admin/cars HTTP/1.1" 200 OK
+INFO:     127.0.0.1:48560 - "GET /api/admin/cars/string11 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:37936 - "PATCH /api/admin/cars/string4 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60584 - "PATCH /api/admin/cars/string4 HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:48698 - "PATCH /api/admin/cars/string6 HTTP/1.1" 500 Internal Server Error
+(sqlalchemy.dialects.postgresql.asyncpg.IntegrityError) <class 'asyncpg.exceptions.ForeignKeyViolationError'>: update or delete on table "cars" violates foreign key constraint "user_car_association_car_id_fkey" on table "user_car_association"
+DETAIL:  Key (id)=(4) is still referenced from table "user_car_association".
+[SQL: DELETE FROM cars WHERE cars.plate = $1::VARCHAR]
+[parameters: ('string6',)]
 (Background on this error at: https://sqlalche.me/e/20/gkpj)
-INFO:     127.0.0.1:45224 - "POST /api/auth/signup HTTP/1.1" 500 Internal Server Error
-500: (sqlalchemy.dialects.postgresql.asyncpg.IntegrityError) <class 'asyncpg.exceptions.UniqueViolationError'>: duplicate key value violates unique constraint "users_telegram_id_key"
-DETAIL:  Key (telegram_id)=(0) already exists.
-[SQL: INSERT INTO users (full_name, email, password, phone_number, telegram_id, refresh_token, role, ban, created_at, updated_at) VALUES ($1::VARCHAR, $2::VARCHAR, $3::VARCHAR, $4::VARCHAR, $5::INTEGER, $6::VARCHAR, $7::role, $8::BOOLEAN, now(), now()) RETURNING users.id, users.created_at, users.updated_at]
-[parameters: ('string9', 'user9@example.com', '$2b$12$QJEK7pKhR64RVLUZQgeKFuM./o0nJfZZ3HqvEVPvv0XAqpItMhexi', 'stringstri9', 0, None, 'user', False)]
-(Background on this error at: https://sqlalche.me/e/20/gkpj)
-INFO:     127.0.0.1:35468 - "POST /api/auth/signup HTTP/1.1" 500 Internal Server Error
-INFO:     127.0.0.1:34798 - "POST /api/auth/signup HTTP/1.1" 201 Created
-INFO:     127.0.0.1:47658 - "POST /api/auth/login HTTP/1.1" 200 OK
-401: Could not validate credentials
-INFO:     127.0.0.1:53288 - "GET /api/admin/cars HTTP/1.1" 500 Internal Server Error
-401: Could not validate credentials
-INFO:     127.0.0.1:41526 - "POST /api/admin/cars HTTP/1.1" 500 Internal Server Error
-401: Could not validate credentials
-INFO:     127.0.0.1:39296 - "POST /api/admin/cars HTTP/1.1" 500 Internal Server Error
-401: Could not validate credentials
-INFO:     127.0.0.1:59282 - "POST /api/admin/cars HTTP/1.1" 500 Internal Server Error
-401: Could not validate credentials
-INFO:     127.0.0.1:51584 - "POST /api/admin/parking-rates HTTP/1.1" 500 Internal Server Error
+INFO:     127.0.0.1:59342 - "DELETE /api/admin/cars/string6 HTTP/1.1" 500 Internal Server Error
+INFO:     127.0.0.1:32852 - "GET /api/admin/cars/5 HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:59186 - "GET /api/admin/cars/3 HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:59186 - "GET /api/admin/cars/3 HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:40262 - "GET /api/history/create_entry/string1/http%3A//dsddsd/sdss.sdds HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:44142 - "GET /api/history/create_entry/string1//home/oleksandr/projects/Parking/DS_model/car_plates1/Plates_40.png HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:45622 - "GET /api/history/create_entry/string1/data%3Aimage/jpeg%3Bbase64%2C/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxMSEhUTEhISFRIVFRUVFRUVFxUQFRUVFRUWFxUVFhUYHSggGBolGxUVITEhJSkrLi4uFx8zODMtNygtLisBCgoKDg0OFxAQFy0dHR0rLSsrLS0tLS0tLS0rLS0tLS0tLS0tLS0tKy0tLS0tLS0tLS0tKy0rLS0rLSstNy0uN//AABEIAOEA4QMBIgACEQEDEQH/xAAcAAABBQEBAQAAAAAAAAAAAAACAAEDBAUGBwj/xAA5EAACAQIDBQUIAgEDBQEAAAAAAQIDEQQhMQUSQVFhBnGBkbETFCKhwdHh8DJCFSOS8TNScoKiB//EABkBAAMBAQEAAAAAAAAAAAAAAAABAgMEBf/EACIRAQEAAgMBAQACAwEAAAAAAAABAhEDEiExQRNxMlFhBP/aAAwDAQACEQMRAD8AvjCYzPKeme4rgiAHEMTYOnvTS4cXyS1Y59C5R2U5RvdLvH/wkms6lJLvf0Q2Kxu%2B7JtQWSRPRwak7u/S7u79xp0l%2BIts%2Bs7Edlqks4VKUu6TXqjDxuwq9J/FTl3rNfI7V4XdzUrdbq3iuJLQx/8AXeTWl/8AkV45/Qmd/PXnP%2BPqy0hLyDn2Wr1Ybyhn1yuj1KME89PQaVNLiOYSFc9vBauxq0KsoThJOPNdTf2d/V80vl8L9D1edCnP%2BcU8uKzBw/ZzCPNQzTy6FXHtNI7arlsFsurNXUH6GjS7Pyt8TsdpSpxirJJIrV4%2BKD%2BDGF/Ja56hsOnxbLUcBRj/AEb7y1UlYbd3hzrPwXf0va7qtCkvkQVMbLipLyI8VXcHZEcsYrXz9S9/9Tpl7Uq7z1duHUob3L8kmMqb0m/wQHFld1tJ4IQwiVE2MIQAh7gjjAriBECRNjXExi2hD3GQ4AzJ8Jq0tXFpEBv9maSu5O2SLwm6nK6jmJVH1uixHb6glo5ddE%2BHSwG06jlOTis9%2BSsuXNnP42coTtFJSfNJ27rms8qtTKeurpbUnJXe9JvgvhXz1Rb2TCpKd2nblazXXI53s/SlOfxNp8W82%2Bl%2BB3mGpunFZ3txvveLXB9wa2jK9fIsxmkiCdTgFVqX/cmNQp89eBnlfxMgqSLUFbR/kanT/fv4D1MO7Zap/IvGeFfo44ljyny7yKisrPMjneOXl9ipbpNg5yTzB9lazXMFwz6P10JcPK67g0X4pYvD7ybZzeIk95rO/Q7z2SkvA5Ha%2BClGTei6J/MjlxutnhWU6b5edl6gtW1Ga5DHK2ghriGAHGGbEwGiHBQSAHuIawhg4wmCWsVx7goQyEdNsWnu0m76o5iLOnwsv9JW5GvDPWfL8cpGsoV3f%2Bzadvk2ZG2qDvKSzatbuudPX2S3NyeXgr%2BY3%2BIg1ne3PiaZSlM4y%2BytTfs3rp1y4PmdtQhK2t0Vdh7AgviSt10Oijh93qvmKSpyyVaFJ62ViysNclVOKGrYqMVdtZdUOYz9Ld/CUFHVjqtHS5xHaHtruy3KEU5J5yk7Rj%2BTjIduMROV41oS42sldEd5Piun%2B7qvYITipPPUerOLyujgNk9pveE1nGcdU8mu40ViJLiTM/zSrg7GhFPIhmvZt30KmycVmk/39zL21pJwfcbz3HbC%2BZaQraMIvXK12T79LERykpd34PFO2W3p%2B2VFZUo29o27Jt/162XDj4G92E2so2cHJwl/V8M7acOqMu9kls8q5jLbJfY6PbmznSfR9LGOd7KpTrws7HEYyjuTceTMeXGT2fF42/KhuJjCMmhDXGYwAVwkAOgIQ4whgwhWGUTRR7iuPujbg9DZR1OswMd5QXA5WnSbaO2wNHdgn0N%2BCfWPNWbjG99kdKnvSS8w8ams%2BZFgJreu2vQuojfoV4xSV/qFPaMY6tmPiMdupvN8tLeaMX3tzl8f8b5Z2RGWWviscN%2B11NXaCkvhz%2BRzO1o1ql1ZqCV8r5mlGUYLi78M2he8x6Nd/rkYZffWuN18eV7Ypy93bgrSSe9nm8/j8dTk9mOTqQjGP9l%2BW%2BeV/N8z2HbHZyTbqUbSjLOVNNJpvVx4eBzENiexk5rDVlJ8NxrPld5Irj5emNxs3tnycdyymUrOpVHSxMGsnKKv33seibOjvK/E5bY/ZmrOp7avGzut2CeiWl2d32dwElOScbKytf8AeQ8MN6aZ3WNWNm4d3NTHYZuLto19DUw2FiuBajRidkw804rnu7fNfbnY01WlJX3k3e2rTd00X%2BxWHnShBPVyv5u56n2p7Kxqy34txeeeqXSxR2T2ZhSlv1JOclonZRXkcmUy10vyN8Ou%2BzWoOKaySbz1Oc23BKrJrQ3MbVS5I5vH1LyeRnyWaXjPVYQ1xGKyGEIDpBIGwaHCIQ9hDLa1GkGqIVwonVpOweyH9iTxRJCmBbRYXDNySR00YbsfAj2NguNjQxdPJ9x0ceOowzy3XK7Tr8yth8TZNvJcNF8ixtGC8e8zKl2rRWXNmVvraTwsRUdV6tJceHkCpODzb8/wS4TDJap%2BH1voSzcV/X1M7P1cv4oVcfJS0y5tW/WWsLjYz0bv5L5EFfHU1la/Qgo4mDf/AEbZ6/xt5X9DHKNJ/ToqM30/3P6sv0KSeTe90WS9TnqDb/jC3i2zSwVOSzkte5fTMrDHdRldR0eFwkcsllrx%2BZoRopaGZgsQuCLbxWdvwd2Ekjjy3an3muOQLx0VqyjtDDucfgqOMuHFeJw1TEY2FdKrKm6Weai02%2Bd7iz5Ov424eGcn69GjjITaSZBjqe7wTXX7nN7Fr3qq7%2BFZvryOmx0faRajKz4Eb742lnj/AB5acttCV5WtxMTHP4n3mljXJVd1puz46fIpY2%2B8/wCKz7vQ5M8WsqlusZjyBZisLYriYgMSCTAHQyGIEQy02nSEoFiSDpUrnShFSpGhhsNdoOlRsXcHTzKxm6nL41sNT3YpEWK0ZJdkVbQ7Y5K5baWGu2Y8qElxsu86rEQMnGUXLgc/Jhr108ee5pQpVLK2Sfm/noUsZX1Tb77/AIL1fAvRKwMMB0MbtrLGNChvcfHP1NLB4O2l2ubtbzNGGAjxV%2B7JebLkElyXd6XJx4/9i8gcPhHq2kv3j%2BS6qcVxb%2BRHBcixBJZt/d933N8cYxtWMNTsrv8A2qzfixYiq0tIx5c0ROs3lFJX0%2B9ypUism7ttvNvikrfNl3LSZNlVxLWsrmVtSsnF38%2Bo9atbT98ShVg5vMwyy26eLGS7q7sxKMVbPjfmbeDxduFzmcHQlCVk/h5cu4041LWDHLSOWbq1tOpUlNSgk4Wzdoyt38UYOKxju/4%2BMYv6G5h1d5/DNaSWV%2B5/Qy8Yotv2kVrb2kfhz5TXB96I5Jb7KWNnxn%2B9vjGH%2B1DOunrCHzXox62EaeTuvK/dwfr0K75HNbl%2BtZqpHOL/AKtdz%2B9wd1cH55fMAYR6FKLWowlK324DsZFcQ1xwN1KgW6FMGlEtRVjqZmbNPZ8ctDKjO7NrDOyN%2BKesuS%2BJiCsidkNbM6XMy66Ks4XLtZFWZOXq4jVJAOnfuJmxcDKxcqtuiVIsbg08tNfRfcjSgXUcuPLVePN9NA0t53fhxyWr/eJDGOfTVklWeXf8ktF9fBABRTtKXSy8cvS5XqRvFXf9nf8A9kvsydy%2BBdXf1QCnk11X1%2B4qcU3Q6W%2B4Dw5cm%2BP73kTmZ2RfaoVTC3QooTForQVa6jGz4mfUqXdpO0rWjPhJf9tRaPh8tUBti6ZQp1bqz/V06q/qZ55%2B6Xjj5tavnuv4JcnnB91%2BHf5rQCpG%2BTTTXDiu7mugynvfBLVfxl6d6AUv6z4fxktVy70RTQzQLZLVjf8A8vlLqiBkVR7jpgDoRjHBEMO5oir1BQeRXrzOtmkw0rs28NMw8KamFq5m/F4x5GkmBViM5DKfM6GCnWiUpmlVgU6sCKqKkmLoKasC5ebMq0iVS8ln3gNkbk0vFETfJ2JtNZSvlzYFRXf7pwQMazV78E/t9Suq75Cth6Wqq%2BFLk/WP4K8ZfYKVR/Emu7wIW3yFRBXaGTQ77gbEGdzCorMFQJqMQn0lDtJSyTsc9TeZ2W2cPvUsji2rMy55rLbXiviWOatxWn1RI3vrrw7%2BXj695Xc879b/ADDvn0l6/wDJjFihO6s/B8uoFRfnvGqPj59/5%2B4cXdd2vVfj90GEQ6GkrZCQgIQwgG3b3yIJ6ilUyIYrM7ZGS3RWZPTrJSApUwZKzNcfGd9b%2BHndEjpplDB1ctS3vnQxRVlYrSzLdR3KtQiiK84XK9WBamuRDJ8zLJpFbcyefG4EblpxvoROjnkRYpEpLNW5AuJLKHQDd5ioPbPxFKnbO4e6gooYQMZRJ5xAVibAFRJIDDocCzXf%2Bk%2B44DEv4n3nb7QqWpPuOFryzZl/6PxfEFMNPLu/fsQphxfozmbpW73XPPx/b%2BYMJtO6Ab0/eI8tf3wGSepZq68uQCAjKw6YAdxA3EBOs3GTYenmRxmT4VtyO7GMsvjSjSsg1hLkkIXsW4UzomLC5Kqo2CUrE84FeSLqRuRDUQt4GTIpxFIjkiZsGUTOqiF0%2BWQDVtSxEdxFo9q0iKSLbp5Ee4TYe0CHDcQbCMA6Q6Q7YAG6OJyGQBFtNXpvuOLxOp3GJjeDOJx8bSZjzNOOq48WR3CTOdsJvQdvQBse%2BQEJMJMjCTADuODcQE7H2Zawc87BVI2H2fRTmj0MPrDK%2BN/D0sifdDpxshps6XOr1Llapct1GVakhU1eQNxVJdCvOp3mdq9JhkyBVnyY/tidnpJqNGXMjdQGdQWxpY3hMiUhbwtjRVER3HlMjchU4dyAkxpSK86/LMnakzYozK6uyanEUpLdrxZxW2KTjNnbU3kc/wBocPdXDkx3Dwuq5cQLnmN7RHJp0DFcDeQt4ANMNMi3h1ICS7wiPeEGg9GqlvZNNbxmVcQaOx62Z6GH%2BTnz%2BN%2BIEiNVROfU6GBOADoi9oPvkhHLDoilTS0JJ1OAzQqqInTXIXsY8kHcaVQRoKuGi9ClXwclpmakGiZUrk3HY3Y5%2BKfHIJzNevgd7gZOKwM48HYm42KmW0VSoit7ZvKK8SzQwMp/yul6mrSwaiskR1tPcjA9hJ6kkKaNudHoUq9C3AVw0OyuokkEiNysJTHAsSp20MzaOcWnyL86%2BRlYyrqPIRwW0pNTdimqzNvaWDu2yh7kZajSWqarsJV2WvchPBi6wdqq%2B8Mb3lln3MdYIfWDtVX3pjlj3AcOsLtXa1cRmamysWk1mcTPaquXMHtNXTua4zWWzy1Zp6P7e40q5jYPGqUU7hSxJ1VyteOIDdYxfeSSOJ6kK01Yy1YbkZ8K2SJFiraZu4gmnIqzrNu0dS1Qwzndv%2BP7oaGFwEVnb7i1arciDZ%2BDesjWjTGVloF7VIvWoi3YlAGdNDqshSqoCUp0MyaNFCrzVrlRY%2BK4i2a08OiKtg4tAQxqlxCddWF4GDtLBOOa04mROtbU7CqlKOfiee7fxCo1HFvQyzmvWmNWquMsUamJuznMXtvPLMWH2rzMrVtavG7IHQJaNaMlqT06V3qGgpewE6CL0KQbwrDqNs14cdUDSeHJIYYfUbZXsUI1vYrkINDbYr9n6L/oipU7N07ZRszo60vDpqyKlF8vlp1yOlm4z/Uouyi3FFettmon/wBOVu47pU273XoN7sm7OPyRXZOnER29zTS6olW3Iq2Z2NTZkJ/ygnZZZENTYdF2/wBKGnK3gKhkYba8ZK98vKwWH2kpTykvPjyRensKi7pwX/0rWK1PsnQUm4xkpc02hU3V4PFLdjYtzxFjnKGDcGrSbSWn2DxWJqJtuLa55ehcTW978rpcwnVOMqbUmpK0J5PWzsXZbZbjdKXkybT036mNUZJcwKuNvdXOD2/tyoo3hCcmnlkw6e16843VGpdrSzM7lVzFt4vtEoppvTXwPPn2mnLESUZS3ZSsumfFB43Y2KxDllOG8/iVrFvZ3/57JRTlVcZWusk8zPVv1rLMb463BbUjuJb2i83%2B3JaO2VPKLyucsuwddp3xTV89LeBpbN7I1KetbK2VlnfrcrVRdOk/yS3XnwOQ23sn3iq6nB2493A36XZ9L%2Bc6klyySL9LZNJK275u7ffcNWp8cXQ7MUlk097k8r8i7T7O01f4M1yzOu93jHRfUXs0slbutYfQ9uWh2ag3bRdzL9DYCp/2b55W9Tc9n0y18RNPRXt5fIOhdmYtlR/fQUNmx656mo04gu%2BY%2BpM9bPVk%2BHIB4BX1uv3I0lCy0%2Bg8IefyF1PbM/x6/wCz0%2B4jTHDRbDL7%2BpJS18BCNBTriFw8RCAqkp/xY1MQgEQy1JUIQChfADF6eAhAKgwWhMxhAIq1tGW6X8fBCEKmKWpFEQhUJqvAeAhDIb1GeohAClqRS1EIBElbQCOohDEPVI3qIQjEE9BxDJEIQhB//9k%3D HTTP/1.1" 404 Not Found
+The unique() method must be invoked on this Result, as it contains results that include joined eager loads against collections
+INFO:     127.0.0.1:42742 - "GET /api/history/create_entry/string1/1 HTTP/1.1" 500 Internal Server Error
+INFO:     127.0.0.1:57376 - "GET /docs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57376 - "GET /openapi.json HTTP/1.1" 200 OK
+INFO:     127.0.0.1:34604 - "GET /docs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:34604 - "GET /openapi.json HTTP/1.1" 200 OK
+INFO:     127.0.0.1:41958 - "POST /api/auth/login HTTP/1.1" 200 OK
+(sqlalchemy.dialects.postgresql.asyncpg.Error) <class 'asyncpg.exceptions.DataError'>: invalid input for query argument $7: '1' ('str' object cannot be interpreted as an integer)
+[SQL: INSERT INTO history (entry_time, exit_time, parking_time, cost, paid, number_free_spaces, car_id, picture_id, rate_id, created_at, updated_at) VALUES ($1::TIMESTAMP WITHOUT TIME ZONE, now(), $2::FLOAT, $3::FLOAT, $4::BOOLEAN, $5::INTEGER, $6::INTEGER, $7::INTEGER, $8::INTEGER, now(), now()) RETURNING history.exit_time, history.id, history.created_at, history.updated_at]
+[parameters: (datetime.datetime(2024, 5, 11, 22, 32, 55, 753254), None, None, False, 99, 1, '1', None)]
+(Background on this error at: https://sqlalche.me/e/20/dbapi)
+INFO:     127.0.0.1:41780 - "GET /api/history/create_entry/string1/1 HTTP/1.1" 500 Internal Server Error
+INFO:     127.0.0.1:36972 - "GET /docs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:36972 - "GET /openapi.json HTTP/1.1" 200 OK
+INFO:     127.0.0.1:36972 - "POST /api/auth/login HTTP/1.1" 200 OK
+(sqlalchemy.dialects.postgresql.asyncpg.Error) <class 'asyncpg.exceptions.DataError'>: invalid input for query argument $7: '1' ('str' object cannot be interpreted as an integer)
+[SQL: INSERT INTO history (entry_time, exit_time, parking_time, cost, paid, number_free_spaces, car_id, picture_id, rate_id, created_at, updated_at) VALUES ($1::TIMESTAMP WITHOUT TIME ZONE, now(), $2::FLOAT, $3::FLOAT, $4::BOOLEAN, $5::INTEGER, $6::INTEGER, $7::INTEGER, $8::INTEGER, now(), now()) RETURNING history.exit_time, history.id, history.created_at, history.updated_at]
+[parameters: (datetime.datetime(2024, 5, 11, 22, 37, 10, 219952), None, None, False, 100, 1, '1', None)]
+(Background on this error at: https://sqlalche.me/e/20/dbapi)
+INFO:     127.0.0.1:34646 - "GET /api/history/create_entry/string1/1 HTTP/1.1" 500 Internal Server Error
+INFO:     127.0.0.1:51204 - "GET /docs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:51204 - "GET /openapi.json HTTP/1.1" 200 OK
+INFO:     127.0.0.1:53666 - "POST /api/auth/login HTTP/1.1" 200 OK
+400: Error creating the car
+INFO:     127.0.0.1:59684 - "GET /api/admin/cars/122323 HTTP/1.1" 500 Internal Server Error

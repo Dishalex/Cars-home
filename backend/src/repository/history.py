@@ -56,9 +56,9 @@ async def create_exit(find_plate: str, picture_id: int, session: AsyncSession):
 async def create_entry(find_plate: str, picture_id: int, session: AsyncSession) -> History:
     entry_time = datetime.now()
     number_free_spaces = await update_parking_spaces(session)
-    number_free_spaces -= 1
+    # number_free_spaces -= 1
     car = await session.execute(select(Car).filter(Car.plate == find_plate))
-    car_row = car.scalar_one_or_none()
+    car_row = car.unique().scalar_one_or_none()
 
     if car_row:
         car_id = car_row.id
