@@ -27,19 +27,18 @@ async def get_current_user(user: User = Depends(auth_service.get_current_user), 
 
 
 @router.get("/{username}", response_model=AnotherUsers)
-async def get_user_profile(username: str, db: AsyncSession = Depends(get_db)):
+async def get_user_profile(user_id: int, db: AsyncSession = Depends(get_db)):
     """
-    Endpoint to retrieve the profile information of a specific user by username.
+    Endpoint to retrieve the profile of a user.
 
-    :param username: Username of the user to be retrieved.
-    :type username: str
+    :param user_id: ID of the user to retrieve the profile.
+    :type user_id: int
     :param db: Asynchronous SQLAlchemy session (dependency injection).
     :type db: AsyncSession
-    :return: The profile information of the specified user.
+    :return: The profile of the user.
     :rtype: AnotherUsers
-    :raises HTTPException: If the user is not found.
     """
-    user_info = await repositories_users.get_user_by_username(username, db)
+    user_info = await repositories_users.get_user_by_userid(user_id, db)
 
     if not user_info:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="User not found.")

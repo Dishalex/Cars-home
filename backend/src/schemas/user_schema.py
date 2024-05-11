@@ -13,7 +13,8 @@ class UserSchema(BaseModel):
     email: EmailStr
     password: str = Field(min_length=4, max_length=20)
     phone_number: str = Field(min_length=10, max_length=20)
-    telegram_id: int
+    telegram_id: int | None = None
+
 
 
 class UserResponse(BaseModel):
@@ -22,7 +23,7 @@ class UserResponse(BaseModel):
     full_name: str
     email: EmailStr
     phone_number: str
-    telegram_id: int | None
+    telegram_id: int | None = None
     role: Role
     created_at: datetime
 

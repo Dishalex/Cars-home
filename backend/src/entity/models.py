@@ -118,7 +118,9 @@ class ParkingRate(TimeStampMixin, Base):
     rate_per_hour: Mapped[float] = mapped_column(Float, default=10.0, nullable=True)
     rate_per_day: Mapped[float] = mapped_column(Float, default=5.0, nullable=True)
     number_of_spaces: Mapped[int] = mapped_column(Integer, default=100, nullable=True)
-
+    history: Mapped["History"] = relationship(
+        "History", back_populates="rates", lazy="joined", cascade="all, delete",
+    )
 
 class History(TimeStampMixin, Base):
     """SQLAlchemy model representing the 'history' table in the database."""
@@ -136,7 +138,8 @@ class History(TimeStampMixin, Base):
     number_free_spaces: Mapped[int] = mapped_column(Integer, nullable=True)
     car_id: Mapped[int] = mapped_column(Integer, ForeignKey("cars.id"))
     picture_id: Mapped[int] = mapped_column(Integer, ForeignKey("pictures.id"))
-
+    rate_id: Mapped[int] = mapped_column(Integer, ForeignKey("parking_rates.id"))
+    
     car: Mapped["Car"] = relationship(
         "Car",
         back_populates="history",
@@ -145,6 +148,12 @@ class History(TimeStampMixin, Base):
     )
     picture: Mapped["Picture"] = relationship(
         "Picture",
+        back_populates="history",
+        lazy="joined",
+        cascade="all, delete",
+    )
+    rates: Mapped["ParkingRate"] = relationship(
+        "ParkingRate",
         back_populates="history",
         lazy="joined",
         cascade="all, delete",

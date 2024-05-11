@@ -113,18 +113,18 @@ async def update_token(user: User, token: str | None, db: AsyncSession):
     await db.commit()
 
 
-async def get_user_by_username(full_name: str, db: AsyncSession = Depends(get_db)):
+async def get_user_by_userid(user_id: int, db: AsyncSession = Depends(get_db)):
     """
-    Retrieve a user from the database based on the full name.
+    Retrieve a user from the database based on the user ID.
 
-    :param full_name: Full name of the user to be retrieved.
-    :type full_name: str
+    :param user_id: ID of the user to be retrieved.
+    :type user_id: int
     :param db: Asynchronous SQLAlchemy session (dependency injection).
     :type db: AsyncSession
     :return: The retrieved user or None if not found.
     :rtype: User or None
     """
-    stmt = select(User).filter_by(full_name=full_name)
+    stmt = select(User).filter_by(id=user_id)
     user = await db.execute(stmt)
     user = user.unique().scalar_one_or_none()
     return user
