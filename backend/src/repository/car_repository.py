@@ -13,7 +13,7 @@ class CarRepository:
         self.db = db_session
 
     async def add_car(self, car_data: CarSchema):
-        new_car = Car(**car_data.dict(exclude={'user_ids'}))  # Створення автомобіля без user_ids
+        new_car = Car(**car_data.dict(exclude={'user_ids'}))
         self.db.add(new_car)
 
         # Асоціація автомобіля з користувачами

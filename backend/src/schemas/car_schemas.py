@@ -23,6 +23,20 @@ class CarSchema(BaseModel):
     user_ids: List[int] = Field(default_factory=list)
 
 
+class NewCarResponse(BaseModel):
+    """Pydantic model for serializing car data in responses."""
+    id: int
+    credit: Optional[float]
+    plate: str
+    model: Optional[str]
+    # ban: Optional[bool]
+    user_ids: List[int] = Field(default_factory=list)
+
+    class Config:
+        from_attributes = True
+        # orm_mode = True
+
+
 class CarResponse(BaseModel):
     """Pydantic model for serializing car data in responses."""
     id: int
@@ -38,16 +52,4 @@ class CarResponse(BaseModel):
         from_attributes = True
 
 
-class NewCarResponse(BaseModel):
-    """Pydantic model for serializing car data in responses."""
 
-    class NewCarResponse(BaseModel):
-        id: int
-        credit: Optional[float]
-        plate: str
-        model: Optional[str]
-        ban: Optional[bool]
-        users: List[int] = Field(default_factory=list)
-
-        class Config:
-            from_attributes = True
