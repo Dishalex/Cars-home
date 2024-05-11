@@ -21,9 +21,10 @@ class CarRepository:
             user = await self.db.get(User, user_id)
             if user:
                 new_car.users.append(user)
-
+        
         await self.db.commit()
         await self.db.refresh(new_car)
+        new_car.user_ids = car_data.user_ids
         return new_car
 
     # async def add_car(self, car_data: CarSchema):
@@ -54,6 +55,7 @@ class CarRepository:
             select(Car).options(selectinload(Car.users))
         )
         cars = result.scalars().unique().all()
+        # TODO список користувачів до кожного автомобіля 
         return cars
 
     async def get_cars_by_user(self, user_id: int):

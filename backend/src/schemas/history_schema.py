@@ -27,7 +27,7 @@ class HistorySchema(BaseModel):
     exit_time: datetime
     parking_time: float
     cost: float
-    paid: bool
+    paid: bool = Field(default=False, nullable=True)
     car_id: Union[UUID, int]
     picture_id: Union[UUID, int]
     number_free_spaces: Optional[int]
