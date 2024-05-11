@@ -13,11 +13,35 @@ class CarRepository:
         self.db = db_session
 
     async def add_car(self, car_data: CarSchema):
-        new_car = Car(**car_data.dict())
+        new_car = Car(**car_data.dict(exclude={'user_ids'}))  # Створення автомобіля без user_ids
         self.db.add(new_car)
+
+        # Асоціація автомобіля з користувачами
+        for user_id in car_data.user_ids:
+            user = await self.db.get(User, user_id)
+            if user:
+                new_car.users.append(user)
+
         await self.db.commit()
         await self.db.refresh(new_car)
         return new_car
+
+    # async def add_car(self, car_data: CarSchema):
+    #     new_car = Car(**car_data.dict(exclude={'users'}))  # створення автомобіля без поля users
+    #     self.db.add(new_car)
+    #     await self.db.commit()
+    #     await self.db.refresh(new_car)
+    #
+    #     # Додавання користувачів до автомобіля
+    #     if car_data.users:
+    #         user_query = select(User).where(User.id.in_(car_data.users))
+    #         users = await self.db.scalars(user_query).all()
+    #         for user in users:
+    #             new_car.users.append(user)
+    #         await self.db.commit()
+    #
+    #     return new_car
+
 
     async def get_car_by_plate(self, plate: str):
         result = await self.db.execute(select(Car).where(Car.plate == plate))

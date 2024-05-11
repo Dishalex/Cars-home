@@ -24,7 +24,7 @@ async def create_car(car_data: CarSchema, db: AsyncSession = Depends(get_db),
     if new_car is None:
         # raise HTTPException(status_code=400, detail="Error creating the car")
         return JSONResponse(status_code=400, content={"message": "Error creating the car"})
-    return NewCarResponse.from_orm(new_car)
+    return new_car
 
 
 @router.post("/parking-rates", response_model=ParkingRateSchema, status_code=201)

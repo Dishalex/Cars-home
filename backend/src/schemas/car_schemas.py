@@ -20,6 +20,7 @@ class CarSchema(BaseModel):
     plate: str
     model: Optional[str]
     # ban: bool = Field(default=False, nullable=True)
+    user_ids: List[int] = Field(default_factory=list)
 
 
 class CarResponse(BaseModel):
@@ -39,12 +40,14 @@ class CarResponse(BaseModel):
 
 class NewCarResponse(BaseModel):
     """Pydantic model for serializing car data in responses."""
-    id: int
-    credit: Optional[float]
-    plate: str
-    model: Optional[str]
-    ban: Optional[bool]
-    users: List[Union[UUID, int]]
 
-    class Config:
-        from_attributes = True
+    class NewCarResponse(BaseModel):
+        id: int
+        credit: Optional[float]
+        plate: str
+        model: Optional[str]
+        ban: Optional[bool]
+        users: List[int] = Field(default_factory=list)
+
+        class Config:
+            from_attributes = True
