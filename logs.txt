@@ -1,0 +1,72 @@
+INFO:     127.0.0.1:56690 - "GET /docs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56690 - "GET /openapi.json HTTP/1.1" 200 OK
+INFO:     127.0.0.1:42488 - "POST /api/auth/signup HTTP/1.1" 201 Created
+500: (sqlalchemy.dialects.postgresql.asyncpg.IntegrityError) <class 'asyncpg.exceptions.UniqueViolationError'>: duplicate key value violates unique constraint "users_phone_number_key"
+DETAIL:  Key (phone_number)=(stringstri) already exists.
+[SQL: INSERT INTO users (full_name, email, password, phone_number, telegram_id, refresh_token, role, ban, created_at, updated_at) VALUES ($1::VARCHAR, $2::VARCHAR, $3::VARCHAR, $4::VARCHAR, $5::INTEGER, $6::VARCHAR, $7::role, $8::BOOLEAN, now(), now()) RETURNING users.id, users.created_at, users.updated_at]
+[parameters: ('string', 'user@example.com', '$2b$12$H.ge7oEEKH.n2hWJwsxvnuBCwx3SQvYrFnvf8kRlM52OqIUg8bVbm', 'stringstri', 0, None, 'user', False)]
+(Background on this error at: https://sqlalche.me/e/20/gkpj)
+INFO:     127.0.0.1:43416 - "POST /api/auth/signup HTTP/1.1" 500 Internal Server Error
+INFO:     127.0.0.1:38622 - "POST /api/auth/signup HTTP/1.1" 201 Created
+500: 409: Account already exists
+INFO:     127.0.0.1:39556 - "POST /api/auth/signup HTTP/1.1" 500 Internal Server Error
+500: (sqlalchemy.dialects.postgresql.asyncpg.IntegrityError) <class 'asyncpg.exceptions.UniqueViolationError'>: duplicate key value violates unique constraint "users_email_key"
+DETAIL:  Key (email)=(user@example.com) already exists.
+[SQL: INSERT INTO users (full_name, email, password, phone_number, telegram_id, refresh_token, role, ban, created_at, updated_at) VALUES ($1::VARCHAR, $2::VARCHAR, $3::VARCHAR, $4::VARCHAR, $5::INTEGER, $6::VARCHAR, $7::role, $8::BOOLEAN, now(), now()) RETURNING users.id, users.created_at, users.updated_at]
+[parameters: ('string2', 'user@example.com', '$2b$12$EylxOHi.aRy0.1JtlU26ZecQRWMzddwjg66L2RYWO9IGk2vIqyZaO', '0000000002', 0, None, 'user', False)]
+(Background on this error at: https://sqlalche.me/e/20/gkpj)
+INFO:     127.0.0.1:53096 - "POST /api/auth/signup HTTP/1.1" 500 Internal Server Error
+500: (sqlalchemy.dialects.postgresql.asyncpg.IntegrityError) <class 'asyncpg.exceptions.UniqueViolationError'>: duplicate key value violates unique constraint "users_telegram_id_key"
+DETAIL:  Key (telegram_id)=(0) already exists.
+[SQL: INSERT INTO users (full_name, email, password, phone_number, telegram_id, refresh_token, role, ban, created_at, updated_at) VALUES ($1::VARCHAR, $2::VARCHAR, $3::VARCHAR, $4::VARCHAR, $5::INTEGER, $6::VARCHAR, $7::role, $8::BOOLEAN, now(), now()) RETURNING users.id, users.created_at, users.updated_at]
+[parameters: ('string2', 'user2@example.com', '$2b$12$cSyX3KjtaSV8VcW8Is/wnuTAbkjvpcX2g7joiaTKakX3Lt/RGRzAe', '0000000002', 0, None, 'user', False)]
+(Background on this error at: https://sqlalche.me/e/20/gkpj)
+INFO:     127.0.0.1:33714 - "POST /api/auth/signup HTTP/1.1" 500 Internal Server Error
+INFO:     127.0.0.1:60316 - "POST /api/auth/signup HTTP/1.1" 201 Created
+INFO:     127.0.0.1:33364 - "POST /api/auth/signup HTTP/1.1" 201 Created
+INFO:     127.0.0.1:58328 - "POST /api/auth/signup HTTP/1.1" 201 Created
+INFO:     127.0.0.1:36140 - "POST /api/auth/login HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60260 - "GET /docs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60260 - "GET /openapi.json HTTP/1.1" 200 OK
+INFO:     127.0.0.1:47728 - "POST /api/auth/signup HTTP/1.1" 422 Unprocessable Entity
+INFO:     127.0.0.1:60770 - "POST /api/auth/signup HTTP/1.1" 422 Unprocessable Entity
+INFO:     127.0.0.1:59490 - "POST /api/auth/signup HTTP/1.1" 201 Created
+INFO:     127.0.0.1:35702 - "GET /docs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:35702 - "GET /openapi.json HTTP/1.1" 200 OK
+1 validation errors:
+  {'type': 'int_type', 'loc': ('response', 'telegram_id'), 'msg': 'Input should be a valid integer', 'input': None}
+
+INFO:     127.0.0.1:50278 - "POST /api/auth/signup HTTP/1.1" 500 Internal Server Error
+500: 409: Account already exists
+INFO:     127.0.0.1:37368 - "POST /api/auth/signup HTTP/1.1" 500 Internal Server Error
+1 validation errors:
+  {'type': 'int_type', 'loc': ('response', 'telegram_id'), 'msg': 'Input should be a valid integer', 'input': None}
+
+INFO:     127.0.0.1:44270 - "POST /api/auth/signup HTTP/1.1" 500 Internal Server Error
+INFO:     127.0.0.1:45444 - "POST /api/auth/signup HTTP/1.1" 201 Created
+500: 409: Account already exists
+INFO:     127.0.0.1:54194 - "POST /api/auth/signup HTTP/1.1" 500 Internal Server Error
+500: (sqlalchemy.dialects.postgresql.asyncpg.IntegrityError) <class 'asyncpg.exceptions.UniqueViolationError'>: duplicate key value violates unique constraint "users_telegram_id_key"
+DETAIL:  Key (telegram_id)=(0) already exists.
+[SQL: INSERT INTO users (full_name, email, password, phone_number, telegram_id, refresh_token, role, ban, created_at, updated_at) VALUES ($1::VARCHAR, $2::VARCHAR, $3::VARCHAR, $4::VARCHAR, $5::INTEGER, $6::VARCHAR, $7::role, $8::BOOLEAN, now(), now()) RETURNING users.id, users.created_at, users.updated_at]
+[parameters: ('string9', 'user9@example.com', '$2b$12$nFBkpf43SB6Ru5OO6zqwwuNjhgfaRi.dzEU/TT8JnIrH.7M99OVOS', 'stringstri9', 0, None, 'user', False)]
+(Background on this error at: https://sqlalche.me/e/20/gkpj)
+INFO:     127.0.0.1:45224 - "POST /api/auth/signup HTTP/1.1" 500 Internal Server Error
+500: (sqlalchemy.dialects.postgresql.asyncpg.IntegrityError) <class 'asyncpg.exceptions.UniqueViolationError'>: duplicate key value violates unique constraint "users_telegram_id_key"
+DETAIL:  Key (telegram_id)=(0) already exists.
+[SQL: INSERT INTO users (full_name, email, password, phone_number, telegram_id, refresh_token, role, ban, created_at, updated_at) VALUES ($1::VARCHAR, $2::VARCHAR, $3::VARCHAR, $4::VARCHAR, $5::INTEGER, $6::VARCHAR, $7::role, $8::BOOLEAN, now(), now()) RETURNING users.id, users.created_at, users.updated_at]
+[parameters: ('string9', 'user9@example.com', '$2b$12$QJEK7pKhR64RVLUZQgeKFuM./o0nJfZZ3HqvEVPvv0XAqpItMhexi', 'stringstri9', 0, None, 'user', False)]
+(Background on this error at: https://sqlalche.me/e/20/gkpj)
+INFO:     127.0.0.1:35468 - "POST /api/auth/signup HTTP/1.1" 500 Internal Server Error
+INFO:     127.0.0.1:34798 - "POST /api/auth/signup HTTP/1.1" 201 Created
+INFO:     127.0.0.1:47658 - "POST /api/auth/login HTTP/1.1" 200 OK
+401: Could not validate credentials
+INFO:     127.0.0.1:53288 - "GET /api/admin/cars HTTP/1.1" 500 Internal Server Error
+401: Could not validate credentials
+INFO:     127.0.0.1:41526 - "POST /api/admin/cars HTTP/1.1" 500 Internal Server Error
+401: Could not validate credentials
+INFO:     127.0.0.1:39296 - "POST /api/admin/cars HTTP/1.1" 500 Internal Server Error
+401: Could not validate credentials
+INFO:     127.0.0.1:59282 - "POST /api/admin/cars HTTP/1.1" 500 Internal Server Error
+401: Could not validate credentials
+INFO:     127.0.0.1:51584 - "POST /api/admin/parking-rates HTTP/1.1" 500 Internal Server Error
