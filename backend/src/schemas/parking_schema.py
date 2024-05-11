@@ -10,8 +10,15 @@ class ParkingRateUpdate(BaseModel):
     rate_per_hour: float
     rate_per_day: float
     number_of_spaces: int = Field(default=100, nullable=True)
-    # number_free_spaces: int
-    # history: Union[UUID, int]
+    number_free_spaces: int
+    history: Union[UUID, int]
+
+
+class NewParkingRateSchema(BaseModel):
+    """Pydantic model for validating incoming ParkingRate data."""
+    rate_per_hour: float
+    rate_per_day: float
+    number_of_spaces: int = Field(default=100, nullable=True)
 
 
 class ParkingRateSchema(BaseModel):

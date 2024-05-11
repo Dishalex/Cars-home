@@ -16,7 +16,6 @@ class UserSchema(BaseModel):
     telegram_id: Optional[int] = None
 
 
-
 class UserResponse(BaseModel):
     """Pydantic model for serializing user data in responses."""
     id: int = 1

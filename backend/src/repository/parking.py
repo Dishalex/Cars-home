@@ -5,10 +5,10 @@ from sqlalchemy.ext.asyncio import AsyncSession
 
 from backend.src import ParkingRate
 from backend.src.entity.models import ParkingRate
-from backend.src.schemas.parking_schema import ParkingRateSchema, ParkingRateUpdate
+from backend.src.schemas.parking_schema import ParkingRateSchema, NewParkingRateSchema, ParkingRateUpdate
 
 
-async def create_rate(session: AsyncSession, rate_data: ParkingRateSchema) -> ParkingRate:
+async def create_rate(session: AsyncSession, rate_data: NewParkingRateSchema) -> ParkingRate:
     new_rate = ParkingRate(**rate_data.dict())
     session.add(new_rate)
     await session.commit()
