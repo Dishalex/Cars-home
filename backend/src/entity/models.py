@@ -122,7 +122,6 @@ class ParkingRate(TimeStampMixin, Base):
         "History", back_populates="rates", lazy="joined", cascade="all, delete",
     )
 
-
 class History(TimeStampMixin, Base):
     """SQLAlchemy model representing the 'history' table in the database."""
 

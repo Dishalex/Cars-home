@@ -10,12 +10,13 @@ from backend.src.tg_bot.handlers import rt
 from backend.src.tg_bot.registration import rtr
 
 
-async def main():
-    bot = Bot(config.TG_TOKEN)
-    dp = Dispatcher()
-    dp.include_router(rt)
-    dp.include_router(rtr)
+bot = Bot(config.TG_TOKEN)
+dp = Dispatcher()
+dp.include_router(rt)
+dp.include_router(rtr)
 
+
+async def main():
     await bot(DeleteWebhook(drop_pending_updates=True))
 
     await bot.set_my_commands(

@@ -1,4 +1,4 @@
-from backend.src import bot
+from backend.src.tg_bot.tg_bot import bot
 
 from backend.src.tg_bot.constants import NOTIFICATIONS
 
