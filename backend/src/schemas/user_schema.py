@@ -13,7 +13,7 @@ class UserSchema(BaseModel):
     email: EmailStr
     password: str = Field(min_length=4, max_length=20)
     phone_number: str = Field(min_length=10, max_length=20)
-    telegram_id: int = Field(min_length=2, max_length=50)
+    telegram_id: int
 
 
 class UserResponse(BaseModel):

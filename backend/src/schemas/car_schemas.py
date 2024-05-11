@@ -19,8 +19,7 @@ class CarSchema(BaseModel):
     credit: Optional[float]
     plate: str
     model: Optional[str]
-    # ban: Optional[bool]
-    ban: bool = Field(default=False, nullable=True)
+    # ban: bool = Field(default=False, nullable=True)
 
 
 class CarResponse(BaseModel):
@@ -31,7 +30,6 @@ class CarResponse(BaseModel):
     model: Optional[str]
     ban: Optional[bool]
     history: List[Union[UUID, int]]
-    # blacklisted_tokens: List[Union[UUID, int]]
     users: List[Union[UUID, int]]
 
     class Config:
