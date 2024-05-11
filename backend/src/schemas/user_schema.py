@@ -13,7 +13,7 @@ class UserSchema(BaseModel):
     email: EmailStr
     password: str = Field(min_length=4, max_length=20)
     phone_number: str = Field(min_length=10, max_length=20)
-    telegram_id: int = Field(min_length=2, max_length=50)
+    telegram_id: int
 
 
 class UserResponse(BaseModel):
@@ -22,7 +22,7 @@ class UserResponse(BaseModel):
     full_name: str
     email: EmailStr
     phone_number: str
-    telegram_id: int
+    telegram_id: int | None
     role: Role
     created_at: datetime
 
@@ -32,11 +32,11 @@ class UserResponse(BaseModel):
 
 class UserUpdate(BaseModel):
     """Pydantic model for validating incoming user data for updating."""
-    full_name: Optional[str]
-    email: Optional[EmailStr]
-    password: Optional[str]
-    phone_number: Optional[str]
-    telegram_id: Optional[int]
+    full_name: str | None = None
+    email: EmailStr | None = None
+    password: str | None = None
+    phone_number: str | None = None
+    telegram_id: int | None = None
 
     class Config:
         from_attributes = True

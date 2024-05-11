@@ -1,10 +1,10 @@
 # backend/src/repository/users.py
 from fastapi import Depends
-from sqlalchemy import select, or_
+from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from backend.src.database.db import get_db
-from backend.src.entity.models import User, Picture, Role
+from backend.src.entity.models import User, Role
 from backend.src.schemas.user_schema import UserSchema, UserUpdate
 from backend.src.services import auth
 
@@ -26,24 +26,38 @@ async def get_user_by_email(email: str, db: AsyncSession = Depends(get_db)):
     return user
 
 
-async def get_user_by_tg_or_number(telegram_id: int = None, number: int = None, db: AsyncSession = Depends(get_db)):
+async def get_user_by_telegram_id(telegram_id: int, db: AsyncSession = Depends(get_db)):
     """
-    Retrieve a user from the database based on either telegram_id or phone_number.
+        Retrieve a user from the database based on the Telegram ID.
 
-    :param telegram_id: telegram id of the user to be retrieved.
-    :type telegram_id: int
-    :param number: number of the user to be retrieved.
-    :type number: int
-    :param db: Asynchronous SQLAlchemy session (dependency injection).
-    :type db: AsyncSession
-    :return: The retrieved user or None if not found.
-    :rtype: User or None
+        :param telegram_id: Telegram ID of the user to be retrieved.
+        :type telegram_id: int
+        :param db: Asynchronous SQLAlchemy session (dependency injection).
+        :type db: AsyncSession
+        :return: The retrieved user or None if not found.
+        :rtype: User or None
+        """
+    stmt = select(User).where(User.telegram_id == telegram_id)
+    user = await db.execute(stmt)
+    user = user.unique().scalar_one_or_none()
+    return user
+
+
+async def get_user_by_number(phone_number: str, db: AsyncSession = Depends(get_db)):
     """
-    if telegram_id or number:
-        stmt = select(User).where(or_(User.telegram_id == telegram_id, User.phone_number == number))
-        user = await db.execute(stmt)
-        user = user.unique().scalar_one_or_none()
-        return user
+        Retrieve a user from the database based on the phone number.
+
+        :param phone_number: Phone number of the user to be retrieved.
+        :type phone_number: str
+        :param db: Asynchronous SQLAlchemy session (dependency injection).
+        :type db: AsyncSession
+        :return: The retrieved user or None if not found.
+        :rtype: User or None
+        """
+    stmt = select(User).where(User.phone_number == phone_number)
+    user = await db.execute(stmt)
+    user = user.unique().scalar_one_or_none()
+    return user
 
 
 async def create_user(body: UserSchema, db: AsyncSession = Depends(get_db)):
@@ -135,10 +149,11 @@ async def update_user(email: str, user_update: UserUpdate, db: AsyncSession):
 
     if user:
         for field, value in user_update.__dict__.items():
-            if field == 'password':
-                setattr(user, field, auth.auth_service.get_password_hash(value))
-            else:
-                setattr(user, field, value)
+            if value is not None:
+                if field == 'password':
+                    setattr(user, field, auth.auth_service.get_password_hash(value))
+                else:
+                    setattr(user, field, value)
 
         await db.commit()
         await db.refresh(user)

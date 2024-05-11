@@ -21,7 +21,7 @@ logger = logging.getLogger(__name__)
 @router.post("/signup", response_model=UserResponse, status_code=status.HTTP_201_CREATED)
 async def signup(body: UserSchema, db: AsyncSession = Depends(get_db)):
     try:
-        exist_user = await repositories_users.get_user_by_username(body.full_name, db)
+        exist_user = await repositories_users.get_user_by_email(body.email, db)
         if exist_user:
             logger.error(f"Attempt to register with existing user: {body.full_name}")
             raise HTTPException(status_code=status.HTTP_409_CONFLICT, detail="Account already exists")
@@ -46,15 +46,16 @@ async def login(body: OAuth2PasswordRequestForm = Depends(), db: AsyncSession = 
     :type db: AsyncSession
     :return: Access token and refresh token.
     :rtype: TokenSchema
-    :raises HTTPException: If the provided email is invalid or the password is incorrect.
+    :raises HTTPException: If the provided username is invalid or the password is incorrect.
     """
-    # user = await repositories_users.get_user_by_email(body.username, db)
-    user = await repositories_users.get_user_by_username(body.username, db)
+    user = await repositories_users.get_user_by_number(body.username, db)
     if user is None:
-        raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Invalid email")
+        user = await repositories_users.get_user_by_email(body.username, db)
+    if user is None or not auth_service.verify_password(body.password, user.password):
+        raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Invalid username or password")
 
-    if not auth_service.verify_password(body.password, user.password):
-        raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Invalid password")
+    # if not auth_service.verify_password(body.password, user.password):
+    #     raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Invalid password")
     if user.ban:
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED, detail="You were banned by an administrator")

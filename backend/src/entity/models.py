@@ -120,7 +120,6 @@ class ParkingRate(TimeStampMixin, Base):
     number_of_spaces: Mapped[int] = mapped_column(Integer, default=100, nullable=True)
 
 
-
 class History(TimeStampMixin, Base):
     """SQLAlchemy model representing the 'history' table in the database."""
 
@@ -150,4 +149,3 @@ class History(TimeStampMixin, Base):
         lazy="joined",
         cascade="all, delete",
     )
-
