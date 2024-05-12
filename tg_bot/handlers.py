@@ -10,14 +10,11 @@ from tg_bot.registration import token_storage
 rt = Router()
 
 
-async def do_get(message: Message, command: CommandObject):
-    access_token = await token_storage.get_data(StorageKey(
-        bot_id=message.bot.id, chat_id=message.chat.id, user_id=message.from_user.id
-    ))
+async def do_get(message: Message, url: str, token: str):
     async with ClientSession(HOST) as session:
         async with session.get(
-                f'{USR_COMMANDS.get(command.command).get("url")}/{access_token.get("id")}',
-                headers={"Authorization": f"Bearer {access_token.get('access_token')}"},
+                url,
+                headers={"Authorization": f"Bearer {token}"},
         ) as response:
             if response.status == 200:
                 json_response = await response.json()
@@ -38,12 +35,29 @@ async def help_command(message: Message):
 
 @rt.message(Command('show'))
 async def show(message: Message, command: CommandObject):
-    await do_get(message, command)
+    access_token = await token_storage.get_data(StorageKey(
+        bot_id=message.bot.id, chat_id=message.chat.id, user_id=message.from_user.id
+    ))
+    url = f'{USR_COMMANDS.get(command.command).get("url")}/{access_token.get("id")}'
+    await do_get(message, url, access_token.get("access_token"))
+
+
+@rt.message(Command('free'))
+async def free(message: Message, command: CommandObject):
+    access_token = await token_storage.get_data(StorageKey(
+        bot_id=message.bot.id, chat_id=message.chat.id, user_id=message.from_user.id
+    ))
+    url = f'{USR_COMMANDS.get(command.command).get("url")}'
+    await do_get(message, url, access_token.get("access_token"))
 
 
 @rt.message(Command('history'))
 async def history(message: Message, command: CommandObject):
-    await do_get(message, command)
+    access_token = await token_storage.get_data(StorageKey(
+        bot_id=message.bot.id, chat_id=message.chat.id, user_id=message.from_user.id
+    ))
+    url = f'{USR_COMMANDS.get(command.command).get("url")}'
+    await do_get(message, url, access_token.get("access_token"))
 
 
 @rt.message(Command('settings'))

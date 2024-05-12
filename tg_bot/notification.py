@@ -1,6 +1,5 @@
-from tg_bot.tg_bot import bot
-
 from tg_bot.constants import NOTIFICATIONS
+from tg_bot.tg_bot import bot
 
 
 async def notification(user_id, option):

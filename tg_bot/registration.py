@@ -5,7 +5,7 @@ from aiogram.fsm.storage.memory import MemoryStorage, StorageKey
 from aiogram.types import Message
 from aiohttp import ClientSession
 
-from backend.src.schemas.user_schema import UserUpdate
+from tg_bot.tg_schema import UserUpdate
 from tg_bot.constants import *
 
 rtr = Router()
@@ -73,7 +73,7 @@ async def get_user(message: Message, state: FSMContext):
                 }
                 await state.update_data(**data)
                 await state.set_state(Registration.full_name)
-                await message.answer(FULLNAME)  # , reply_markup=KB_SITE)
+                await message.answer(FULLNAME)
             else:
                 await message.answer(TRY_AGAIN, reply_markup=KB_SUPPORT)
 

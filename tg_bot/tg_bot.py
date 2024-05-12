@@ -4,7 +4,8 @@ from aiogram import Bot, Dispatcher
 from aiogram.methods import DeleteWebhook
 from aiogram.types import *
 
-from backend.src.conf.config import config
+from tg_bot.config import config
+from tg_bot.constants import USR_COMMANDS
 from tg_bot.handlers import rt
 from tg_bot.registration import rtr
 
