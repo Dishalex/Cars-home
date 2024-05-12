@@ -16,6 +16,13 @@ class UserSchema(BaseModel):
     telegram_id: int | None = None
 
 
+class NewUserSchema(BaseModel):
+    """Pydantic model for validating incoming user registration data."""
+    full_name: str = Field(min_length=2, max_length=50)
+    email: EmailStr
+    password: str = Field(min_length=4, max_length=20)
+    phone_number: str = Field(min_length=10, max_length=20)
+
 
 class UserResponse(BaseModel):
     """Pydantic model for serializing user data in responses."""

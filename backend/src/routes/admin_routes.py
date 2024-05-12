@@ -1,6 +1,8 @@
 from fastapi import APIRouter, Depends, HTTPException
 from fastapi.responses import JSONResponse
 from sqlalchemy.ext.asyncio import AsyncSession
+
+from backend.src import UserResponse
 from backend.src.repository.car_repository import CarRepository
 from backend.src.repository.parking import create_rate, update_rate
 from backend.src.schemas.car_schemas import CarSchema, CarUpdate, CarResponse, NewCarResponse
@@ -58,6 +60,18 @@ async def create_parking_rate(rate_data: NewParkingRateSchema, db: AsyncSession 
 #         return {"message": "Parking rate updated successfully"}
 
 
+@router.get("/cars/parked", response_model=list[NewCarResponse], status_code=200)
+async def read_parked_cars(db: AsyncSession = Depends(get_db),
+                           admin: User = Depends(auth_service.get_current_admin)):
+    if admin.role != Role.admin:
+        return JSONResponse(status_code=403, content={"message": "Not authorized to access this resource"})
+    car_repository = CarRepository(db)
+    parked_cars = await car_repository.get_cars_currently_parked()
+    if not parked_cars:
+        return JSONResponse(status_code=404, content={"message": "No parked cars found"})
+    return parked_cars
+
+
 @router.get("/cars/{plate}", response_model=NewCarResponse, status_code=200)
 async def read_car(plate: str, db: AsyncSession = Depends(get_db),
                    admin: User = Depends(auth_service.get_current_admin)):
@@ -66,8 +80,7 @@ async def read_car(plate: str, db: AsyncSession = Depends(get_db),
     car_repository = CarRepository(db)
     car = await car_repository.get_car_by_plate(plate)
     if car is None:
-        # return JSONResponse(status_code=404, content={"message": "Car not found"})
-        raise HTTPException(status_code=400, detail="Error creating the car")
+        return JSONResponse(status_code=404, content={"message": "Car not found"})
     return car
 
 
@@ -80,17 +93,21 @@ async def read_cars(db: AsyncSession = Depends(get_db),
     cars = await car_repository.get_all_cars()
     if cars is None:
         return JSONResponse(status_code=404, content={"message": "Cars not found"})
-        # raise HTTPException(status_code=400, detail="Error creating the car")
     return cars
 
 
-@router.get("/cars/{user_id}", response_model=list[NewCarResponse], status_code=200)
-async def read_cars_by_user(user_id: int, db: AsyncSession = Depends(get_db),
+@router.get("/users-by-car/{plate}", response_model=list[UserResponse], status_code=200)
+async def read_users_by_car(plate: str, db: AsyncSession = Depends(get_db),
                             admin: User = Depends(auth_service.get_current_admin)):
     if admin.role != Role.admin:
-        return JSONResponse(status_code=400, content={"message": "Not authorized to access this resource"})
+        return JSONResponse(status_code=403, content={"message": "Not authorized to access this resource"})
     car_repository = CarRepository(db)
-    return await car_repository.get_cars_by_user(user_id)
+    if not await car_repository.check_car_exists(plate):
+        return JSONResponse(status_code=404, content={"message": "Car not found"})
+    users = await car_repository.get_users_by_car_plate(plate)
+    if not users:
+        return JSONResponse(status_code=404, content={"message": "No users found for this car"})
+    return users
 
 
 @router.patch("/cars/{plate}", response_model=NewCarResponse, status_code=200)

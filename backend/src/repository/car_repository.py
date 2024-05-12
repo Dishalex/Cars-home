@@ -5,7 +5,7 @@ from sqlalchemy.orm import selectinload
 from sqlalchemy.exc import SQLAlchemyError
 # from backend.src.schemas.car_schema import CarCreate, CarUpdate
 from backend.src.schemas.car_schemas import CarSchema, CarUpdate
-from backend.src.entity.models import Car, User, user_car_association
+from backend.src.entity.models import Car, User, user_car_association, History
 
 
 class CarRepository:
@@ -55,15 +55,39 @@ class CarRepository:
         if cars:
             for car in cars:
                 car.user_ids = [user.id for user in car.users]
+        return cars
 
+    async def get_cars_currently_parked(self):
+        result = await self.db.execute(
+            select(Car).join(History, Car.id == History.car_id)
+            .where(History.entry_time.isnot(None))
+            .where(History.exit_time.is_(None))
+        )
+        cars = result.scalars().unique().all()
+        if cars:
+            for car in cars:
+                car.user_ids = [user.id for user in car.users]
         return cars
 
     async def get_cars_by_user(self, user_id: int):
+        user_exists = await self.db.scalar(select(User.id).where(User.id == user_id))
+        if not user_exists:
+            return {"error": f"User with id {user_id} does not exist"}
         result = await self.db.execute(
             select(Car).options(selectinload(Car.users)).join(Car.users).where(User.id == user_id)
         )
         cars = result.scalars().unique().all()
+        if cars:
+            for car in cars:
+                car.user_ids = [user.id for user in car.users]
         return cars
+
+    async def get_users_by_car_plate(self, plate: str):
+        result = await self.db.execute(
+            select(User).join(Car.users).where(Car.plate == plate)
+        )
+        users = result.scalars().unique().all()
+        return users
 
     async def update_car(self, plate: str, car_update: CarUpdate):
 
