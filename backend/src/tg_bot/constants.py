@@ -7,15 +7,9 @@ USR_COMMANDS = {
         "description": "Список твоїх авто і інформація про них",
         "url": "api/admin/cars",
     },
-    "add": {
-        "name": "Додати авто",
-        "description": "Додає нове авто в твій список",
-        "url": "api/admin/cars",
-    },
     "history": {"name": "Історія", "description": "Ціни і час паркування", "url": ""},
     "help": {"name": "Інструкція"},
 }
-
 ADM_COMMANDS = {
     **USR_COMMANDS,
     "settings": {"name": "Налаштування"},
@@ -50,8 +44,8 @@ KB_REGISTERED = InlineKeyboardMarkup(
 KB_HELP = InlineKeyboardMarkup(
     inline_keyboard=[
         [
-            InlineKeyboardButton(text=command, callback_data=info.get("name"))
-            for command, info in USR_COMMANDS.items()
+            InlineKeyboardButton(text=command, callback_data=f"{command}_info")
+            for command in USR_COMMANDS
         ][:-1]
     ]
 )
@@ -71,13 +65,13 @@ KB_SUPPORT = InlineKeyboardMarkup(
 )
 
 START = "Почнімо з реєстрації. Тисни <b>Поділитись номером</b> внизу. Або тисни <b>/help</b> щоб дізнатись можливості."
+TRY_AGAIN = "Сервіс не доступний. Спробуй пізніше"
 REGISTERED = "Ви зареєстровані! Можете подивитись дані про свої авто"
 GO_LOGIN = "Ви зареєстровані! Авторизуйтесь для доступу до ваших даних"
 LOGIN = "Вхід виконано успішно"
 FULLNAME = "Введіть своє ім'я"
 EMAIL = "Введіть свій email"
 PASSWORD = "Введіть свій пароль"
-PLATE = "Залишилось зареєструвати авто. Введіть номер авто"
 HELP = (
     "Тут ви можете отримати інформацію про всі команди\n\n"
     "<b>Зараз доступні такі команди:</b>\n"

@@ -1,11 +1,29 @@
 from aiogram import Router, F
-from aiogram.filters import CommandStart, Command
+from aiogram.filters import CommandStart, Command, CommandObject
+from aiogram.fsm.storage.memory import StorageKey
 from aiogram.types import *
 from aiohttp import ClientSession
 
 from backend.src.tg_bot.constants import *
+from backend.src.tg_bot.registration import token_storage
 
 rt = Router()
+
+
+async def do_get(message: Message, command: CommandObject):
+    access_token = await token_storage.get_data(StorageKey(
+        bot_id=message.bot.id, chat_id=message.chat.id, user_id=message.from_user.id
+    ))
+    async with ClientSession(HOST) as session:
+        async with session.get(
+                f'{USR_COMMANDS.get(command.command).get("url")}/{access_token.get("id")}',
+                headers={"Authorization": f"Bearer {access_token.get('access_token')}"},
+        ) as response:
+            if response.status == 200:
+                json_response = await response.json()
+                await message.answer(json_response)
+            else:
+                await message.answer(TRY_AGAIN)
 
 
 @rt.message(CommandStart())
@@ -19,30 +37,18 @@ async def help_command(message: Message):
 
 
 @rt.message(Command('show'))
-async def show(message: Message):
-    pass
-
-
-@rt.message(Command('add'))
-async def add(message: Message):
-    pass
-    # async with ClientSession(HOST) as session:
-    #     await session.post(USR_COMMANDS.get("add").get("url"))
+async def show(message: Message, command: CommandObject):
+    await do_get(message, command)
 
 
 @rt.message(Command('history'))
-async def history(message: Message):
-    pass
+async def history(message: Message, command: CommandObject):
+    await do_get(message, command)
 
 
 @rt.message(Command('settings'))
 async def settings(message: Message):
     pass
-
-
-@rt.callback_query(F.data == "cars")
-async def get_cars(callback: CallbackQuery):
-    await show(callback.message)
 
 
 @rt.message(Command('id'))
@@ -59,3 +65,14 @@ async def get_id(message: Message):
         await message.reply(
             f"Hello {message.from_user.first_name}! Your ID: {message.from_user.id}."
         )
+
+
+@rt.callback_query(F.data == "cars")
+async def get_cars(callback: CallbackQuery):
+    await show(callback.message)
+
+
+@rt.callback_query(F.data.endswith("_info"))
+async def get_info(callback: CallbackQuery):
+    await callback.answer()
+    await callback.message.answer(USR_COMMANDS.get(callback.data.split("_")[0]).get("description"))
