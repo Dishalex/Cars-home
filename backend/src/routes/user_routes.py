@@ -1,12 +1,15 @@
 # backend/src/routes/user_routes.py
 from fastapi import APIRouter, HTTPException, Depends, status
+from fastapi.responses import JSONResponse
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from backend.src.database.db import get_db
 from backend.src.entity.models import User, Role
 from backend.src.repository import users as repositories_users
+from backend.src.schemas.car_schemas import NewCarResponse
 from backend.src.schemas.user_schema import UserResponse, UserUpdate, AnotherUsers
 from backend.src.services.auth import auth_service
+from backend.src.repository.car_repository import CarRepository
 
 router = APIRouter(prefix="/users", tags=["users"])
 
@@ -41,7 +44,8 @@ async def get_user_profile(user_id: int, db: AsyncSession = Depends(get_db)):
     user_info = await repositories_users.get_user_by_userid(user_id, db)
 
     if not user_info:
-        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="User not found.")
+        # raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="User not found.")
+        return JSONResponse(status_code=status.HTTP_404_NOT_FOUND, content={"message": "User not found."})
 
     return user_info
 
@@ -89,10 +93,25 @@ async def ban_user(
     :rtype: dict
     """
     if not current_user.role == Role.admin:
-        raise HTTPException(
-            status_code=status.HTTP_403_FORBIDDEN,
-            detail="You don't have permission to perform this action.",
-        )
+        # raise HTTPException(
+        #     status_code=status.HTTP_403_FORBIDDEN,
+        #     detail="You don't have permission to perform this action.",
+        # )
+        return JSONResponse(status_code=status.HTTP_403_FORBIDDEN,
+                            content={"message": "You don't have permission to perform this action."})
 
     await repositories_users.ban_user(username, db)
     return {"message": f"{username} has been banned."}
+
+
+@router.get("/cars/{user_id}", response_model=list[NewCarResponse], status_code=200)
+async def read_cars_by_user(user_id: int, db: AsyncSession = Depends(get_db),
+                            current_user: User = Depends(auth_service.get_current_user)):
+    if current_user.role != Role.admin and current_user.id != user_id:
+        return JSONResponse(status_code=400, content={"message": "Not authorized to access this resource"})
+    car_repository = CarRepository(db)
+    cars = await car_repository.get_cars_by_user(user_id)
+    if isinstance(cars, dict) and cars.get("error"):
+        return JSONResponse(status_code=404, content={"message": cars["error"]})
+    return cars
+
