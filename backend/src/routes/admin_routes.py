@@ -20,14 +20,18 @@ async def create_car(car_data: CarSchema, db: AsyncSession = Depends(get_db),
     if admin.role != Role.admin:
         return JSONResponse(status_code=400, content={"message": "Not authorized to access this resource"})
     car_repository = CarRepository(db)
-    new_car = await car_repository.add_car(car_data)
+    try:
+        new_car = await car_repository.add_car(car_data)
+        if isinstance(new_car, dict) and 'error' in new_car:
+            return JSONResponse(status_code=400, content={"message": new_car['error']})
+        if new_car is None:
+            return JSONResponse(status_code=400, content={"message": "Error creating the car"})
+        return new_car
+    except HTTPException as e:
+        return JSONResponse(status_code=e.status_code, content={"message": e.detail})
+    except Exception as e:
+        return JSONResponse(status_code=500, content={"message": str(e)})
 
-    if new_car is None:
-        # raise HTTPException(status_code=400, detail="Error creating the car")
-        return JSONResponse(status_code=400, content={"message": "Error creating the car"})
-    # response_data = NewCarResponse.from_orm(new_car)
-    # return response_data
-    return new_car
 
 
 @router.post("/parking-rates", response_model=ParkingRateSchema, status_code=201)
@@ -73,7 +77,11 @@ async def read_cars(db: AsyncSession = Depends(get_db),
     if admin.role != Role.admin:
         return JSONResponse(status_code=400, content={"message": "Not authorized to access this resource"})
     car_repository = CarRepository(db)
-    return await car_repository.get_all_cars()
+    cars = await car_repository.get_all_cars()
+    if cars is None:
+        return JSONResponse(status_code=404, content={"message": "Cars not found"})
+        # raise HTTPException(status_code=400, detail="Error creating the car")
+    return cars
 
 
 @router.get("/cars/{user_id}", response_model=list[NewCarResponse], status_code=200)
@@ -85,7 +93,7 @@ async def read_cars_by_user(user_id: int, db: AsyncSession = Depends(get_db),
     return await car_repository.get_cars_by_user(user_id)
 
 
-@router.patch("/cars/{plate}", response_model=dict, status_code=200)
+@router.patch("/cars/{plate}", response_model=NewCarResponse, status_code=200)
 async def update_car(plate: str, car_update: CarUpdate, db: AsyncSession = Depends(get_db),
                      admin: User = Depends(auth_service.get_current_admin)):
     if admin.role != Role.admin:
@@ -93,13 +101,32 @@ async def update_car(plate: str, car_update: CarUpdate, db: AsyncSession = Depen
     car_repository = CarRepository(db)
     try:
         updated_car = await car_repository.update_car(plate, car_update)
+        if isinstance(updated_car, dict) and 'error' in updated_car:
+            return JSONResponse(status_code=400, content={"message": updated_car['error']})
         if updated_car is None:
             return JSONResponse(status_code=404, content={"message": "Car not found"})
-        return {"message": "Car updated successfully"}
+        return updated_car
     except HTTPException as e:
         return JSONResponse(status_code=e.status_code, content={"message": e.detail})
     except Exception as e:
         return JSONResponse(status_code=500, content={"message": str(e)})
+
+
+@router.patch("/cars/{plate}/ban", response_model=dict, status_code=200)
+async def ban_car(plate: str, db: AsyncSession = Depends(get_db),
+                  admin: User = Depends(auth_service.get_current_admin)):
+    if admin.role != Role.admin:
+        return JSONResponse(status_code=403, content={"message": "Not authorized to access this resource"})
+
+    car_repository = CarRepository(db)
+    car = await car_repository.ban_car(plate)
+
+    if car is None:
+        return JSONResponse(status_code=404, content={"message": "Car not found"})
+    elif car:
+        return JSONResponse(status_code=200, content={"message": f"Car {plate} has been banned"})
+    else:
+        return JSONResponse(status_code=400, content={"message": "Error banning the car"})
 
 
 @router.delete("/cars/{plate}", response_model=dict, status_code=200)
@@ -111,8 +138,7 @@ async def delete_car(plate: str, db: AsyncSession = Depends(get_db),
     if not await car_repository.check_car_exists(plate):
         return JSONResponse(status_code=404, content={"message": "Car not found"})
     await car_repository.delete_car(plate)
-    return JSONResponse(status_code=200, content={"message": "Car deleted successfully"})
-
+    return JSONResponse(status_code=200, content={"message": f"Car {plate} has been deleted"})
 
 @router.patch("/update_paid/{plate}", response_model=HistorySchema)
 async def update_paid(plate: str, history_update: HistoryUpdatePaid,
