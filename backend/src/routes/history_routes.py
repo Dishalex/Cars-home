@@ -9,7 +9,9 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from backend.src.database.db import get_db
 from backend.src.repository import history as repositories_history
 from backend.src.repository import picture as repositories_picture
-from backend.src.schemas.history_schema import HistorySchema, HistoryUpdate
+from backend.src.schemas.history_schema import HistoryUpdatePaid, HistorySchema, HistoryUpdateCar, HistoryUpdate
+from backend.src.entity.models import User, Role
+from backend.src.services.auth import auth_service
 
 
 router = APIRouter(prefix="/history", tags=["history"])
@@ -46,3 +48,46 @@ async def get_history_entries_with_null_paid(session: AsyncSession = Depends(get
     history_entries = await repositories_history.get_history_entries_with_null_paid(session)
     return history_entries
 
+
+@router.patch("/update_paid/{plate}", response_model=HistoryUpdatePaid)
+async def update_paid(plate: str, history_update: HistoryUpdatePaid,
+                      session: AsyncSession = Depends(get_db),
+                      admin: User = Depends(auth_service.get_current_admin)):
+    if admin.role != Role.admin:
+        return JSONResponse(status_code=400, content={"message": "Not authorized to access this resource"})
+    try:
+        history_entry = await repositories_history.update_paid_history(plate, history_update.paid, session)
+        if history_entry is None:
+            return JSONResponse(status_code=404, content={"message": "History entry not found"})
+        return history_entry
+
+    except Exception as e:
+        return JSONResponse(status_code=500, content={"message": str(e)})
+
+
+@router.patch("/update_car_history/{plate}", response_model=HistoryUpdateCar)
+async def update_car_history(plate: str, history_update: HistoryUpdateCar,
+                             session: AsyncSession = Depends(get_db),
+                             admin: User = Depends(auth_service.get_current_admin)):
+    if admin.role != Role.admin:
+        return JSONResponse(status_code=400, content={"message": "Not authorized to access this resource"})
+    try:
+        history_entry = await repositories_history.update_car_history(plate, history_update.car_id, session)
+        if history_entry is None:
+            return JSONResponse(status_code=404, content={"message": "History entry not found"})
+        return history_entry
+    except Exception as e:
+        return JSONResponse(status_code=500, content={"message": str(e)})
+
+
+
+@router.delete("/delete_history/{plate}", response_model=dict, status_code=200)
+async def delete_history(plate: str, db: AsyncSession = Depends(get_db),
+                         admin: User = Depends(auth_service.get_current_admin)):
+    if admin.role != Role.admin:
+        return JSONResponse(status_code=400, content={"message": "Not authorized to access this resource"})
+    try:
+        await repositories_history.delete_history(plate)
+
+    except Exception as e:
+        return JSONResponse(status_code=500, content={"message": str(e)})
