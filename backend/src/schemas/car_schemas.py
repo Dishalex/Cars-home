@@ -10,8 +10,8 @@ class CarUpdate(BaseModel):
     credit: Optional[float]
     plate: Optional[str]
     model: Optional[str]
-    # ban: Optional[bool]
     ban: bool = Field(default=False, nullable=True)
+    user_ids: List[int] = Field(default_factory=list)
 
 
 class CarSchema(BaseModel):
@@ -19,7 +19,6 @@ class CarSchema(BaseModel):
     credit: Optional[float]
     plate: str
     model: Optional[str]
-    # ban: bool = Field(default=False, nullable=True)
     user_ids: List[int] = Field(default_factory=list)
 
 
@@ -29,7 +28,7 @@ class NewCarResponse(BaseModel):
     credit: Optional[float]
     plate: str
     model: Optional[str]
-    # ban: Optional[bool]
+    ban: Optional[bool]
     user_ids: List[int] = Field(default_factory=list)
 
     class Config:
