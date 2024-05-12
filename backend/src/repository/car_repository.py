@@ -30,6 +30,7 @@ class CarRepository:
                 await self.db.rollback()
                 return {'error': f'User with id {user_id} does not exist'}
             new_car.users.append(user)
+
         
         await self.db.commit()
         await self.db.refresh(new_car)
@@ -54,6 +55,7 @@ class CarRepository:
         if cars:
             for car in cars:
                 car.user_ids = [user.id for user in car.users]
+
         return cars
 
     async def get_cars_by_user(self, user_id: int):

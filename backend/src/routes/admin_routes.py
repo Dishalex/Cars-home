@@ -4,7 +4,7 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from backend.src.repository.car_repository import CarRepository
 from backend.src.repository.parking import create_rate, update_rate
 from backend.src.schemas.car_schemas import CarSchema, CarUpdate, CarResponse, NewCarResponse
-from backend.src.schemas.history_schema import HistoryUpdate, HistorySchema
+from backend.src.schemas.history_schema import HistoryUpdatePaid, HistorySchema, HistoryUpdateCar
 from backend.src.database import get_db
 from backend.src.schemas.parking_schema import ParkingRateSchema, NewParkingRateSchema, ParkingRateUpdate
 from backend.src.services.auth import auth_service
@@ -31,6 +31,7 @@ async def create_car(car_data: CarSchema, db: AsyncSession = Depends(get_db),
         return JSONResponse(status_code=e.status_code, content={"message": e.detail})
     except Exception as e:
         return JSONResponse(status_code=500, content={"message": str(e)})
+
 
 
 @router.post("/parking-rates", response_model=ParkingRateSchema, status_code=201)
@@ -65,8 +66,8 @@ async def read_car(plate: str, db: AsyncSession = Depends(get_db),
     car_repository = CarRepository(db)
     car = await car_repository.get_car_by_plate(plate)
     if car is None:
-        return JSONResponse(status_code=404, content={"message": "Car not found"})
-        # raise HTTPException(status_code=400, detail="Error creating the car")
+        # return JSONResponse(status_code=404, content={"message": "Car not found"})
+        raise HTTPException(status_code=400, detail="Error creating the car")
     return car
 
 
@@ -139,8 +140,8 @@ async def delete_car(plate: str, db: AsyncSession = Depends(get_db),
     await car_repository.delete_car(plate)
     return JSONResponse(status_code=200, content={"message": f"Car {plate} has been deleted"})
 
-@router.put("/update_paid/{plate}", response_model=HistorySchema)
-async def update_paid(plate: str, history_update: HistoryUpdate,
+@router.patch("/update_paid/{plate}", response_model=HistorySchema)
+async def update_paid(plate: str, history_update: HistoryUpdatePaid,
                       session: AsyncSession = Depends(get_db),
                       admin: User = Depends(auth_service.get_current_admin)):
     if admin.role != Role.admin:
@@ -156,8 +157,8 @@ async def update_paid(plate: str, history_update: HistoryUpdate,
         return JSONResponse(status_code=500, content={"message": str(e)})
 
 
-@router.put("/update_car_history/{plate}", response_model=HistorySchema)
-async def update_car_history(plate: str, history_update: HistoryUpdate,
+@router.patch("/update_car_history/{plate}", response_model=HistorySchema)
+async def update_car_history(plate: str, history_update: HistoryUpdateCar,
                              session: AsyncSession = Depends(get_db),
                              admin: User = Depends(auth_service.get_current_admin)):
     if admin.role != Role.admin:

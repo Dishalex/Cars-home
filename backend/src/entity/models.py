@@ -118,26 +118,28 @@ class ParkingRate(TimeStampMixin, Base):
     rate_per_hour: Mapped[float] = mapped_column(Float, default=10.0, nullable=True)
     rate_per_day: Mapped[float] = mapped_column(Float, default=5.0, nullable=True)
     number_of_spaces: Mapped[int] = mapped_column(Integer, default=100, nullable=True)
-
-
+    history: Mapped["History"] = relationship(
+        "History", back_populates="rates", lazy="joined", cascade="all, delete",
+    )
 
 class History(TimeStampMixin, Base):
     """SQLAlchemy model representing the 'history' table in the database."""
 
     __tablename__ = "history"
     entry_time: Mapped[DateTime] = mapped_column(
-        DateTime, default=func.now(), nullable=True
+        DateTime, nullable=True
     )
     exit_time: Mapped[DateTime] = mapped_column(
-        DateTime, default=func.now(), nullable=True
+        DateTime, nullable=True
     )
     parking_time: Mapped[float] = mapped_column(Float, nullable=True)
     cost: Mapped[float] = mapped_column(Float, nullable=True)
     paid: Mapped[bool] = mapped_column(default=False, nullable=True)
     number_free_spaces: Mapped[int] = mapped_column(Integer, nullable=True)
-    car_id: Mapped[int] = mapped_column(Integer, ForeignKey("cars.id"))
-    picture_id: Mapped[int] = mapped_column(Integer, ForeignKey("pictures.id"))
-
+    car_id: Mapped[int] = mapped_column(Integer, ForeignKey("cars.id"), nullable=True)
+    picture_id: Mapped[int] = mapped_column(Integer, ForeignKey("pictures.id"), nullable=True)
+    rate_id: Mapped[int] = mapped_column(Integer, ForeignKey("parking_rates.id"), nullable=True)
+    
     car: Mapped["Car"] = relationship(
         "Car",
         back_populates="history",
@@ -150,4 +152,9 @@ class History(TimeStampMixin, Base):
         lazy="joined",
         cascade="all, delete",
     )
-
+    rates: Mapped["ParkingRate"] = relationship(
+        "ParkingRate",
+        back_populates="history",
+        lazy="joined",
+        cascade="all, delete",
+    )

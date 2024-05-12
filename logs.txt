@@ -1,0 +1,272 @@
+INFO:     127.0.0.1:33072 - "GET /openapi.json HTTP/1.1" 200 OK
+INFO:     127.0.0.1:40316 - "POST /api/auth/login HTTP/1.1" 200 OK
+INFO:     127.0.0.1:33076 - "POST /api/auth/login HTTP/1.1" 200 OK
+INFO:     127.0.0.1:45090 - "POST /api/auth/login HTTP/1.1" 200 OK
+INFO:     127.0.0.1:45104 - "POST /api/auth/login HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52744 - "GET /docs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52744 - "GET /openapi.json HTTP/1.1" 200 OK
+The unique() method must be invoked on this Result, as it contains results that include joined eager loads against collections
+INFO:     127.0.0.1:53920 - "GET /api/history/create_exit/string1/1 HTTP/1.1" 500 Internal Server Error
+INFO:     127.0.0.1:40550 - "GET /docs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:40550 - "GET /openapi.json HTTP/1.1" 200 OK
+INFO:     127.0.0.1:40552 - "POST /api/auth/login HTTP/1.1" 200 OK
+The unique() method must be invoked on this Result, as it contains results that include joined eager loads against collections
+INFO:     127.0.0.1:55726 - "GET /api/history/create_exit/string1/1 HTTP/1.1" 500 Internal Server Error
+INFO:     127.0.0.1:43660 - "GET /docs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:43660 - "GET /openapi.json HTTP/1.1" 200 OK
+INFO:     127.0.0.1:43676 - "POST /api/auth/login HTTP/1.1" 200 OK
+The unique() method must be invoked on this Result, as it contains results that include joined eager loads against collections
+INFO:     127.0.0.1:48866 - "GET /api/history/create_exit/string1/1 HTTP/1.1" 500 Internal Server Error
+INFO:     127.0.0.1:51592 - "GET /docs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:51592 - "GET /openapi.json HTTP/1.1" 200 OK
+INFO:     127.0.0.1:51598 - "POST /api/auth/login HTTP/1.1" 200 OK
+The unique() method must be invoked on this Result, as it contains results that include joined eager loads against collections
+INFO:     127.0.0.1:45212 - "GET /api/history/create_exit/string1/1 HTTP/1.1" 500 Internal Server Error
+INFO:     127.0.0.1:58482 - "GET /docs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58482 - "GET /openapi.json HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58498 - "POST /api/auth/login HTTP/1.1" 200 OK
+The unique() method must be invoked on this Result, as it contains results that include joined eager loads against collections
+INFO:     127.0.0.1:33888 - "GET /api/history/create_exit/string1/1 HTTP/1.1" 500 Internal Server Error
+INFO:     127.0.0.1:33710 - "GET /docs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:33710 - "GET /openapi.json HTTP/1.1" 200 OK
+INFO:     127.0.0.1:33718 - "POST /api/auth/login HTTP/1.1" 200 OK
+The unique() method must be invoked on this Result, as it contains results that include joined eager loads against collections
+INFO:     127.0.0.1:52126 - "GET /api/history/create_exit/string1/1 HTTP/1.1" 500 Internal Server Error
+INFO:     127.0.0.1:40002 - "GET /docs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:40002 - "GET /openapi.json HTTP/1.1" 200 OK
+INFO:     127.0.0.1:40016 - "POST /api/auth/login HTTP/1.1" 200 OK
+The unique() method must be invoked on this Result, as it contains results that include joined eager loads against collections
+INFO:     127.0.0.1:51886 - "GET /api/history/create_exit/string1/1 HTTP/1.1" 500 Internal Server Error
+INFO:     127.0.0.1:56464 - "GET /docs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56464 - "GET /openapi.json HTTP/1.1" 200 OK
+The unique() method must be invoked on this Result, as it contains results that include joined eager loads against collections
+INFO:     127.0.0.1:56470 - "GET /api/history/create_exit/string1/1 HTTP/1.1" 500 Internal Server Error
+INFO:     127.0.0.1:57752 - "GET /docs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57752 - "GET /openapi.json HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57754 - "POST /api/auth/login HTTP/1.1" 200 OK
+The unique() method must be invoked on this Result, as it contains results that include joined eager loads against collections
+INFO:     127.0.0.1:54930 - "GET /api/history/create_exit/string1/1 HTTP/1.1" 500 Internal Server Error
+INFO:     127.0.0.1:36862 - "GET /docs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:36862 - "GET /openapi.json HTTP/1.1" 200 OK
+INFO:     127.0.0.1:36872 - "POST /api/auth/login HTTP/1.1" 200 OK
+The unique() method must be invoked on this Result, as it contains results that include joined eager loads against collections
+INFO:     127.0.0.1:40880 - "GET /api/history/create_exit/string1/1 HTTP/1.1" 500 Internal Server Error
+The unique() method must be invoked on this Result, as it contains results that include joined eager loads against collections
+INFO:     127.0.0.1:46374 - "GET /api/history/create_exit/string1/1 HTTP/1.1" 500 Internal Server Error
+INFO:     127.0.0.1:55692 - "GET /docs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55692 - "GET /openapi.json HTTP/1.1" 200 OK
+The unique() method must be invoked on this Result, as it contains results that include joined eager loads against collections
+INFO:     127.0.0.1:55706 - "GET /api/history/create_exit/string1/1 HTTP/1.1" 500 Internal Server Error
+INFO:     127.0.0.1:48342 - "GET /docs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:48342 - "GET /openapi.json HTTP/1.1" 200 OK
+INFO:     127.0.0.1:48346 - "POST /api/auth/login HTTP/1.1" 200 OK
+The unique() method must be invoked on this Result, as it contains results that include joined eager loads against collections
+INFO:     127.0.0.1:51174 - "GET /api/history/create_exit/string1/1 HTTP/1.1" 500 Internal Server Error
+The unique() method must be invoked on this Result, as it contains results that include joined eager loads against collections
+INFO:     127.0.0.1:43180 - "GET /api/history/create_exit/string1/1 HTTP/1.1" 500 Internal Server Error
+INFO:     127.0.0.1:60224 - "GET /docs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60224 - "GET /openapi.json HTTP/1.1" 200 OK
+The unique() method must be invoked on this Result, as it contains results that include joined eager loads against collections
+INFO:     127.0.0.1:60232 - "GET /api/history/create_exit/string1/1 HTTP/1.1" 500 Internal Server Error
+(sqlalchemy.dialects.postgresql.asyncpg.Error) <class 'asyncpg.exceptions.DataError'>: invalid input for query argument $7: '1' ('str' object cannot be interpreted as an integer)
+[SQL: INSERT INTO history (entry_time, exit_time, parking_time, cost, paid, number_free_spaces, car_id, picture_id, rate_id, created_at, updated_at) VALUES ($1::TIMESTAMP WITHOUT TIME ZONE, now(), $2::FLOAT, $3::FLOAT, $4::BOOLEAN, $5::INTEGER, $6::INTEGER, $7::INTEGER, $8::INTEGER, now(), now()) RETURNING history.exit_time, history.id, history.created_at, history.updated_at]
+[parameters: (datetime.datetime(2024, 5, 12, 9, 43, 49, 845803), None, None, False, 99, 1, '1', None)]
+(Background on this error at: https://sqlalche.me/e/20/dbapi)
+INFO:     127.0.0.1:46730 - "GET /api/history/create_entry/string1/1 HTTP/1.1" 500 Internal Server Error
+INFO:     127.0.0.1:48162 - "GET /docs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:48162 - "GET /openapi.json HTTP/1.1" 200 OK
+INFO:     127.0.0.1:48178 - "POST /api/auth/login HTTP/1.1" 200 OK
+(sqlalchemy.dialects.postgresql.asyncpg.IntegrityError) <class 'asyncpg.exceptions.NotNullViolationError'>: null value in column "rate_id" of relation "history" violates not-null constraint
+DETAIL:  Failing row contains (2024-05-12 09:46:43.443207, 2024-05-12 06:46:43.457001, null, null, f, 99, 1, 1, null, 1, 2024-05-12 06:46:43.457001, 2024-05-12 06:46:43.457001).
+[SQL: INSERT INTO history (entry_time, exit_time, parking_time, cost, paid, number_free_spaces, car_id, picture_id, rate_id, created_at, updated_at) VALUES ($1::TIMESTAMP WITHOUT TIME ZONE, now(), $2::FLOAT, $3::FLOAT, $4::BOOLEAN, $5::INTEGER, $6::INTEGER, $7::INTEGER, $8::INTEGER, now(), now()) RETURNING history.exit_time, history.id, history.created_at, history.updated_at]
+[parameters: (datetime.datetime(2024, 5, 12, 9, 46, 43, 443207), None, None, False, 99, 1, 1, None)]
+(Background on this error at: https://sqlalche.me/e/20/gkpj)
+INFO:     127.0.0.1:59736 - "GET /api/history/create_entry/string1/1 HTTP/1.1" 500 Internal Server Error
+INFO:     127.0.0.1:50046 - "GET /docs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:50046 - "GET /openapi.json HTTP/1.1" 200 OK
+'NoneType' object has no attribute 'id'
+INFO:     127.0.0.1:50056 - "GET /api/history/create_entry/string1/1 HTTP/1.1" 500 Internal Server Error
+INFO:     127.0.0.1:58636 - "POST /api/auth/login HTTP/1.1" 200 OK
+INFO:     127.0.0.1:44216 - "POST /api/admin/parking-rates HTTP/1.1" 201 Created
+The unique() method must be invoked on this Result, as it contains results that include joined eager loads against collections
+INFO:     127.0.0.1:50146 - "GET /api/history/create_entry/string1/1 HTTP/1.1" 500 Internal Server Error
+INFO:     127.0.0.1:33134 - "GET /api/admin/cars/string1 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:43744 - "GET /docs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:43744 - "GET /openapi.json HTTP/1.1" 200 OK
+INFO:     127.0.0.1:43748 - "POST /api/auth/login HTTP/1.1" 200 OK
+9 validation errors:
+  {'type': 'get_attribute_error', 'loc': ('response', 'entry_time'), 'msg': "Error extracting attribute: MissingGreenlet: greenlet_spawn has not been called; can't call await_only() here. Was IO attempted in an unexpected place? (Background on this error at: https://sqlalche.me/e/20/xd2s)", 'input': <backend.src.entity.models.History object at 0x7de266f80c50>, 'ctx': {'error': "MissingGreenlet: greenlet_spawn has not been called; can't call await_only() here. Was IO attempted in an unexpected place? (Background on this error at: https://sqlalche.me/e/20/xd2s)"}}
+  {'type': 'get_attribute_error', 'loc': ('response', 'exit_time'), 'msg': "Error extracting attribute: MissingGreenlet: greenlet_spawn has not been called; can't call await_only() here. Was IO attempted in an unexpected place? (Background on this error at: https://sqlalche.me/e/20/xd2s)", 'input': <backend.src.entity.models.History object at 0x7de266f80c50>, 'ctx': {'error': "MissingGreenlet: greenlet_spawn has not been called; can't call await_only() here. Was IO attempted in an unexpected place? (Background on this error at: https://sqlalche.me/e/20/xd2s)"}}
+  {'type': 'get_attribute_error', 'loc': ('response', 'parking_time'), 'msg': "Error extracting attribute: MissingGreenlet: greenlet_spawn has not been called; can't call await_only() here. Was IO attempted in an unexpected place? (Background on this error at: https://sqlalche.me/e/20/xd2s)", 'input': <backend.src.entity.models.History object at 0x7de266f80c50>, 'ctx': {'error': "MissingGreenlet: greenlet_spawn has not been called; can't call await_only() here. Was IO attempted in an unexpected place? (Background on this error at: https://sqlalche.me/e/20/xd2s)"}}
+  {'type': 'get_attribute_error', 'loc': ('response', 'cost'), 'msg': "Error extracting attribute: MissingGreenlet: greenlet_spawn has not been called; can't call await_only() here. Was IO attempted in an unexpected place? (Background on this error at: https://sqlalche.me/e/20/xd2s)", 'input': <backend.src.entity.models.History object at 0x7de266f80c50>, 'ctx': {'error': "MissingGreenlet: greenlet_spawn has not been called; can't call await_only() here. Was IO attempted in an unexpected place? (Background on this error at: https://sqlalche.me/e/20/xd2s)"}}
+  {'type': 'get_attribute_error', 'loc': ('response', 'paid'), 'msg': "Error extracting attribute: MissingGreenlet: greenlet_spawn has not been called; can't call await_only() here. Was IO attempted in an unexpected place? (Background on this error at: https://sqlalche.me/e/20/xd2s)", 'input': <backend.src.entity.models.History object at 0x7de266f80c50>, 'ctx': {'error': "MissingGreenlet: greenlet_spawn has not been called; can't call await_only() here. Was IO attempted in an unexpected place? (Background on this error at: https://sqlalche.me/e/20/xd2s)"}}
+  {'type': 'get_attribute_error', 'loc': ('response', 'car_id'), 'msg': "Error extracting attribute: MissingGreenlet: greenlet_spawn has not been called; can't call await_only() here. Was IO attempted in an unexpected place? (Background on this error at: https://sqlalche.me/e/20/xd2s)", 'input': <backend.src.entity.models.History object at 0x7de266f80c50>, 'ctx': {'error': "MissingGreenlet: greenlet_spawn has not been called; can't call await_only() here. Was IO attempted in an unexpected place? (Background on this error at: https://sqlalche.me/e/20/xd2s)"}}
+  {'type': 'get_attribute_error', 'loc': ('response', 'picture_id'), 'msg': "Error extracting attribute: MissingGreenlet: greenlet_spawn has not been called; can't call await_only() here. Was IO attempted in an unexpected place? (Background on this error at: https://sqlalche.me/e/20/xd2s)", 'input': <backend.src.entity.models.History object at 0x7de266f80c50>, 'ctx': {'error': "MissingGreenlet: greenlet_spawn has not been called; can't call await_only() here. Was IO attempted in an unexpected place? (Background on this error at: https://sqlalche.me/e/20/xd2s)"}}
+  {'type': 'get_attribute_error', 'loc': ('response', 'number_free_spaces'), 'msg': "Error extracting attribute: MissingGreenlet: greenlet_spawn has not been called; can't call await_only() here. Was IO attempted in an unexpected place? (Background on this error at: https://sqlalche.me/e/20/xd2s)", 'input': <backend.src.entity.models.History object at 0x7de266f80c50>, 'ctx': {'error': "MissingGreenlet: greenlet_spawn has not been called; can't call await_only() here. Was IO attempted in an unexpected place? (Background on this error at: https://sqlalche.me/e/20/xd2s)"}}
+  {'type': 'get_attribute_error', 'loc': ('response', 'rate_id'), 'msg': "Error extracting attribute: MissingGreenlet: greenlet_spawn has not been called; can't call await_only() here. Was IO attempted in an unexpected place? (Background on this error at: https://sqlalche.me/e/20/xd2s)", 'input': <backend.src.entity.models.History object at 0x7de266f80c50>, 'ctx': {'error': "MissingGreenlet: greenlet_spawn has not been called; can't call await_only() here. Was IO attempted in an unexpected place? (Background on this error at: https://sqlalche.me/e/20/xd2s)"}}
+
+INFO:     127.0.0.1:60672 - "GET /api/history/create_entry/string1/1 HTTP/1.1" 500 Internal Server Error
+9 validation errors:
+  {'type': 'get_attribute_error', 'loc': ('response', 'entry_time'), 'msg': "Error extracting attribute: MissingGreenlet: greenlet_spawn has not been called; can't call await_only() here. Was IO attempted in an unexpected place? (Background on this error at: https://sqlalche.me/e/20/xd2s)", 'input': <backend.src.entity.models.History object at 0x7de266c83e50>, 'ctx': {'error': "MissingGreenlet: greenlet_spawn has not been called; can't call await_only() here. Was IO attempted in an unexpected place? (Background on this error at: https://sqlalche.me/e/20/xd2s)"}}
+  {'type': 'get_attribute_error', 'loc': ('response', 'exit_time'), 'msg': "Error extracting attribute: MissingGreenlet: greenlet_spawn has not been called; can't call await_only() here. Was IO attempted in an unexpected place? (Background on this error at: https://sqlalche.me/e/20/xd2s)", 'input': <backend.src.entity.models.History object at 0x7de266c83e50>, 'ctx': {'error': "MissingGreenlet: greenlet_spawn has not been called; can't call await_only() here. Was IO attempted in an unexpected place? (Background on this error at: https://sqlalche.me/e/20/xd2s)"}}
+  {'type': 'get_attribute_error', 'loc': ('response', 'parking_time'), 'msg': "Error extracting attribute: MissingGreenlet: greenlet_spawn has not been called; can't call await_only() here. Was IO attempted in an unexpected place? (Background on this error at: https://sqlalche.me/e/20/xd2s)", 'input': <backend.src.entity.models.History object at 0x7de266c83e50>, 'ctx': {'error': "MissingGreenlet: greenlet_spawn has not been called; can't call await_only() here. Was IO attempted in an unexpected place? (Background on this error at: https://sqlalche.me/e/20/xd2s)"}}
+  {'type': 'get_attribute_error', 'loc': ('response', 'cost'), 'msg': "Error extracting attribute: MissingGreenlet: greenlet_spawn has not been called; can't call await_only() here. Was IO attempted in an unexpected place? (Background on this error at: https://sqlalche.me/e/20/xd2s)", 'input': <backend.src.entity.models.History object at 0x7de266c83e50>, 'ctx': {'error': "MissingGreenlet: greenlet_spawn has not been called; can't call await_only() here. Was IO attempted in an unexpected place? (Background on this error at: https://sqlalche.me/e/20/xd2s)"}}
+  {'type': 'get_attribute_error', 'loc': ('response', 'paid'), 'msg': "Error extracting attribute: MissingGreenlet: greenlet_spawn has not been called; can't call await_only() here. Was IO attempted in an unexpected place? (Background on this error at: https://sqlalche.me/e/20/xd2s)", 'input': <backend.src.entity.models.History object at 0x7de266c83e50>, 'ctx': {'error': "MissingGreenlet: greenlet_spawn has not been called; can't call await_only() here. Was IO attempted in an unexpected place? (Background on this error at: https://sqlalche.me/e/20/xd2s)"}}
+  {'type': 'get_attribute_error', 'loc': ('response', 'car_id'), 'msg': "Error extracting attribute: MissingGreenlet: greenlet_spawn has not been called; can't call await_only() here. Was IO attempted in an unexpected place? (Background on this error at: https://sqlalche.me/e/20/xd2s)", 'input': <backend.src.entity.models.History object at 0x7de266c83e50>, 'ctx': {'error': "MissingGreenlet: greenlet_spawn has not been called; can't call await_only() here. Was IO attempted in an unexpected place? (Background on this error at: https://sqlalche.me/e/20/xd2s)"}}
+  {'type': 'get_attribute_error', 'loc': ('response', 'picture_id'), 'msg': "Error extracting attribute: MissingGreenlet: greenlet_spawn has not been called; can't call await_only() here. Was IO attempted in an unexpected place? (Background on this error at: https://sqlalche.me/e/20/xd2s)", 'input': <backend.src.entity.models.History object at 0x7de266c83e50>, 'ctx': {'error': "MissingGreenlet: greenlet_spawn has not been called; can't call await_only() here. Was IO attempted in an unexpected place? (Background on this error at: https://sqlalche.me/e/20/xd2s)"}}
+  {'type': 'get_attribute_error', 'loc': ('response', 'number_free_spaces'), 'msg': "Error extracting attribute: MissingGreenlet: greenlet_spawn has not been called; can't call await_only() here. Was IO attempted in an unexpected place? (Background on this error at: https://sqlalche.me/e/20/xd2s)", 'input': <backend.src.entity.models.History object at 0x7de266c83e50>, 'ctx': {'error': "MissingGreenlet: greenlet_spawn has not been called; can't call await_only() here. Was IO attempted in an unexpected place? (Background on this error at: https://sqlalche.me/e/20/xd2s)"}}
+  {'type': 'get_attribute_error', 'loc': ('response', 'rate_id'), 'msg': "Error extracting attribute: MissingGreenlet: greenlet_spawn has not been called; can't call await_only() here. Was IO attempted in an unexpected place? (Background on this error at: https://sqlalche.me/e/20/xd2s)", 'input': <backend.src.entity.models.History object at 0x7de266c83e50>, 'ctx': {'error': "MissingGreenlet: greenlet_spawn has not been called; can't call await_only() here. Was IO attempted in an unexpected place? (Background on this error at: https://sqlalche.me/e/20/xd2s)"}}
+
+INFO:     127.0.0.1:44262 - "GET /api/history/create_entry/string1/1 HTTP/1.1" 500 Internal Server Error
+INFO:     127.0.0.1:48178 - "GET /docs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:48178 - "GET /openapi.json HTTP/1.1" 200 OK
+9 validation errors:
+  {'type': 'get_attribute_error', 'loc': ('response', 'entry_time'), 'msg': "Error extracting attribute: MissingGreenlet: greenlet_spawn has not been called; can't call await_only() here. Was IO attempted in an unexpected place? (Background on this error at: https://sqlalche.me/e/20/xd2s)", 'input': <backend.src.entity.models.History object at 0x7c51450f1790>, 'ctx': {'error': "MissingGreenlet: greenlet_spawn has not been called; can't call await_only() here. Was IO attempted in an unexpected place? (Background on this error at: https://sqlalche.me/e/20/xd2s)"}}
+  {'type': 'get_attribute_error', 'loc': ('response', 'exit_time'), 'msg': "Error extracting attribute: MissingGreenlet: greenlet_spawn has not been called; can't call await_only() here. Was IO attempted in an unexpected place? (Background on this error at: https://sqlalche.me/e/20/xd2s)", 'input': <backend.src.entity.models.History object at 0x7c51450f1790>, 'ctx': {'error': "MissingGreenlet: greenlet_spawn has not been called; can't call await_only() here. Was IO attempted in an unexpected place? (Background on this error at: https://sqlalche.me/e/20/xd2s)"}}
+  {'type': 'get_attribute_error', 'loc': ('response', 'parking_time'), 'msg': "Error extracting attribute: MissingGreenlet: greenlet_spawn has not been called; can't call await_only() here. Was IO attempted in an unexpected place? (Background on this error at: https://sqlalche.me/e/20/xd2s)", 'input': <backend.src.entity.models.History object at 0x7c51450f1790>, 'ctx': {'error': "MissingGreenlet: greenlet_spawn has not been called; can't call await_only() here. Was IO attempted in an unexpected place? (Background on this error at: https://sqlalche.me/e/20/xd2s)"}}
+  {'type': 'get_attribute_error', 'loc': ('response', 'cost'), 'msg': "Error extracting attribute: MissingGreenlet: greenlet_spawn has not been called; can't call await_only() here. Was IO attempted in an unexpected place? (Background on this error at: https://sqlalche.me/e/20/xd2s)", 'input': <backend.src.entity.models.History object at 0x7c51450f1790>, 'ctx': {'error': "MissingGreenlet: greenlet_spawn has not been called; can't call await_only() here. Was IO attempted in an unexpected place? (Background on this error at: https://sqlalche.me/e/20/xd2s)"}}
+  {'type': 'get_attribute_error', 'loc': ('response', 'paid'), 'msg': "Error extracting attribute: MissingGreenlet: greenlet_spawn has not been called; can't call await_only() here. Was IO attempted in an unexpected place? (Background on this error at: https://sqlalche.me/e/20/xd2s)", 'input': <backend.src.entity.models.History object at 0x7c51450f1790>, 'ctx': {'error': "MissingGreenlet: greenlet_spawn has not been called; can't call await_only() here. Was IO attempted in an unexpected place? (Background on this error at: https://sqlalche.me/e/20/xd2s)"}}
+  {'type': 'get_attribute_error', 'loc': ('response', 'car_id'), 'msg': "Error extracting attribute: MissingGreenlet: greenlet_spawn has not been called; can't call await_only() here. Was IO attempted in an unexpected place? (Background on this error at: https://sqlalche.me/e/20/xd2s)", 'input': <backend.src.entity.models.History object at 0x7c51450f1790>, 'ctx': {'error': "MissingGreenlet: greenlet_spawn has not been called; can't call await_only() here. Was IO attempted in an unexpected place? (Background on this error at: https://sqlalche.me/e/20/xd2s)"}}
+  {'type': 'get_attribute_error', 'loc': ('response', 'picture_id'), 'msg': "Error extracting attribute: MissingGreenlet: greenlet_spawn has not been called; can't call await_only() here. Was IO attempted in an unexpected place? (Background on this error at: https://sqlalche.me/e/20/xd2s)", 'input': <backend.src.entity.models.History object at 0x7c51450f1790>, 'ctx': {'error': "MissingGreenlet: greenlet_spawn has not been called; can't call await_only() here. Was IO attempted in an unexpected place? (Background on this error at: https://sqlalche.me/e/20/xd2s)"}}
+  {'type': 'get_attribute_error', 'loc': ('response', 'number_free_spaces'), 'msg': "Error extracting attribute: MissingGreenlet: greenlet_spawn has not been called; can't call await_only() here. Was IO attempted in an unexpected place? (Background on this error at: https://sqlalche.me/e/20/xd2s)", 'input': <backend.src.entity.models.History object at 0x7c51450f1790>, 'ctx': {'error': "MissingGreenlet: greenlet_spawn has not been called; can't call await_only() here. Was IO attempted in an unexpected place? (Background on this error at: https://sqlalche.me/e/20/xd2s)"}}
+  {'type': 'get_attribute_error', 'loc': ('response', 'rate_id'), 'msg': "Error extracting attribute: MissingGreenlet: greenlet_spawn has not been called; can't call await_only() here. Was IO attempted in an unexpected place? (Background on this error at: https://sqlalche.me/e/20/xd2s)", 'input': <backend.src.entity.models.History object at 0x7c51450f1790>, 'ctx': {'error': "MissingGreenlet: greenlet_spawn has not been called; can't call await_only() here. Was IO attempted in an unexpected place? (Background on this error at: https://sqlalche.me/e/20/xd2s)"}}
+
+INFO:     127.0.0.1:48188 - "GET /api/history/create_entry/string1/1 HTTP/1.1" 500 Internal Server Error
+INFO:     127.0.0.1:60666 - "GET /docs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60666 - "GET /openapi.json HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60680 - "POST /api/auth/login HTTP/1.1" 200 OK
+9 validation errors:
+  {'type': 'get_attribute_error', 'loc': ('response', 'entry_time'), 'msg': "Error extracting attribute: MissingGreenlet: greenlet_spawn has not been called; can't call await_only() here. Was IO attempted in an unexpected place? (Background on this error at: https://sqlalche.me/e/20/xd2s)", 'input': <backend.src.entity.models.History object at 0x7c514173fa90>, 'ctx': {'error': "MissingGreenlet: greenlet_spawn has not been called; can't call await_only() here. Was IO attempted in an unexpected place? (Background on this error at: https://sqlalche.me/e/20/xd2s)"}}
+  {'type': 'get_attribute_error', 'loc': ('response', 'exit_time'), 'msg': "Error extracting attribute: MissingGreenlet: greenlet_spawn has not been called; can't call await_only() here. Was IO attempted in an unexpected place? (Background on this error at: https://sqlalche.me/e/20/xd2s)", 'input': <backend.src.entity.models.History object at 0x7c514173fa90>, 'ctx': {'error': "MissingGreenlet: greenlet_spawn has not been called; can't call await_only() here. Was IO attempted in an unexpected place? (Background on this error at: https://sqlalche.me/e/20/xd2s)"}}
+  {'type': 'get_attribute_error', 'loc': ('response', 'parking_time'), 'msg': "Error extracting attribute: MissingGreenlet: greenlet_spawn has not been called; can't call await_only() here. Was IO attempted in an unexpected place? (Background on this error at: https://sqlalche.me/e/20/xd2s)", 'input': <backend.src.entity.models.History object at 0x7c514173fa90>, 'ctx': {'error': "MissingGreenlet: greenlet_spawn has not been called; can't call await_only() here. Was IO attempted in an unexpected place? (Background on this error at: https://sqlalche.me/e/20/xd2s)"}}
+  {'type': 'get_attribute_error', 'loc': ('response', 'cost'), 'msg': "Error extracting attribute: MissingGreenlet: greenlet_spawn has not been called; can't call await_only() here. Was IO attempted in an unexpected place? (Background on this error at: https://sqlalche.me/e/20/xd2s)", 'input': <backend.src.entity.models.History object at 0x7c514173fa90>, 'ctx': {'error': "MissingGreenlet: greenlet_spawn has not been called; can't call await_only() here. Was IO attempted in an unexpected place? (Background on this error at: https://sqlalche.me/e/20/xd2s)"}}
+  {'type': 'get_attribute_error', 'loc': ('response', 'paid'), 'msg': "Error extracting attribute: MissingGreenlet: greenlet_spawn has not been called; can't call await_only() here. Was IO attempted in an unexpected place? (Background on this error at: https://sqlalche.me/e/20/xd2s)", 'input': <backend.src.entity.models.History object at 0x7c514173fa90>, 'ctx': {'error': "MissingGreenlet: greenlet_spawn has not been called; can't call await_only() here. Was IO attempted in an unexpected place? (Background on this error at: https://sqlalche.me/e/20/xd2s)"}}
+  {'type': 'get_attribute_error', 'loc': ('response', 'car_id'), 'msg': "Error extracting attribute: MissingGreenlet: greenlet_spawn has not been called; can't call await_only() here. Was IO attempted in an unexpected place? (Background on this error at: https://sqlalche.me/e/20/xd2s)", 'input': <backend.src.entity.models.History object at 0x7c514173fa90>, 'ctx': {'error': "MissingGreenlet: greenlet_spawn has not been called; can't call await_only() here. Was IO attempted in an unexpected place? (Background on this error at: https://sqlalche.me/e/20/xd2s)"}}
+  {'type': 'get_attribute_error', 'loc': ('response', 'picture_id'), 'msg': "Error extracting attribute: MissingGreenlet: greenlet_spawn has not been called; can't call await_only() here. Was IO attempted in an unexpected place? (Background on this error at: https://sqlalche.me/e/20/xd2s)", 'input': <backend.src.entity.models.History object at 0x7c514173fa90>, 'ctx': {'error': "MissingGreenlet: greenlet_spawn has not been called; can't call await_only() here. Was IO attempted in an unexpected place? (Background on this error at: https://sqlalche.me/e/20/xd2s)"}}
+  {'type': 'get_attribute_error', 'loc': ('response', 'number_free_spaces'), 'msg': "Error extracting attribute: MissingGreenlet: greenlet_spawn has not been called; can't call await_only() here. Was IO attempted in an unexpected place? (Background on this error at: https://sqlalche.me/e/20/xd2s)", 'input': <backend.src.entity.models.History object at 0x7c514173fa90>, 'ctx': {'error': "MissingGreenlet: greenlet_spawn has not been called; can't call await_only() here. Was IO attempted in an unexpected place? (Background on this error at: https://sqlalche.me/e/20/xd2s)"}}
+  {'type': 'get_attribute_error', 'loc': ('response', 'rate_id'), 'msg': "Error extracting attribute: MissingGreenlet: greenlet_spawn has not been called; can't call await_only() here. Was IO attempted in an unexpected place? (Background on this error at: https://sqlalche.me/e/20/xd2s)", 'input': <backend.src.entity.models.History object at 0x7c514173fa90>, 'ctx': {'error': "MissingGreenlet: greenlet_spawn has not been called; can't call await_only() here. Was IO attempted in an unexpected place? (Background on this error at: https://sqlalche.me/e/20/xd2s)"}}
+
+INFO:     127.0.0.1:53560 - "GET /api/history/create_entry/string1/1 HTTP/1.1" 500 Internal Server Error
+INFO:     127.0.0.1:49676 - "GET /docs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:49676 - "GET /openapi.json HTTP/1.1" 200 OK
+INFO:     127.0.0.1:49676 - "POST /api/auth/login HTTP/1.1" 200 OK
+2 validation errors:
+  {'type': 'float_type', 'loc': ('response', 'parking_time'), 'msg': 'Input should be a valid number', 'input': None}
+  {'type': 'float_type', 'loc': ('response', 'cost'), 'msg': 'Input should be a valid number', 'input': None}
+
+INFO:     127.0.0.1:49688 - "GET /api/history/create_entry/string1/1 HTTP/1.1" 500 Internal Server Error
+INFO:     127.0.0.1:39456 - "GET /docs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:39456 - "GET /openapi.json HTTP/1.1" 200 OK
+INFO:     127.0.0.1:39468 - "POST /api/auth/login HTTP/1.1" 200 OK
+INFO:     127.0.0.1:43874 - "GET /api/history/create_entry/string1/1 HTTP/1.1" 200 OK
+can only concatenate tuple (not "int") to tuple
+INFO:     127.0.0.1:33616 - "GET /api/history/create_exit/string1/1 HTTP/1.1" 500 Internal Server Error
+INFO:     127.0.0.1:51398 - "GET /docs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:51398 - "GET /openapi.json HTTP/1.1" 200 OK
+INFO:     127.0.0.1:51400 - "POST /api/auth/login HTTP/1.1" 200 OK
+INFO:     127.0.0.1:49174 - "GET /api/history/create_exit/string1/1 HTTP/1.1" 400 Bad Request
+INFO:     127.0.0.1:41478 - "GET /docs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:41478 - "GET /openapi.json HTTP/1.1" 200 OK
+INFO:     127.0.0.1:41484 - "POST /api/auth/login HTTP/1.1" 200 OK
+INFO:     127.0.0.1:51696 - "GET /api/history/create_entry/string1/1 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54646 - "GET /docs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54646 - "GET /openapi.json HTTP/1.1" 200 OK
+get_parking_rates_for_date() missing 1 required positional argument: 'session'
+INFO:     127.0.0.1:54660 - "GET /api/history/create_exit/string1/1 HTTP/1.1" 500 Internal Server Error
+INFO:     127.0.0.1:44850 - "GET /docs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:44850 - "GET /openapi.json HTTP/1.1" 200 OK
+INFO:     127.0.0.1:44866 - "POST /api/auth/login HTTP/1.1" 200 OK
+cannot unpack non-iterable coroutine object
+INFO:     127.0.0.1:41610 - "GET /api/history/create_exit/string1/1 HTTP/1.1" 500 Internal Server Error
+INFO:     127.0.0.1:40408 - "GET /docs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:40408 - "GET /openapi.json HTTP/1.1" 200 OK
+INFO:     127.0.0.1:40410 - "POST /api/auth/login HTTP/1.1" 200 OK
+cannot unpack non-iterable coroutine object
+INFO:     127.0.0.1:43108 - "GET /api/history/create_exit/string1/1 HTTP/1.1" 500 Internal Server Error
+INFO:     127.0.0.1:59424 - "GET /docs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:59424 - "GET /openapi.json HTTP/1.1" 200 OK
+INFO:     127.0.0.1:59438 - "POST /api/auth/login HTTP/1.1" 200 OK
+cannot unpack non-iterable coroutine object
+INFO:     127.0.0.1:36298 - "GET /api/history/create_exit/string1/1 HTTP/1.1" 500 Internal Server Error
+INFO:     127.0.0.1:58098 - "GET /docs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58098 - "GET /openapi.json HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58100 - "POST /api/auth/login HTTP/1.1" 200 OK
+The unique() method must be invoked on this Result, as it contains results that include joined eager loads against collections
+INFO:     127.0.0.1:51304 - "GET /api/history/create_exit/string1/1 HTTP/1.1" 500 Internal Server Error
+INFO:     127.0.0.1:59252 - "GET /docs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:59252 - "GET /openapi.json HTTP/1.1" 200 OK
+INFO:     127.0.0.1:59260 - "POST /api/auth/login HTTP/1.1" 200 OK
+9 validation errors:
+  {'type': 'get_attribute_error', 'loc': ('response', 'entry_time'), 'msg': "Error extracting attribute: MissingGreenlet: greenlet_spawn has not been called; can't call await_only() here. Was IO attempted in an unexpected place? (Background on this error at: https://sqlalche.me/e/20/xd2s)", 'input': <backend.src.entity.models.History object at 0x74ec4050fcd0>, 'ctx': {'error': "MissingGreenlet: greenlet_spawn has not been called; can't call await_only() here. Was IO attempted in an unexpected place? (Background on this error at: https://sqlalche.me/e/20/xd2s)"}}
+  {'type': 'get_attribute_error', 'loc': ('response', 'exit_time'), 'msg': "Error extracting attribute: MissingGreenlet: greenlet_spawn has not been called; can't call await_only() here. Was IO attempted in an unexpected place? (Background on this error at: https://sqlalche.me/e/20/xd2s)", 'input': <backend.src.entity.models.History object at 0x74ec4050fcd0>, 'ctx': {'error': "MissingGreenlet: greenlet_spawn has not been called; can't call await_only() here. Was IO attempted in an unexpected place? (Background on this error at: https://sqlalche.me/e/20/xd2s)"}}
+  {'type': 'get_attribute_error', 'loc': ('response', 'parking_time'), 'msg': "Error extracting attribute: MissingGreenlet: greenlet_spawn has not been called; can't call await_only() here. Was IO attempted in an unexpected place? (Background on this error at: https://sqlalche.me/e/20/xd2s)", 'input': <backend.src.entity.models.History object at 0x74ec4050fcd0>, 'ctx': {'error': "MissingGreenlet: greenlet_spawn has not been called; can't call await_only() here. Was IO attempted in an unexpected place? (Background on this error at: https://sqlalche.me/e/20/xd2s)"}}
+  {'type': 'get_attribute_error', 'loc': ('response', 'cost'), 'msg': "Error extracting attribute: MissingGreenlet: greenlet_spawn has not been called; can't call await_only() here. Was IO attempted in an unexpected place? (Background on this error at: https://sqlalche.me/e/20/xd2s)", 'input': <backend.src.entity.models.History object at 0x74ec4050fcd0>, 'ctx': {'error': "MissingGreenlet: greenlet_spawn has not been called; can't call await_only() here. Was IO attempted in an unexpected place? (Background on this error at: https://sqlalche.me/e/20/xd2s)"}}
+  {'type': 'get_attribute_error', 'loc': ('response', 'paid'), 'msg': "Error extracting attribute: MissingGreenlet: greenlet_spawn has not been called; can't call await_only() here. Was IO attempted in an unexpected place? (Background on this error at: https://sqlalche.me/e/20/xd2s)", 'input': <backend.src.entity.models.History object at 0x74ec4050fcd0>, 'ctx': {'error': "MissingGreenlet: greenlet_spawn has not been called; can't call await_only() here. Was IO attempted in an unexpected place? (Background on this error at: https://sqlalche.me/e/20/xd2s)"}}
+  {'type': 'get_attribute_error', 'loc': ('response', 'car_id'), 'msg': "Error extracting attribute: MissingGreenlet: greenlet_spawn has not been called; can't call await_only() here. Was IO attempted in an unexpected place? (Background on this error at: https://sqlalche.me/e/20/xd2s)", 'input': <backend.src.entity.models.History object at 0x74ec4050fcd0>, 'ctx': {'error': "MissingGreenlet: greenlet_spawn has not been called; can't call await_only() here. Was IO attempted in an unexpected place? (Background on this error at: https://sqlalche.me/e/20/xd2s)"}}
+  {'type': 'get_attribute_error', 'loc': ('response', 'picture_id'), 'msg': "Error extracting attribute: MissingGreenlet: greenlet_spawn has not been called; can't call await_only() here. Was IO attempted in an unexpected place? (Background on this error at: https://sqlalche.me/e/20/xd2s)", 'input': <backend.src.entity.models.History object at 0x74ec4050fcd0>, 'ctx': {'error': "MissingGreenlet: greenlet_spawn has not been called; can't call await_only() here. Was IO attempted in an unexpected place? (Background on this error at: https://sqlalche.me/e/20/xd2s)"}}
+  {'type': 'get_attribute_error', 'loc': ('response', 'number_free_spaces'), 'msg': "Error extracting attribute: MissingGreenlet: greenlet_spawn has not been called; can't call await_only() here. Was IO attempted in an unexpected place? (Background on this error at: https://sqlalche.me/e/20/xd2s)", 'input': <backend.src.entity.models.History object at 0x74ec4050fcd0>, 'ctx': {'error': "MissingGreenlet: greenlet_spawn has not been called; can't call await_only() here. Was IO attempted in an unexpected place? (Background on this error at: https://sqlalche.me/e/20/xd2s)"}}
+  {'type': 'get_attribute_error', 'loc': ('response', 'rate_id'), 'msg': "Error extracting attribute: MissingGreenlet: greenlet_spawn has not been called; can't call await_only() here. Was IO attempted in an unexpected place? (Background on this error at: https://sqlalche.me/e/20/xd2s)", 'input': <backend.src.entity.models.History object at 0x74ec4050fcd0>, 'ctx': {'error': "MissingGreenlet: greenlet_spawn has not been called; can't call await_only() here. Was IO attempted in an unexpected place? (Background on this error at: https://sqlalche.me/e/20/xd2s)"}}
+
+INFO:     127.0.0.1:41454 - "GET /api/history/create_exit/string1/1 HTTP/1.1" 500 Internal Server Error
+INFO:     127.0.0.1:50164 - "GET /docs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:50164 - "GET /openapi.json HTTP/1.1" 200 OK
+INFO:     127.0.0.1:50168 - "POST /api/auth/login HTTP/1.1" 200 OK
+INFO:     127.0.0.1:59096 - "GET /api/history/create_exit/string1/1 HTTP/1.1" 200 OK
+(sqlalchemy.dialects.postgresql.asyncpg.Error) <class 'asyncpg.exceptions.DataError'>: invalid input for query argument $7: '1' ('str' object cannot be interpreted as an integer)
+[SQL: INSERT INTO history (entry_time, exit_time, parking_time, cost, paid, number_free_spaces, car_id, picture_id, rate_id, created_at, updated_at) VALUES (now(), $1::TIMESTAMP WITHOUT TIME ZONE, $2::FLOAT, $3::FLOAT, $4::BOOLEAN, $5::INTEGER, $6::INTEGER, $7::INTEGER, $8::INTEGER, now(), now()) RETURNING history.entry_time, history.id, history.created_at, history.updated_at]
+[parameters: (datetime.datetime(2024, 5, 12, 10, 59, 31, 737721), None, None, False, 100, None, '1', None)]
+(Background on this error at: https://sqlalche.me/e/20/dbapi)
+INFO:     127.0.0.1:41888 - "GET /api/history/create_exit/string22/1 HTTP/1.1" 500 Internal Server Error
+INFO:     127.0.0.1:41494 - "GET /docs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:41494 - "GET /openapi.json HTTP/1.1" 200 OK
+(sqlalchemy.dialects.postgresql.asyncpg.Error) <class 'asyncpg.exceptions.DataError'>: invalid input for query argument $7: '1' ('str' object cannot be interpreted as an integer)
+[SQL: INSERT INTO history (entry_time, exit_time, parking_time, cost, paid, number_free_spaces, car_id, picture_id, rate_id, created_at, updated_at) VALUES (now(), $1::TIMESTAMP WITHOUT TIME ZONE, $2::FLOAT, $3::FLOAT, $4::BOOLEAN, $5::INTEGER, $6::INTEGER, $7::INTEGER, $8::INTEGER, now(), now()) RETURNING history.entry_time, history.id, history.created_at, history.updated_at]
+[parameters: (datetime.datetime(2024, 5, 12, 11, 3, 5, 802643), None, None, False, 100, None, '1', 1)]
+(Background on this error at: https://sqlalche.me/e/20/dbapi)
+INFO:     127.0.0.1:41506 - "GET /api/history/create_exit/string22/1 HTTP/1.1" 500 Internal Server Error
+INFO:     127.0.0.1:49274 - "GET /docs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:49276 - "GET /docs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:49276 - "GET /openapi.json HTTP/1.1" 200 OK
+(sqlalchemy.dialects.postgresql.asyncpg.Error) <class 'asyncpg.exceptions.DataError'>: invalid input for query argument $7: '1' ('str' object cannot be interpreted as an integer)
+[SQL: INSERT INTO history (entry_time, exit_time, parking_time, cost, paid, number_free_spaces, car_id, picture_id, rate_id, created_at, updated_at) VALUES (now(), $1::TIMESTAMP WITHOUT TIME ZONE, $2::FLOAT, $3::FLOAT, $4::BOOLEAN, $5::INTEGER, $6::INTEGER, $7::INTEGER, $8::INTEGER, now(), now()) RETURNING history.entry_time, history.id, history.created_at, history.updated_at]
+[parameters: (datetime.datetime(2024, 5, 12, 11, 5, 33, 590789), None, None, False, 100, None, '1', 1)]
+(Background on this error at: https://sqlalche.me/e/20/dbapi)
+INFO:     127.0.0.1:56450 - "GET /api/history/create_exit/string221/1 HTTP/1.1" 500 Internal Server Error
+INFO:     127.0.0.1:58900 - "GET /docs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58900 - "GET /openapi.json HTTP/1.1" 200 OK
+(sqlalchemy.dialects.postgresql.asyncpg.Error) <class 'asyncpg.exceptions.DataError'>: invalid input for query argument $7: '1' ('str' object cannot be interpreted as an integer)
+[SQL: INSERT INTO history (entry_time, exit_time, parking_time, cost, paid, number_free_spaces, car_id, picture_id, rate_id, created_at, updated_at) VALUES (now(), $1::TIMESTAMP WITHOUT TIME ZONE, $2::FLOAT, $3::FLOAT, $4::BOOLEAN, $5::INTEGER, $6::INTEGER, $7::INTEGER, $8::INTEGER, now(), now()) RETURNING history.entry_time, history.id, history.created_at, history.updated_at]
+[parameters: (datetime.datetime(2024, 5, 12, 11, 7, 57, 224470), None, None, False, 100, None, '1', 1)]
+(Background on this error at: https://sqlalche.me/e/20/dbapi)
+INFO:     127.0.0.1:58908 - "GET /api/history/create_exit/string132/1 HTTP/1.1" 500 Internal Server Error
+INFO:     127.0.0.1:47276 - "GET /docs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:47276 - "GET /openapi.json HTTP/1.1" 200 OK
+INFO:     127.0.0.1:47278 - "POST /api/auth/login HTTP/1.1" 200 OK
+(sqlalchemy.dialects.postgresql.asyncpg.Error) <class 'asyncpg.exceptions.DataError'>: invalid input for query argument $7: '1' ('str' object cannot be interpreted as an integer)
+[SQL: INSERT INTO history (entry_time, exit_time, parking_time, cost, paid, number_free_spaces, car_id, picture_id, rate_id, created_at, updated_at) VALUES (now(), $1::TIMESTAMP WITHOUT TIME ZONE, $2::FLOAT, $3::FLOAT, $4::BOOLEAN, $5::INTEGER, $6::INTEGER, $7::INTEGER, $8::INTEGER, now(), now()) RETURNING history.entry_time, history.id, history.created_at, history.updated_at]
+[parameters: (datetime.datetime(2024, 5, 12, 11, 17, 26, 661077), None, None, False, 100, None, '1', 1)]
+(Background on this error at: https://sqlalche.me/e/20/dbapi)
+INFO:     127.0.0.1:60988 - "GET /api/history/create_exit/string18/1 HTTP/1.1" 500 Internal Server Error
+INFO:     127.0.0.1:53858 - "GET /docs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:53858 - "GET /openapi.json HTTP/1.1" 200 OK
+(sqlalchemy.dialects.postgresql.asyncpg.IntegrityError) <class 'asyncpg.exceptions.NotNullViolationError'>: null value in column "car_id" of relation "history" violates not-null constraint
+DETAIL:  Failing row contains (2024-05-12 08:18:42.793152, 2024-05-12 11:18:42.842442, null, null, f, 100, null, 1, 1, 9, 2024-05-12 08:18:42.793152, 2024-05-12 08:18:42.793152).
+[SQL: INSERT INTO history (entry_time, exit_time, parking_time, cost, paid, number_free_spaces, car_id, picture_id, rate_id, created_at, updated_at) VALUES (now(), $1::TIMESTAMP WITHOUT TIME ZONE, $2::FLOAT, $3::FLOAT, $4::BOOLEAN, $5::INTEGER, $6::INTEGER, $7::INTEGER, $8::INTEGER, now(), now()) RETURNING history.entry_time, history.id, history.created_at, history.updated_at]
+[parameters: (datetime.datetime(2024, 5, 12, 11, 18, 42, 842442), None, None, False, 100, None, 1, 1)]
+(Background on this error at: https://sqlalche.me/e/20/gkpj)
+INFO:     127.0.0.1:53862 - "GET /api/history/create_exit/string18/1 HTTP/1.1" 500 Internal Server Error
+INFO:     127.0.0.1:42862 - "GET /docs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:42862 - "GET /openapi.json HTTP/1.1" 200 OK
+INFO:     127.0.0.1:42878 - "POST /api/auth/login HTTP/1.1" 200 OK
+INFO:     127.0.0.1:35882 - "GET /docs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:35882 - "GET /openapi.json HTTP/1.1" 200 OK
+INFO:     127.0.0.1:35888 - "POST /api/auth/login HTTP/1.1" 200 OK
+INFO:     127.0.0.1:47000 - "GET /docs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:47000 - "GET /openapi.json HTTP/1.1" 200 OK
+INFO:     127.0.0.1:47000 - "POST /api/auth/login HTTP/1.1" 200 OK
+INFO:     127.0.0.1:47002 - "PATCH /api/admin/update_paid/string1 HTTP/1.1" 500 Internal Server Error
+INFO:     127.0.0.1:45686 - "PATCH /api/admin/update_paid/string1 HTTP/1.1" 500 Internal Server Error
+INFO:     127.0.0.1:57282 - "GET /docs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57282 - "GET /openapi.json HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57294 - "POST /api/auth/login HTTP/1.1" 200 OK
+INFO:     127.0.0.1:47340 - "PATCH /api/admin/update_paid/string1 HTTP/1.1" 500 Internal Server Error
