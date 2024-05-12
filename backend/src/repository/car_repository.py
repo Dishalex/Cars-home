@@ -95,15 +95,24 @@ class CarRepository:
     async def delete_car(self, plate: str):
         car = await self.db.execute(select(Car).where(Car.plate == plate))
         car = car.scalars().first()
-        if car is None:
-            return {"detail": "Car not found"}
 
         # Видалення зв'язків з користувачами
         await self.db.execute(delete(user_car_association).where(user_car_association.c.car_id == car.id))
 
         await self.db.delete(car)
         await self.db.commit()
-        return {"detail": "Car deleted successfully"}
+        return
+
+    async def ban_car(self, plate: str):
+        statement = select(Car).where(Car.plate == plate)
+        result = await self.db.execute(statement)
+        car = result.scalars().first()
+        if car is None:
+            return None
+
+        car.ban = True
+        await self.db.commit()
+        return True
 
     async def check_car_exists(self, plate: str):
         result = await self.db.execute(select(Car).where(Car.plate == plate))

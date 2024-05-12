@@ -111,6 +111,23 @@ async def update_car(plate: str, car_update: CarUpdate, db: AsyncSession = Depen
         return JSONResponse(status_code=500, content={"message": str(e)})
 
 
+@router.patch("/cars/{plate}/ban", response_model=dict, status_code=200)
+async def ban_car(plate: str, db: AsyncSession = Depends(get_db),
+                  admin: User = Depends(auth_service.get_current_admin)):
+    if admin.role != Role.admin:
+        return JSONResponse(status_code=403, content={"message": "Not authorized to access this resource"})
+
+    car_repository = CarRepository(db)
+    car = await car_repository.ban_car(plate)
+
+    if car is None:
+        return JSONResponse(status_code=404, content={"message": "Car not found"})
+    elif car:
+        return JSONResponse(status_code=200, content={"message": f"Car {plate} has been banned"})
+    else:
+        return JSONResponse(status_code=400, content={"message": "Error banning the car"})
+
+
 @router.delete("/cars/{plate}", response_model=dict, status_code=200)
 async def delete_car(plate: str, db: AsyncSession = Depends(get_db),
                      admin: User = Depends(auth_service.get_current_admin)):
@@ -120,8 +137,7 @@ async def delete_car(plate: str, db: AsyncSession = Depends(get_db),
     if not await car_repository.check_car_exists(plate):
         return JSONResponse(status_code=404, content={"message": "Car not found"})
     await car_repository.delete_car(plate)
-    return JSONResponse(status_code=200, content={"message": "Car deleted successfully"})
-
+    return JSONResponse(status_code=200, content={"message": f"Car {plate} has been deleted"})
 
 @router.put("/update_paid/{plate}", response_model=HistorySchema)
 async def update_paid(plate: str, history_update: HistoryUpdate,
