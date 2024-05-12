@@ -5,7 +5,7 @@ from sqlalchemy.ext.asyncio import AsyncSession
 
 from backend.src.entity.models import History, Car, ParkingRate
 from typing import List, Sequence, Tuple
-from backend.src.schemas.history_schema import HistoryUpdate
+from backend.src.schemas.history_schema import HistoryUpdatePaid, HistorySchema, HistoryUpdateCar, HistoryUpdate
 from backend.src.repository.car_repository import CarRepository
 
 
@@ -175,7 +175,7 @@ async def get_latest_parking_rate_with_free_spaces(session: AsyncSession):
     return None
 
 
-async def update_paid(self, plate: str, history_update: HistoryUpdate, session: AsyncSession):
+async def update_paid_history( plate: str,  paid: bool, session: AsyncSession):
     statement = select(History).where(
         and_(History.car.has(plate=plate), History.paid == False)
     )
@@ -185,15 +185,14 @@ async def update_paid(self, plate: str, history_update: HistoryUpdate, session: 
     if history_entry is None:
         return None
 
-    for var, value in history_update.dict(exclude_unset=True).items():
-        setattr(history_entry, var, value)
+    history_entry.paid = paid
 
     await session.commit()
     await session.refresh(history_entry)
     return history_entry
 
 
-async def update_car_history(self, plate: str, history_update: HistoryUpdate, session: AsyncSession):
+async def update_car_history( plate: str, car_id: int, session: AsyncSession):
     statement = select(History).where(
         and_(History.picture.has(find_plate=plate), History.car_id == null())
     )
@@ -203,8 +202,7 @@ async def update_car_history(self, plate: str, history_update: HistoryUpdate, se
     if history_entry is None:
         return None
 
-    for var, value in history_update.dict(exclude_unset=True).items():
-        setattr(history_entry, var, value)
+    history_entry.car_id = car_id
 
     await session.commit()
     await session.refresh(history_entry)

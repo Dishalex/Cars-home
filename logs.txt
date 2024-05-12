@@ -1,0 +1,40 @@
+INFO:     127.0.0.1:52644 - "GET /docs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52644 - "GET /openapi.json HTTP/1.1" 200 OK
+401: Not authenticated
+INFO:     127.0.0.1:52646 - "PATCH /api/history/update_paid/string1 HTTP/1.1" 500 Internal Server Error
+INFO:     127.0.0.1:40560 - "POST /api/auth/login HTTP/1.1" 200 OK
+3 validation errors:
+  {'type': 'datetime_type', 'loc': ('response', 'exit_time'), 'msg': 'Input should be a valid datetime', 'input': None}
+  {'type': 'float_type', 'loc': ('response', 'parking_time'), 'msg': 'Input should be a valid number', 'input': None}
+  {'type': 'float_type', 'loc': ('response', 'cost'), 'msg': 'Input should be a valid number', 'input': None}
+
+INFO:     127.0.0.1:56726 - "PATCH /api/history/update_paid/string1 HTTP/1.1" 500 Internal Server Error
+INFO:     127.0.0.1:52432 - "GET /docs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52432 - "GET /openapi.json HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52438 - "POST /api/auth/login HTTP/1.1" 200 OK
+INFO:     127.0.0.1:40266 - "PATCH /api/history/update_paid/string1 HTTP/1.1" 500 Internal Server Error
+INFO:     127.0.0.1:54050 - "GET /docs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54050 - "GET /openapi.json HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54058 - "POST /api/auth/login HTTP/1.1" 200 OK
+3 validation errors:
+  {'type': 'datetime_type', 'loc': ('response', 'exit_time'), 'msg': 'Input should be a valid datetime', 'input': None}
+  {'type': 'float_type', 'loc': ('response', 'parking_time'), 'msg': 'Input should be a valid number', 'input': None}
+  {'type': 'float_type', 'loc': ('response', 'cost'), 'msg': 'Input should be a valid number', 'input': None}
+
+INFO:     127.0.0.1:60854 - "PATCH /api/history/update_paid/string1 HTTP/1.1" 500 Internal Server Error
+INFO:     127.0.0.1:37136 - "GET /docs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:37136 - "GET /openapi.json HTTP/1.1" 200 OK
+INFO:     127.0.0.1:37152 - "POST /api/auth/login HTTP/1.1" 200 OK
+INFO:     127.0.0.1:41786 - "PATCH /api/history/update_paid/string1 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:51998 - "PATCH /api/history/update_paid/string1 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:33666 - "GET /docs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:33666 - "GET /openapi.json HTTP/1.1" 200 OK
+INFO:     127.0.0.1:39168 - "GET /docs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:39168 - "GET /openapi.json HTTP/1.1" 200 OK
+INFO:     127.0.0.1:39176 - "GET /api/history/get_no_paid HTTP/1.1" 200 OK
+(sqlalchemy.dialects.postgresql.asyncpg.IntegrityError) <class 'asyncpg.exceptions.NotNullViolationError'>: null value in column "car_id" of relation "history" violates not-null constraint
+DETAIL:  Failing row contains (2024-05-12 19:50:55.745557, null, null, null, f, 98, null, 1, 1, 10, 2024-05-12 16:50:55.819093, 2024-05-12 16:50:55.819093).
+[SQL: INSERT INTO history (entry_time, exit_time, parking_time, cost, paid, number_free_spaces, car_id, picture_id, rate_id, created_at, updated_at) VALUES ($1::TIMESTAMP WITHOUT TIME ZONE, $2::TIMESTAMP WITHOUT TIME ZONE, $3::FLOAT, $4::FLOAT, $5::BOOLEAN, $6::INTEGER, $7::INTEGER, $8::INTEGER, $9::INTEGER, now(), now()) RETURNING history.id, history.created_at, history.updated_at]
+[parameters: (datetime.datetime(2024, 5, 12, 19, 50, 55, 745557), None, None, None, False, 98, None, 1, 1)]
+(Background on this error at: https://sqlalche.me/e/20/gkpj)
+INFO:     127.0.0.1:41218 - "GET /api/history/create_entry/string122/1 HTTP/1.1" 500 Internal Server Error
