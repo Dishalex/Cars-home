@@ -4,7 +4,7 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from backend.src.repository.car_repository import CarRepository
 from backend.src.repository.parking import create_rate, update_rate
 from backend.src.schemas.car_schemas import CarSchema, CarUpdate, CarResponse, NewCarResponse
-from backend.src.schemas.history_schema import HistoryUpdate, HistorySchema
+from backend.src.schemas.history_schema import HistoryUpdatePaid, HistorySchema, HistoryUpdateCar
 from backend.src.database import get_db
 from backend.src.schemas.parking_schema import ParkingRateSchema, NewParkingRateSchema, ParkingRateUpdate
 from backend.src.services.auth import auth_service
@@ -114,8 +114,8 @@ async def delete_car(plate: str, db: AsyncSession = Depends(get_db),
     return JSONResponse(status_code=200, content={"message": "Car deleted successfully"})
 
 
-@router.put("/update_paid/{plate}", response_model=HistorySchema)
-async def update_paid(plate: str, history_update: HistoryUpdate,
+@router.patch("/update_paid/{plate}", response_model=HistorySchema)
+async def update_paid(plate: str, history_update: HistoryUpdatePaid,
                       session: AsyncSession = Depends(get_db),
                       admin: User = Depends(auth_service.get_current_admin)):
     if admin.role != Role.admin:
@@ -131,8 +131,8 @@ async def update_paid(plate: str, history_update: HistoryUpdate,
         return JSONResponse(status_code=500, content={"message": str(e)})
 
 
-@router.put("/update_car_history/{plate}", response_model=HistorySchema)
-async def update_car_history(plate: str, history_update: HistoryUpdate,
+@router.patch("/update_car_history/{plate}", response_model=HistorySchema)
+async def update_car_history(plate: str, history_update: HistoryUpdateCar,
                              session: AsyncSession = Depends(get_db),
                              admin: User = Depends(auth_service.get_current_admin)):
     if admin.role != Role.admin:

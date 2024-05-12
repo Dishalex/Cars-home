@@ -9,22 +9,23 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from backend.src.database.db import get_db
 from backend.src.repository import history as repositories_history
 from backend.src.repository import picture as repositories_picture
-from backend.src.schemas.history_schema import HistorySchema
+from backend.src.schemas.history_schema import HistorySchema, HistoryUpdate
+
 
 router = APIRouter(prefix="/history", tags=["history"])
 
-@router.get("/create_exit/{find_plate}/{picture_id}", response_model=HistorySchema)
+@router.get("/create_exit/{find_plate}/{picture_id}", response_model=HistoryUpdate)
 async def create_exit(find_plate, picture_id, session: AsyncSession = Depends(get_db)):
     history = await repositories_history.create_exit(find_plate, picture_id, session)
     if history is None:
-        return JSONResponse(status_code=400, content={"message": "Error creating the car"})
+        return JSONResponse(status_code=400, content={"message": "Error creating exit car"})
     return history
 
-@router.get("/create_entry/{find_plate}/{picture_id}", response_model=HistorySchema)
+@router.get("/create_entry/{find_plate}/{picture_id}", response_model=HistoryUpdate)
 async def create_entry(find_plate, picture_id, session: AsyncSession = Depends(get_db)):
     history = await repositories_history.create_entry(find_plate, picture_id, session)
     if history is None:
-        return JSONResponse(status_code=400, content={"message": "Error creating the car"})
+        return JSONResponse(status_code=400, content={"message": "Error creating entry car"})
     return history
 
 @router.get("/get_entries_by_period/{start_time}/{end_time}", response_model=List[HistorySchema])
