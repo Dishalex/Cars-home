@@ -1,12 +1,12 @@
 from aiogram import Router, F
-from aiogram.fsm.storage.memory import MemoryStorage, StorageKey
 from aiogram.fsm.context import FSMContext
 from aiogram.fsm.state import State, StatesGroup
+from aiogram.fsm.storage.memory import MemoryStorage, StorageKey
 from aiogram.types import Message
 from aiohttp import ClientSession
 
 from backend.src.schemas.user_schema import UserUpdate
-from backend.src.tg_bot.constants import *
+from tg_bot.constants import *
 
 rtr = Router()
 token_storage = MemoryStorage()

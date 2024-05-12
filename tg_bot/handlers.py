@@ -4,8 +4,8 @@ from aiogram.fsm.storage.memory import StorageKey
 from aiogram.types import *
 from aiohttp import ClientSession
 
-from backend.src.tg_bot.constants import *
-from backend.src.tg_bot.registration import token_storage
+from tg_bot.constants import *
+from tg_bot.registration import token_storage
 
 rt = Router()
 

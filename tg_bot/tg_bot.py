@@ -1,16 +1,12 @@
 import asyncio
 
 from aiogram import Bot, Dispatcher
-from aiogram.filters import CommandStart
 from aiogram.methods import DeleteWebhook
 from aiogram.types import *
 
 from backend.src.conf.config import config
-from backend.src.tg_bot.constants import *
-from backend.src.tg_bot.filters import Admin
-from backend.src.tg_bot.handlers import rt
-from backend.src.tg_bot.registration import rtr
-
+from tg_bot.handlers import rt
+from tg_bot.registration import rtr
 
 bot = Bot(config.TG_TOKEN)
 dp = Dispatcher()
