@@ -127,18 +127,18 @@ class History(TimeStampMixin, Base):
 
     __tablename__ = "history"
     entry_time: Mapped[DateTime] = mapped_column(
-        DateTime, default=func.now(), nullable=True
+        DateTime, nullable=True
     )
     exit_time: Mapped[DateTime] = mapped_column(
-        DateTime, default=func.now(), nullable=True
+        DateTime, nullable=True
     )
     parking_time: Mapped[float] = mapped_column(Float, nullable=True)
     cost: Mapped[float] = mapped_column(Float, nullable=True)
     paid: Mapped[bool] = mapped_column(default=False, nullable=True)
     number_free_spaces: Mapped[int] = mapped_column(Integer, nullable=True)
-    car_id: Mapped[int] = mapped_column(Integer, ForeignKey("cars.id"))
-    picture_id: Mapped[int] = mapped_column(Integer, ForeignKey("pictures.id"))
-    rate_id: Mapped[int] = mapped_column(Integer, ForeignKey("parking_rates.id"))
+    car_id: Mapped[int] = mapped_column(Integer, ForeignKey("cars.id"), nullable=True)
+    picture_id: Mapped[int] = mapped_column(Integer, ForeignKey("pictures.id"), nullable=True)
+    rate_id: Mapped[int] = mapped_column(Integer, ForeignKey("parking_rates.id"), nullable=True)
     
     car: Mapped["Car"] = relationship(
         "Car",

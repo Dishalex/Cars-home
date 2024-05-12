@@ -15,10 +15,22 @@ class HistoryUpdate(BaseModel):
     parking_time: Optional[float]
     cost: Optional[float]
     paid: Optional[bool]
-    car_id: Optional[Union[UUID, int]]
-    picture_id: Optional[Union[UUID, int]]
+    car_id: Optional[Union[int, str]]
+    picture_id: Optional[Union[int, str]]
     number_free_spaces: Optional[int]
-    rate_id: Optional[Union[UUID, int]]
+    rate_id: Optional[Union[int, str]]
+
+
+
+class HistoryUpdatePaid(BaseModel):
+    """Pydantic model for validating incoming history data for updating."""
+    paid: bool = Field(default=False, nullable=True)
+    
+
+class HistoryUpdateCar(BaseModel):
+    """Pydantic model for validating incoming history data for updating."""
+    car_id: Optional[Union[int, str]]
+   
 
 
 class HistorySchema(BaseModel):
