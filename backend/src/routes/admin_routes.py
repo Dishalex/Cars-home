@@ -4,11 +4,11 @@ from sqlalchemy.ext.asyncio import AsyncSession
 
 from backend.src import UserResponse
 from backend.src.repository.car_repository import CarRepository
-from backend.src.repository.parking import create_rate, update_rate
+from backend.src.repository.parking import create_rate, create_or_update_rate, get_default_rate_values
 from backend.src.schemas.car_schemas import CarSchema, CarUpdate, CarResponse, NewCarResponse
 from backend.src.schemas.history_schema import HistoryUpdatePaid, HistorySchema, HistoryUpdateCar
 from backend.src.database import get_db
-from backend.src.schemas.parking_schema import ParkingRateSchema, NewParkingRateSchema, ParkingRateUpdate
+from backend.src.schemas.parking_schema import ParkingRateSchema, NewParkingRateSchema
 from backend.src.services.auth import auth_service
 from backend.src.repository import history as repositories_history
 from backend.src.entity.models import User, Role
@@ -35,18 +35,42 @@ async def create_car(car_data: CarSchema, db: AsyncSession = Depends(get_db),
         return JSONResponse(status_code=500, content={"message": str(e)})
 
 
+# @router.post("/parking-rates", response_model=ParkingRateSchema, status_code=201)
+# async def create_parking_rate(rate_data: NewParkingRateSchema, db: AsyncSession = Depends(get_db),
+#                               admin: User = Depends(auth_service.get_current_admin)):
+#     if admin.role != Role.admin:
+#         return JSONResponse(status_code=400, content={"message": "Not authorized to access this resource"})
+#     new_rate = await create_rate(db, rate_data)
+#     if not new_rate:
+#         return JSONResponse(status_code=404, content={"message": "Error creating the parking rate"})
+#         # raise HTTPException(status_code=400, detail="Error creating the parking rate")
+#     return new_rate
 
-@router.post("/parking-rates", response_model=ParkingRateSchema, status_code=201)
-async def create_parking_rate(rate_data: NewParkingRateSchema, db: AsyncSession = Depends(get_db),
-                              admin: User = Depends(auth_service.get_current_admin)):
+
+@router.get("/default-parking-rate", response_model=ParkingRateSchema)
+async def get_default_parking_rate(db: AsyncSession = Depends(get_db),
+                                   admin: User = Depends(auth_service.get_current_admin)):
     if admin.role != Role.admin:
         return JSONResponse(status_code=400, content={"message": "Not authorized to access this resource"})
-    new_rate = await create_rate(db, rate_data)
+    latest_rate = await get_default_rate_values(db)
+    if not latest_rate:
+        return JSONResponse(status_code=404, content={"message": "No rates found"})
+        # raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="No rates found")
+    return latest_rate
+
+
+@router.post("/parking-rates", response_model=NewParkingRateSchema, status_code=201)
+async def create_or_update_parking_rate(rate_data: NewParkingRateSchema, db: AsyncSession = Depends(get_db),
+                                        admin: User = Depends(auth_service.get_current_admin)):
+    if admin.role != Role.admin:
+        return JSONResponse(status_code=400, content={"message": "Not authorized to access this resource"})
+    if not rate_data:
+        return JSONResponse(status_code=400, content={"message": "No rate data provided"})
+    new_rate = await create_or_update_rate(db, rate_data)
     if not new_rate:
         return JSONResponse(status_code=404, content={"message": "Error creating the parking rate"})
         # raise HTTPException(status_code=400, detail="Error creating the parking rate")
     return new_rate
-
 
 # @router.patch("/parking-rates/{rate_id}", status_code=201)
 # async def update_parking_rate(rate_id: int, rate_data: ParkingRateUpdate, db: AsyncSession = Depends(get_db),
@@ -157,6 +181,7 @@ async def delete_car(plate: str, db: AsyncSession = Depends(get_db),
     await car_repository.delete_car(plate)
     return JSONResponse(status_code=200, content={"message": f"Car {plate} has been deleted"})
 
+
 @router.patch("/update_paid/{plate}", response_model=HistorySchema)
 async def update_paid(plate: str, history_update: HistoryUpdatePaid,
                       session: AsyncSession = Depends(get_db),
@@ -191,7 +216,6 @@ async def update_car_history(plate: str, history_update: HistoryUpdateCar,
         return JSONResponse(status_code=500, content={"message": str(e)})
 
 
-
 @router.delete("/delete_history/{plate}", response_model=dict, status_code=200)
 async def delete_history(plate: str, db: AsyncSession = Depends(get_db),
                          admin: User = Depends(auth_service.get_current_admin)):
@@ -202,4 +226,3 @@ async def delete_history(plate: str, db: AsyncSession = Depends(get_db),
 
     except Exception as e:
         return JSONResponse(status_code=500, content={"message": str(e)})
-

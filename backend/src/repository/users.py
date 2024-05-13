@@ -173,7 +173,7 @@ async def ban_user(username: str, db: AsyncSession):
     :return: True if the user is successfully banned, False otherwise.
     :rtype: bool
     """
-    stmt = select(User).filter_by(full_name=username)
+    stmt = select(User).filter_by(email=username)
     user = await db.execute(stmt)
     user = user.unique().scalar_one_or_none()
     if user:

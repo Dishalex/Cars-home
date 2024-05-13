@@ -16,9 +16,9 @@ class ParkingRateUpdate(BaseModel):
 
 class NewParkingRateSchema(BaseModel):
     """Pydantic model for validating incoming ParkingRate data."""
-    rate_per_hour: float
-    rate_per_day: float
-    number_of_spaces: int = Field(default=100, nullable=True)
+    rate_per_hour: Optional[float] = None
+    rate_per_day: Optional[float] = None
+    number_of_spaces: Optional[int] = None
 
 
 class ParkingRateSchema(BaseModel):

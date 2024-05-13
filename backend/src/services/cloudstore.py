@@ -5,6 +5,7 @@ import cloudinary.uploader
 
 from cloudinary.exceptions import Error as CloudinaryError
 from fastapi import HTTPException, UploadFile
+from fastapi.responses import JSONResponse
 from requests.exceptions import RequestException
 
 from backend.src.conf.config import config
@@ -43,11 +44,14 @@ class CloudService:
             )
             return response['url'], response['public_id']
         except CloudinaryError as e:
-            raise HTTPException(status_code=500, detail=f"Cloudinary error: {e}")
+            return JSONResponse(status_code=500, content={"message": f"Cloudinary error: {e}"})
+            # raise HTTPException(status_code=500, detail=f"Cloudinary error: {e}")
         except RequestException as e:
-            raise HTTPException(status_code=500, detail=f"Network error: {e}")
+            return JSONResponse(status_code=500, content={"message": f"Network error: {e}"})
+            # raise HTTPException(status_code=500, detail=f"Network error: {e}")
         except Exception as e:
-            raise HTTPException(status_code=500, detail=f"Uploading image error: {e}")
+            return JSONResponse(status_code=500, content={"message": f"Uploading image error: {e}"})
+            # raise HTTPException(status_code=500, detail=f"Uploading image error: {e}")
 
     @staticmethod
     async def delete_picture(public_id: str):
@@ -64,7 +68,8 @@ class CloudService:
                 public_id
             )
         except Exception as e:
-            raise HTTPException(status_code=500, detail=f"Error deleting image: {e}")
+            return JSONResponse(status_code=500, content={"message": f"Error deleting image: {e}"})
+            # raise HTTPException(status_code=500, detail=f"Error deleting image: {e}")
 
     @staticmethod
     async def update_picture_on_cloudinary(public_id: str, transformation_params: dict):
@@ -90,11 +95,14 @@ class CloudService:
                 eager_transformed_url = response['eager'][0]['url']
                 return eager_transformed_url
         except CloudinaryError as e:
-            raise HTTPException(status_code=500, detail=f"Cloudinary error: {e}")
+            return JSONResponse(status_code=500, content={"message": f"Cloudinary error: {e}"})
+            # raise HTTPException(status_code=500, detail=f"Cloudinary error: {e}")
         except RequestException as e:
-            raise HTTPException(status_code=500, detail=f"Network error: {e}")
+            return JSONResponse(status_code=500, content={"message": f"Network error: {e}"})
+            # raise HTTPException(status_code=500, detail=f"Network error: {e}")
         except Exception as e:
-            raise HTTPException(status_code=500, detail=f"Помилка завантаження зображення: {e}")
+            return JSONResponse(status_code=500, content={"message": f"Uploading image error: {e}"})
+            # raise HTTPException(status_code=500, detail=f"Помилка завантаження зображення: {e}")
 
 
 cloud_service = CloudService()
