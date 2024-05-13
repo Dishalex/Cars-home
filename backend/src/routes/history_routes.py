@@ -10,6 +10,7 @@ from backend.src.repository import history as repositories_history
 from backend.src.schemas.history_schema import HistoryUpdatePaid, HistoryGet, HistoryUpdateCar, HistoryUpdate, HistorySchema
 from backend.src.entity.models import User, Role
 from backend.src.services.auth import auth_service
+from backend.src.repository.car_repository import CarRepository
 
 
 router = APIRouter(prefix="/history", tags=["history"])
@@ -75,8 +76,11 @@ async def update_car_history(plate: str, history_update: HistoryUpdateCar,
     
 
 
-@router.get("/get_entries_by_period/{start_date}/{end_date}", response_model=List[HistoryUpdate])
-async def get_history_entries_by_period_route(start_date: str, end_date: str, session: AsyncSession = Depends(get_db)):
+@router.get("/get_entries_by_period/{start_date}/{end_date}")
+async def get_history_entries_by_period_route(start_date: str, end_date: str, session: AsyncSession = Depends(get_db),
+                             admin: User = Depends(auth_service.get_current_admin)):
+    if admin.role != Role.admin:
+        return JSONResponse(status_code=400, content={"message": "Not authorized to access this resource"})
     try:
         start_datetime = datetime.strptime(start_date, "%Y-%m-%d")
         end_datetime = datetime.strptime(end_date, "%Y-%m-%d")
@@ -87,14 +91,20 @@ async def get_history_entries_by_period_route(start_date: str, end_date: str, se
         return JSONResponse(status_code=400, content={"message": "Invalid date format. Please provide dates in ISO format (YYYY-MM-DD)"})
 
     history_entries = await repositories_history.get_history_entries_by_period(start_datetime, end_datetime, session)
-    return history_entries
+    file_path = "backend/history_entries.csv"
+    await repositories_history.save_history_to_csv(history_entries, file_path)
+    # return history_entries
 
 
-@router.get("/get_entries_by_period/{start_date}/{end_date}/{car_id}/{user_id}")
-async def get_history_entries_by_period_route(start_date: str, end_date: str, car_id: int, user_id: int,
+@router.get("/get_entries_by_period/{start_date}/{end_date}/{car_id}")
+async def get_history_entries_by_period_route(start_date: str, end_date: str, car_id: int,
                                               current_user: User = Depends(auth_service.get_current_user), 
                                               session: AsyncSession = Depends(get_db)):
-   
+    
+    car_repository = CarRepository(session)
+    user_id = await car_repository.get_user_id_by_car_id(car_id)
+    if user_id == None:
+        return JSONResponse(status_code=400, content={"message": f"No car found with car {car_id}"}) 
     if current_user.role != Role.admin and current_user.id != user_id:
         return JSONResponse(status_code=400, content={"message": "Not authorized to access this resource"})   
     try:

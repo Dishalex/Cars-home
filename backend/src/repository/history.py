@@ -3,7 +3,7 @@ from datetime import datetime, timedelta, time
 from sqlalchemy import select, between, null, and_, desc, func, or_
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.orm import selectinload
-from backend.src.entity.models import History, ParkingRate
+from backend.src.entity.models import History, ParkingRate, Car
 from typing import List, Sequence, Tuple
 from backend.src.repository.car_repository import CarRepository
 import csv
@@ -127,7 +127,7 @@ async def get_history_entries_by_period(start_time: datetime, end_time: datetime
     start_time = datetime.combine(start_time.date(), time.min)
     end_time = datetime.combine(end_time.date(), time.max)
 
-    query = select(History).filter(
+    query = select(History).join(Car).filter(
         History.entry_time.between(start_time, end_time)
     )
     result = await session.execute(query)
@@ -139,21 +139,13 @@ async def get_history_entries_by_period_car (start_time: datetime, end_time: dat
     start_time = datetime.combine(start_time.date(), time.min)
     end_time = datetime.combine(end_time.date(), time.max)
 
-    query = select(History).filter(
+    query = select(History).join(Car).filter(
         History.entry_time.between(start_time, end_time),
         History.car_id == car_id
     )
     result = await session.execute(query)
     history_entries = result.unique().scalars().all()
     return history_entries
-
-
-# async def save_history_to_csv(history_entries: Sequence[History], file_path: str):
-#     with open(file_path, mode='w', newline='') as file:
-#         writer = csv.DictWriter(file, fieldnames=History.__table__.columns.keys())
-#         writer.writeheader()
-#         for entry in history_entries:
-#             writer.writerow(entry.__dict__)
 
 
 #TODO Додати номер автомобіля за id автомобіля
@@ -171,8 +163,8 @@ async def save_history_to_csv(history_entries: Sequence[History], file_path: str
                 'parking_time',
                 'cost',
                 'paid',
-                'number_free_spaces'
-                ]
+                'number_free_spaces',
+                'plate']
     
     with open(file_path, mode='w', newline='') as file:
         writer = csv.DictWriter(file, fieldnames=fieldnames)
@@ -185,7 +177,8 @@ async def save_history_to_csv(history_entries: Sequence[History], file_path: str
                 'parking_time': entry.parking_time,
                 'cost': entry.cost,
                 'paid': entry.paid,
-                'number_free_spaces': entry.number_free_spaces
+                'number_free_spaces': entry.number_free_spaces,
+                'plate':entry.car.plate
             }
             writer.writerow(entry_dict)
 

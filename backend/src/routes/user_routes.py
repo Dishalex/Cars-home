@@ -93,10 +93,6 @@ async def ban_user(
     :rtype: dict
     """
     if not current_user.role == Role.admin:
-        # raise HTTPException(
-        #     status_code=status.HTTP_403_FORBIDDEN,
-        #     detail="You don't have permission to perform this action.",
-        # )
         return JSONResponse(status_code=status.HTTP_403_FORBIDDEN,
                             content={"message": "You don't have permission to perform this action."})
 
