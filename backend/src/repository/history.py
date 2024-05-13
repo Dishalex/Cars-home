@@ -148,13 +148,47 @@ async def get_history_entries_by_period_car (start_time: datetime, end_time: dat
     return history_entries
 
 
+# async def save_history_to_csv(history_entries: Sequence[History], file_path: str):
+#     with open(file_path, mode='w', newline='') as file:
+#         writer = csv.DictWriter(file, fieldnames=History.__table__.columns.keys())
+#         writer.writeheader()
+#         for entry in history_entries:
+#             writer.writerow(entry.__dict__)
+
+
+#TODO Додати номер автомобіля за id автомобіля
+    # async def get_history(offset: int, limit: int, user: User, db: AsyncSession) -> Sequence[History]:
+    #     stmt = select(History).join(Car)
+    #     user_history = await db.execute(stmt)
+    #     user_history = user_history.scalars().all()
+    #     for history in user_history:
+    #         history.car = history.car.plate
+    #     return user_history
+
 async def save_history_to_csv(history_entries: Sequence[History], file_path: str):
+    fieldnames = ['entry_time',
+                'exit_time',
+                'parking_time',
+                'cost',
+                'paid',
+                'number_free_spaces'
+                ]
+    
     with open(file_path, mode='w', newline='') as file:
-        writer = csv.DictWriter(file, fieldnames=History.__table__.columns.keys())
+        writer = csv.DictWriter(file, fieldnames=fieldnames)
         writer.writeheader()
         for entry in history_entries:
-            writer.writerow(entry.__dict__)
-        
+           
+            entry_dict = {
+                'entry_time': entry.entry_time,
+                'exit_time': entry.exit_time,
+                'parking_time': entry.parking_time,
+                'cost': entry.cost,
+                'paid': entry.paid,
+                'number_free_spaces': entry.number_free_spaces
+            }
+            writer.writerow(entry_dict)
+
 
 
 async def get_history_entries_with_null_car_id(session: AsyncSession) -> Sequence[History]:
