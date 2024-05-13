@@ -1,7 +1,7 @@
+from datetime import datetime
 from typing import Optional
 
 from pydantic import BaseModel, EmailStr, Field
-from sqlalchemy import DateTime
 
 
 class UserSchema(BaseModel):
@@ -31,8 +31,8 @@ class UserResponse(BaseModel):
 
 
 class HistoryResponse(BaseModel):
-    entry_time: DateTime
-    exit_time: Optional[DateTime]
+    entry_time: datetime
+    exit_time: Optional[datetime]
     parking_time: Optional[float]
     cost: float
     paid: bool

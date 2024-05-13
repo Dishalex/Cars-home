@@ -3,7 +3,7 @@ from typing import Sequence
 from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from backend.src.entity.models import History, User, Car, user_car_association
+from backend.src.entity.models import History, User, Car
 
 
 async def get_history(offset: int, limit: int, user: User, db: AsyncSession) -> Sequence[History]:

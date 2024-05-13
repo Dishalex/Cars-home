@@ -5,8 +5,8 @@ from aiogram.fsm.storage.memory import MemoryStorage, StorageKey
 from aiogram.types import Message
 from aiohttp import ClientSession
 
-from tg_bot.tg_schema import UserUpdate
-from tg_bot.constants import *
+from telegram.tg_schema import UserUpdate
+from telegram.constants import *
 
 rtr = Router()
 token_storage = MemoryStorage()
@@ -58,7 +58,7 @@ async def login(data: dict, message: Message):
 async def get_user(message: Message, state: FSMContext):
     async with ClientSession(HOST) as session:
         async with session.get(
-                f"/api/telegram/user/{message.contact.user_id}/{message.contact.phone_number}"
+                f"/api/telegram/user/{message.contact.phone_number}"
         ) as response:
             if response.status == 200:
                 json_response = await response.json()
