@@ -5,7 +5,7 @@ from backend.src.repository import history as repositories_history
 from fastapi import APIRouter, Depends
 from sqlalchemy.ext.asyncio import AsyncSession
 from backend.src.schemas.parking_schema import ParkingRateSchema
-from backend.src.schemas.history_schema import HistoryResponse
+from backend.src.schemas.history_schema import HistoryUpdate
 
 router = APIRouter(prefix="/parking-rate", tags=["parking-rate"])
 
@@ -14,6 +14,6 @@ router = APIRouter(prefix="/parking-rate", tags=["parking-rate"])
 #     return await parking_rate_repository.get_latest_parking_rate_with_free_spaces(session)
 
 
-@router.get("/free-spaces", response_model=HistoryResponse)
+@router.get("/free-spaces", response_model=str)
 async def get_latest_parking_rate_with_free_spaces(session: AsyncSession = Depends(get_db)):
     return await repositories_history.get_latest_parking_rate_with_free_spaces(session)

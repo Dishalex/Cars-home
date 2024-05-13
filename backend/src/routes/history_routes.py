@@ -1,6 +1,6 @@
 # backend/src/routes/history_routes.py
 from typing import List
-from datetime import datetime
+from datetime import datetime, timedelta
 from fastapi.responses import JSONResponse
 from fastapi import APIRouter, Depends, status
 from sqlalchemy.ext.asyncio import AsyncSession
@@ -9,7 +9,7 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from backend.src.database.db import get_db
 from backend.src.repository import history as repositories_history
 from backend.src.repository import picture as repositories_picture
-from backend.src.schemas.history_schema import HistoryUpdatePaid, HistorySchema, HistoryUpdateCar, HistoryUpdate
+from backend.src.schemas.history_schema import HistoryUpdatePaid, HistorySchema, HistoryUpdateCar, HistoryUpdate, HistoryResponse
 from backend.src.entity.models import User, Role
 from backend.src.services.auth import auth_service
 
@@ -30,20 +30,28 @@ async def create_entry(find_plate, picture_id, session: AsyncSession = Depends(g
         return JSONResponse(status_code=400, content={"message": "Error creating entry car"})
     return history
 
-@router.get("/get_entries_by_period/{start_time}/{end_time}", response_model=List[HistorySchema])
-async def get_history_entries_by_period_route(start_time: datetime, end_time: datetime,
-                                              session: AsyncSession = Depends(get_db)):
-    history_entries = await repositories_history.get_history_entries_by_period(start_time, end_time, session)
+@router.get("/get_entries_by_period/{start_date}/{end_date}", response_model=List[HistoryUpdate])
+async def get_history_entries_by_period_route(start_date: str, end_date: str, session: AsyncSession = Depends(get_db)):
+    try:
+        start_datetime = datetime.strptime(start_date, "%Y-%m-%d")
+        end_datetime = datetime.strptime(end_date, "%Y-%m-%d")
+
+        end_datetime += timedelta(days=1)
+        end_datetime -= timedelta(microseconds=1)
+    except ValueError:
+        return JSONResponse(status_code=400, content={"message": "Invalid date format. Please provide dates in ISO format (YYYY-MM-DD)"})
+
+    history_entries = await repositories_history.get_history_entries_by_period(start_datetime, end_datetime, session)
     return history_entries
 
 
-@router.get("/get_null_car_id", response_model=List[HistorySchema])
+@router.get("/get_null_car_id", response_model=List[HistoryUpdate])
 async def get_history_entries_with_null_car_id_route(session: AsyncSession = Depends(get_db)):
     history_entries = await repositories_history.get_history_entries_with_null_car_id(session)
     return history_entries
 
 
-@router.get("/get_no_paid", response_model=List[HistorySchema])
+@router.get("/get_no_paid", response_model=List[HistoryUpdate])
 async def get_history_entries_with_null_paid(session: AsyncSession = Depends(get_db)):
     history_entries = await repositories_history.get_history_entries_with_null_paid(session)
     return history_entries
@@ -78,16 +86,8 @@ async def update_car_history(plate: str, history_update: HistoryUpdateCar,
         return history_entry
     except Exception as e:
         return JSONResponse(status_code=500, content={"message": str(e)})
+    
 
 
 
-@router.delete("/delete_history/{plate}", response_model=dict, status_code=200)
-async def delete_history(plate: str, db: AsyncSession = Depends(get_db),
-                         admin: User = Depends(auth_service.get_current_admin)):
-    if admin.role != Role.admin:
-        return JSONResponse(status_code=400, content={"message": "Not authorized to access this resource"})
-    try:
-        await repositories_history.delete_history(plate)
 
-    except Exception as e:
-        return JSONResponse(status_code=500, content={"message": str(e)})
