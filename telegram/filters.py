@@ -1,6 +1,6 @@
 from aiogram.filters import Filter
 
-from backend.src.conf.config import config
+from telegram.config import config
 
 
 class Admin(Filter):
