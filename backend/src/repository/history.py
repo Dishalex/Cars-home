@@ -1,9 +1,9 @@
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, time
 
 from sqlalchemy import select, between, null, and_, delete, desc, func, or_
 from sqlalchemy.ext.asyncio import AsyncSession
-
-from backend.src.entity.models import History, Car, ParkingRate
+from sqlalchemy.orm import selectinload
+from backend.src.entity.models import History, Car, ParkingRate, User
 from typing import List, Sequence, Tuple
 from backend.src.schemas.history_schema import HistoryUpdatePaid, HistorySchema, HistoryUpdateCar, HistoryUpdate
 from backend.src.repository.car_repository import CarRepository
@@ -92,11 +92,12 @@ async def create_entry(find_plate: str, picture_id: int, session: AsyncSession) 
 async def calculate_parking_duration(entry_time: datetime, exit_time: datetime) -> float:
     duration = exit_time - entry_time
     hours = duration / timedelta(hours=1)
-    return hours
+    return round(hours, 2)
 
 
 async def calculate_parking_cost(duration_hours: float, rate_per_hour: float) -> float:
-    return duration_hours * rate_per_hour
+    cost = round(duration_hours * rate_per_hour, 2)
+    return cost
 
 
 async def get_parking_rates_for_date(entry_time: datetime, session: AsyncSession) -> Tuple[float, float]:
@@ -121,10 +122,14 @@ async def get_history_entries_with_null_exit_time(session: AsyncSession) -> Sequ
     return history_entries
 
 
-async def get_history_entries_by_period(start_time: datetime, end_time: datetime, session: AsyncSession) -> Sequence[
-        History]:
+async def get_history_entries_by_period(start_time: datetime, end_time: datetime, session: AsyncSession) -> Sequence[History]:
+
+    start_time = datetime.combine(start_time.date(), time.min)
+    end_time = datetime.combine(end_time.date(), time.max)
+
     query = select(History).filter(
-        between(History.entry_time, start_time, end_time))
+        History.entry_time.between(start_time, end_time)
+    )
     result = await session.execute(query)
     history_entries = result.unique().scalars().all()
     return history_entries
@@ -171,9 +176,8 @@ async def get_latest_parking_rate_with_free_spaces(session: AsyncSession):
     result = await session.execute(query)
     latest_entry = result.unique().scalar_one_or_none()
     if latest_entry:
-        return latest_entry.number_free_spaces
-    return None
-
+        return f"free spaces -  {latest_entry.number_free_spaces}"
+    return "No data available"
 
 async def update_paid_history( plate: str,  paid: bool, session: AsyncSession):
     statement = select(History).where(
@@ -207,3 +211,5 @@ async def update_car_history( plate: str, car_id: int, session: AsyncSession):
     await session.commit()
     await session.refresh(history_entry)
     return history_entry
+
+

@@ -3,7 +3,7 @@ from matplotlib import pyplot as plt
 
 from funcs_repo import recognize_license_plate
 # Завантаження фотографії
-image_path = "DS/img/аі8702ом.jpg"
+image_path = "DS/img/7777.jpg"
 image = cv2.imread(image_path)
 
 # Виклик функції recognize_license_plate
