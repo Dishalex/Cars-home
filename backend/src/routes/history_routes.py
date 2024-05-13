@@ -7,7 +7,7 @@ from sqlalchemy.ext.asyncio import AsyncSession
 
 from backend.src.database.db import get_db
 from backend.src.repository import history as repositories_history
-from backend.src.schemas.history_schema import HistoryUpdatePaid, HistoryGet, HistoryUpdateCar, HistoryUpdate
+from backend.src.schemas.history_schema import HistoryUpdatePaid, HistoryGet, HistoryUpdateCar, HistoryUpdate, HistorySchema
 from backend.src.entity.models import User, Role
 from backend.src.services.auth import auth_service
 
@@ -90,7 +90,7 @@ async def get_history_entries_by_period_route(start_date: str, end_date: str, se
     return history_entries
 
 
-@router.get("/get_entries_by_period/{start_date}/{end_date}/{car_id}/{user_id}", response_model=HistoryGet)
+@router.get("/get_entries_by_period/{start_date}/{end_date}/{car_id}/{user_id}")
 async def get_history_entries_by_period_route(start_date: str, end_date: str, car_id: int, user_id: int,
                                               current_user: User = Depends(auth_service.get_current_user), 
                                               session: AsyncSession = Depends(get_db)):
@@ -109,9 +109,9 @@ async def get_history_entries_by_period_route(start_date: str, end_date: str, ca
     history_entries = await repositories_history.get_history_entries_by_period_car(start_datetime, end_datetime, car_id, session)
     
     
-    file_path = "history_entries.csv"
-    repositories_history.save_history_to_csv(history_entries, file_path)
-    
-    return FileResponse(file_path)
+    file_path = "backend/history_entries.csv"
+    await repositories_history.save_history_to_csv(history_entries, file_path)
+
+    # return FileResponse(file_path)
 
 
