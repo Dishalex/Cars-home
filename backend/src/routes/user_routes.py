@@ -100,7 +100,10 @@ async def ban_user(
         return JSONResponse(status_code=status.HTTP_403_FORBIDDEN,
                             content={"message": "You don't have permission to perform this action."})
 
-    await repositories_users.ban_user(username, db)
+    banned = await repositories_users.ban_user(username, db)
+    if not banned:
+        # raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="User not found.")
+        return JSONResponse(status_code=status.HTTP_404_NOT_FOUND, content={"message": "User not found."})
     return {"message": f"{username} has been banned."}
 
 
