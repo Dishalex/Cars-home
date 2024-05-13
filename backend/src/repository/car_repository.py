@@ -31,7 +31,6 @@ class CarRepository:
                 return {'error': f'User with id {user_id} does not exist'}
             new_car.users.append(user)
 
-        
         await self.db.commit()
         await self.db.refresh(new_car)
         new_car.user_ids = car_data.user_ids
@@ -90,32 +89,33 @@ class CarRepository:
         return users
 
     async def update_car(self, plate: str, car_update: CarUpdate):
-
         statement = select(Car).where(Car.plate == plate)
         result = await self.db.execute(statement)
         car = result.scalars().first()
         if car is None:
             return None
 
-        # Перевірка, чи новий номерний знак вже існує в базі
-        existing_car = await self.db.execute(select(Car).filter(Car.plate == car_update.plate))
-        existing_car = existing_car.scalars().first()
-        if existing_car and existing_car.plate != plate:
-            return {'error': f'The plate {car_update.plate} is already in use'}
+        if car_update.plate and car_update.plate != plate:
+            existing_car = await self.db.execute(select(Car).filter(Car.plate == car_update.plate))
+            existing_car = existing_car.scalars().first()
+            if existing_car:
+                return {'error': f'The plate {car_update.plate} is already in use'}
 
-        # Асоціація автомобіля з користувачами
-        car.users.clear() # очищення списку користувачів
-        for user_id in car_update.user_ids:
-            user = await self.db.get(User, user_id)
-            if not user:
-                await self.db.rollback()
-                return {'error': f'User with id {user_id} does not exist'}
-            car.users.append(user)
-        for var, value in car_update.dict(exclude_unset=True).items():
+        if car_update.user_ids is not None:
+            car.users.clear()  # Очищення списку користувачів
+            for user_id in car_update.user_ids:
+                user = await self.db.get(User, user_id)
+                if not user:
+                    await self.db.rollback()
+                    return {'error': f'User with id {user_id} does not exist'}
+                car.users.append(user)
+
+        for var, value in car_update.dict(exclude_unset=True, exclude={'user_ids'}).items():
             setattr(car, var, value)
+
         await self.db.commit()
         await self.db.refresh(car)
-        car.user_ids = car_update.user_ids
+        car.user_ids = [user.id for user in car.users]  # Записуємо ID користувачів
         return car
 
     async def delete_car(self, plate: str):
@@ -144,18 +144,17 @@ class CarRepository:
         result = await self.db.execute(select(Car).where(Car.plate == plate))
         return result.scalars().first() is not None
 
-    async def get_users_by_car_plate(self, car_id: int):
-        result = await self.db.execute(
-            select(Car).where(Car.id == car_id)
-        )
-        car = result.scalars().first()
-        if car is None:
-            return {"error": f"No car found with car {car_id}"}
+    # async def get_users_by_car_plate(self, car_id: int):
+    #     result = await self.db.execute(
+    #         select(Car).where(Car.id == car_id)
+    #     )
+    #     car = result.scalars().first()
+    #     if car is None:
+    #         return {"error": f"No car found with car {car_id}"}
+    #
+    #     users = [user async for user in self.get_users_by_car_id(car_id)]
+    #     return users
 
-        users = [user async for user in self.get_users_by_car_id(car_id)]
-        return users
-
-    
     async def get_user_id_by_car_id(self, car_id: int):
         result = await self.db.execute(
             select(User.id).join(User.cars).where(Car.id == car_id)
