@@ -1,12 +1,12 @@
 from datetime import datetime, timedelta, time
 
-from sqlalchemy import select, between, null, and_, delete, desc, func, or_
+from sqlalchemy import select, between, null, and_, desc, func, or_
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.orm import selectinload
-from backend.src.entity.models import History, Car, ParkingRate, User
+from backend.src.entity.models import History, ParkingRate
 from typing import List, Sequence, Tuple
-from backend.src.schemas.history_schema import HistoryUpdatePaid, HistorySchema, HistoryUpdateCar, HistoryUpdate
 from backend.src.repository.car_repository import CarRepository
+import csv
 
 
 async def create_exit(find_plate: str, picture_id: int, session: AsyncSession):
@@ -133,6 +133,28 @@ async def get_history_entries_by_period(start_time: datetime, end_time: datetime
     result = await session.execute(query)
     history_entries = result.unique().scalars().all()
     return history_entries
+
+
+async def get_history_entries_by_period_car (start_time: datetime, end_time: datetime, car_id: int, session: AsyncSession) -> Sequence[History]:
+    start_time = datetime.combine(start_time.date(), time.min)
+    end_time = datetime.combine(end_time.date(), time.max)
+
+    query = select(History).filter(
+        History.entry_time.between(start_time, end_time),
+        History.car_id == car_id
+    )
+    result = await session.execute(query)
+    history_entries = result.unique().scalars().all()
+    return history_entries
+
+
+async def save_history_to_csv(history_entries: Sequence[History], file_path: str):
+    with open(file_path, mode='w', newline='') as file:
+        writer = csv.DictWriter(file, fieldnames=History.__table__.columns.keys())
+        writer.writeheader()
+        for entry in history_entries:
+            writer.writerow(entry.__dict__)
+        
 
 
 async def get_history_entries_with_null_car_id(session: AsyncSession) -> Sequence[History]:

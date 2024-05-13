@@ -58,4 +58,15 @@ class HistoryResponse(BaseModel):
     picture: Union[UUID, int]
     number_free_spaces: Optional[int]
     rate: Union[UUID, int]
+    
+class HistoryGet(BaseModel):
+    """Pydantic model for validating incoming history data for updating."""
+    entry_time: Optional[datetime]
+    exit_time: Optional[datetime]
+    parking_time: Optional[float]
+    cost: Optional[float]
+    paid: Optional[bool]
+    number_free_spaces: Optional[int]
+
+
 
