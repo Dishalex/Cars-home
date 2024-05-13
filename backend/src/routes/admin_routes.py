@@ -6,11 +6,9 @@ from backend.src import UserResponse
 from backend.src.repository.car_repository import CarRepository
 from backend.src.repository.parking import create_rate, create_or_update_rate, get_default_rate_values
 from backend.src.schemas.car_schemas import CarSchema, CarUpdate, CarResponse, NewCarResponse
-from backend.src.schemas.history_schema import HistoryUpdatePaid, HistorySchema, HistoryUpdateCar
 from backend.src.database import get_db
 from backend.src.schemas.parking_schema import ParkingRateSchema, NewParkingRateSchema
 from backend.src.services.auth import auth_service
-from backend.src.repository import history as repositories_history
 from backend.src.entity.models import User, Role
 
 router = APIRouter(prefix="/admin", tags=["admin"])

@@ -1,12 +1,12 @@
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, time
 
-from sqlalchemy import select, between, null, and_, delete, desc, func, or_
+from sqlalchemy import select, between, null, and_, desc, func, or_
 from sqlalchemy.ext.asyncio import AsyncSession
-
-from backend.src.entity.models import History, Car, ParkingRate
+from sqlalchemy.orm import selectinload
+from backend.src.entity.models import History, ParkingRate
 from typing import List, Sequence, Tuple
-from backend.src.schemas.history_schema import HistoryUpdate
 from backend.src.repository.car_repository import CarRepository
+import csv
 
 
 async def create_exit(find_plate: str, picture_id: int, session: AsyncSession):
@@ -92,11 +92,12 @@ async def create_entry(find_plate: str, picture_id: int, session: AsyncSession) 
 async def calculate_parking_duration(entry_time: datetime, exit_time: datetime) -> float:
     duration = exit_time - entry_time
     hours = duration / timedelta(hours=1)
-    return hours
+    return round(hours, 2)
 
 
 async def calculate_parking_cost(duration_hours: float, rate_per_hour: float) -> float:
-    return duration_hours * rate_per_hour
+    cost = round(duration_hours * rate_per_hour, 2)
+    return cost
 
 
 async def get_parking_rates_for_date(entry_time: datetime, session: AsyncSession) -> Tuple[float, float]:
@@ -121,13 +122,39 @@ async def get_history_entries_with_null_exit_time(session: AsyncSession) -> Sequ
     return history_entries
 
 
-async def get_history_entries_by_period(start_time: datetime, end_time: datetime, session: AsyncSession) -> Sequence[
-        History]:
+async def get_history_entries_by_period(start_time: datetime, end_time: datetime, session: AsyncSession) -> Sequence[History]:
+
+    start_time = datetime.combine(start_time.date(), time.min)
+    end_time = datetime.combine(end_time.date(), time.max)
+
     query = select(History).filter(
-        between(History.entry_time, start_time, end_time))
+        History.entry_time.between(start_time, end_time)
+    )
     result = await session.execute(query)
     history_entries = result.unique().scalars().all()
     return history_entries
+
+
+async def get_history_entries_by_period_car (start_time: datetime, end_time: datetime, car_id: int, session: AsyncSession) -> Sequence[History]:
+    start_time = datetime.combine(start_time.date(), time.min)
+    end_time = datetime.combine(end_time.date(), time.max)
+
+    query = select(History).filter(
+        History.entry_time.between(start_time, end_time),
+        History.car_id == car_id
+    )
+    result = await session.execute(query)
+    history_entries = result.unique().scalars().all()
+    return history_entries
+
+
+async def save_history_to_csv(history_entries: Sequence[History], file_path: str):
+    with open(file_path, mode='w', newline='') as file:
+        writer = csv.DictWriter(file, fieldnames=History.__table__.columns.keys())
+        writer.writeheader()
+        for entry in history_entries:
+            writer.writerow(entry.__dict__)
+        
 
 
 async def get_history_entries_with_null_car_id(session: AsyncSession) -> Sequence[History]:
@@ -171,11 +198,10 @@ async def get_latest_parking_rate_with_free_spaces(session: AsyncSession):
     result = await session.execute(query)
     latest_entry = result.unique().scalar_one_or_none()
     if latest_entry:
-        return latest_entry.number_free_spaces
-    return None
+        return f"free spaces -  {latest_entry.number_free_spaces}"
+    return "No data available"
 
-
-async def update_paid(self, plate: str, history_update: HistoryUpdate, session: AsyncSession):
+async def update_paid_history( plate: str,  paid: bool, session: AsyncSession):
     statement = select(History).where(
         and_(History.car.has(plate=plate), History.paid == False)
     )
@@ -185,15 +211,14 @@ async def update_paid(self, plate: str, history_update: HistoryUpdate, session: 
     if history_entry is None:
         return None
 
-    for var, value in history_update.dict(exclude_unset=True).items():
-        setattr(history_entry, var, value)
+    history_entry.paid = paid
 
     await session.commit()
     await session.refresh(history_entry)
     return history_entry
 
 
-async def update_car_history(self, plate: str, history_update: HistoryUpdate, session: AsyncSession):
+async def update_car_history( plate: str, car_id: int, session: AsyncSession):
     statement = select(History).where(
         and_(History.picture.has(find_plate=plate), History.car_id == null())
     )
@@ -203,9 +228,10 @@ async def update_car_history(self, plate: str, history_update: HistoryUpdate, se
     if history_entry is None:
         return None
 
-    for var, value in history_update.dict(exclude_unset=True).items():
-        setattr(history_entry, var, value)
+    history_entry.car_id = car_id
 
     await session.commit()
     await session.refresh(history_entry)
     return history_entry
+
+
