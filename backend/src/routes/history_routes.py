@@ -104,7 +104,7 @@ async def get_history_entries_by_period_route(start_date: str, end_date: str, ca
     car_repository = CarRepository(session)
     user_id = await car_repository.get_user_id_by_car_id(car_id)
     if user_id == None:
-        return JSONResponse(status_code=400, content={"message": f"No car found with car {car_id}"}) 
+        return JSONResponse(status_code=400, content={"message": f"No user found with car {car_id}"}) 
     if current_user.role != Role.admin and current_user.id != user_id:
         return JSONResponse(status_code=400, content={"message": "Not authorized to access this resource"})   
     try:
