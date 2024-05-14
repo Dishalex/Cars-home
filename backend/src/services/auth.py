@@ -1,9 +1,10 @@
 # backend/src/services/auth.py
+import logging
 from datetime import datetime, timedelta
 from typing import Optional
 
 from fastapi import HTTPException, status, Depends
-from fastapi.responses import JSONResponse
+# from fastapi.responses import JSONResponse
 from fastapi.security import OAuth2PasswordBearer
 from jose import JWTError, jwt  # noqa
 from passlib.context import CryptContext
@@ -15,6 +16,8 @@ from backend.src.database.db import get_db
 from backend.src.entity.models import Blacklisted, User, Role
 from backend.src.repository import users as repository_users
 
+logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
+logger = logging.getLogger(__name__)
 
 class Auth:
     """Class handling authentication operations such as password hashing, JWT token creation, and token blacklisting."""
@@ -34,7 +37,9 @@ class Auth:
         :return: True if the passwords match, False otherwise.
         :rtype: bool
         """
-        return self.pwd_context.verify(plain_password, hashed_password)
+        is_valid = self.pwd_context.verify(plain_password, hashed_password)
+        logger.info(f'Password verification: {"successful" if is_valid else "failed"}')
+        return is_valid
 
     def get_password_hash(self, password: str):
         """
@@ -103,17 +108,17 @@ class Auth:
             if payload["scope"] == "refresh_token":
                 email = payload["sub"]
                 return email
-            return JSONResponse(status_code=400, content={"message": "Invalid scope for token"})
-            # raise HTTPException(
-            #     status_code=status.HTTP_401_UNAUTHORIZED,
-            #     detail="Invalid scope for token",
-            # )
+            # return JSONResponse(status_code=400, content={"message": "Invalid scope for token"})
+            raise HTTPException(
+                status_code=status.HTTP_401_UNAUTHORIZED,
+                detail="Invalid scope for token",
+            )
         except JWTError:
-            return JSONResponse(status_code=400, content={"message": "Could not validate credentials"})
-            # raise HTTPException(
-            #     status_code=status.HTTP_401_UNAUTHORIZED,
-            #     detail="Could not validate credentials",
-            # )
+            logger.exception("Failed to validate credentials during refresh token decoding.")
+            raise HTTPException(
+                status_code=status.HTTP_401_UNAUTHORIZED,
+                detail="Could not validate credentials",
+            )
 
     @staticmethod
     async def add_token_to_blacklist(user_id: int, token: str, db: AsyncSession = Depends(get_db)):
@@ -162,11 +167,11 @@ class Auth:
         :return: Current authenticated user.
         :rtype: User
         """
-        # credentials_exception = HTTPException(
-        #     status_code=status.HTTP_401_UNAUTHORIZED,
-        #     detail="Could not validate credentials",
-        #     headers={"WWW-Authenticate": "Bearer"},
-        # )
+        credentials_exception = HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="Could not validate credentials",
+            headers={"WWW-Authenticate": "Bearer"},
+        )
 
         try:
             # Decode JWT
@@ -174,29 +179,30 @@ class Auth:
             if payload["scope"] == "access_token":
                 email = payload["sub"]
                 if email is None:
-                    return JSONResponse(status_code=400, content={"message": "Invalid token."})
-                    # raise credentials_exception
+                    logger.exception("Email not found during user authentication.")
+                    raise credentials_exception
             else:
-                return JSONResponse(status_code=400, content={"message": "Invalid scope for token."})
-                # raise credentials_exception
+                logger.exception("Invalid scope for token during user authentication.")
+                raise credentials_exception
         except JWTError as e:
-            return JSONResponse(status_code=400, content={"message": "401_UNAUTHORIZED"})
-            # raise credentials_exception
+            logger.exception("Failed to decode JWT during user authentication.")
+            raise credentials_exception
 
         if await self.is_token_blacklisted(token, db):
-            return JSONResponse(status_code=400, content={"message": "Token is blacklisted."})
-            # raise HTTPException(
-            #     status_code=status.HTTP_401_UNAUTHORIZED,
-            #     detail="Token is blacklisted. Please log in again.",
-            #     headers={"WWW-Authenticate": "Bearer"},
-            # )
+            # return JSONResponse(status_code=400, content={"message": "Token is blacklisted."})
+            raise HTTPException(
+                status_code=status.HTTP_401_UNAUTHORIZED,
+                detail="Token is blacklisted. Please log in again.",
+                headers={"WWW-Authenticate": "Bearer"},
+            )
 
         user = await repository_users.get_user_by_email(email, db)
         if user is None:
+            logger.exception("User not found during user authentication.")
             raise credentials_exception
         if user.ban:
-            return JSONResponse(status_code=400, content={"message": "Your account has been banned."})
-            # raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail="Your account has been banned.")
+            logger.exception("User is banned during user authentication.")
+            raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail="Your account has been banned.")
         return user
 
     async def get_current_admin(self, token: str = Depends(oauth2_scheme), db: AsyncSession = Depends(get_db)):

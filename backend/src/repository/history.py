@@ -53,7 +53,7 @@ async def create_exit(find_plate: str, picture_id: int, session: AsyncSession):
             exit_time=exit_time, picture_id=picture_id, number_free_spaces=number_free_spaces,rate_id=rate_id)
         session.add(history_new)
         await session.commit()
-        await session.refresh(history)
+        await session.refresh(history_new)
         return history_new
 
     return None
@@ -157,28 +157,40 @@ async def get_history_entries_by_period_car (start_time: datetime, end_time: dat
     #         history.car = history.car.plate
     #     return user_history
 
+
+from datetime import timedelta
+
+def format_timedelta(td):
+    total_seconds = int(td.total_seconds())
+    days, remainder = divmod(total_seconds, 86400)
+    hours, remainder = divmod(remainder, 3600)
+    minutes = remainder // 60
+    return f"{days}d {hours}h {minutes}m"
+
 async def save_history_to_csv(history_entries: Sequence[History], file_path: str):
-    fieldnames = ['entry_time',
-                'exit_time',
-                'parking_time',
-                'cost',
-                'paid',
-                'number_free_spaces',
-                'plate']
-    
+    fieldnames = [
+        'entry_time',
+        'exit_time',
+        'parking_time',
+        'cost',
+        'paid',
+        'number_free_spaces',
+        'plate'
+    ]
+
     with open(file_path, mode='w', newline='') as file:
         writer = csv.DictWriter(file, fieldnames=fieldnames)
         writer.writeheader()
         for entry in history_entries:
-           
+            parking_duration = timedelta(hours=entry.parking_time) if entry.parking_time is not None else None
             entry_dict = {
-                'entry_time': entry.entry_time,
-                'exit_time': entry.exit_time,
-                'parking_time': entry.parking_time,
-                'cost': entry.cost,
+                'entry_time': entry.entry_time.strftime('%Y-%m-%d %H:%M') if entry.entry_time else None,
+                'exit_time': entry.exit_time.strftime('%Y-%m-%d %H:%M') if entry.exit_time else None,
+                'parking_time': format_timedelta(parking_duration) if parking_duration else None,
+                'cost': f"{entry.cost:.2f}" if entry.cost is not None else None,
                 'paid': entry.paid,
                 'number_free_spaces': entry.number_free_spaces,
-                'plate':entry.car.plate
+                'plate': entry.car.plate
             }
             writer.writerow(entry_dict)
 

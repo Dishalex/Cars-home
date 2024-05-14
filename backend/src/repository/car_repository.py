@@ -144,17 +144,6 @@ class CarRepository:
         result = await self.db.execute(select(Car).where(Car.plate == plate))
         return result.scalars().first() is not None
 
-    # async def get_users_by_car_plate(self, car_id: int):
-    #     result = await self.db.execute(
-    #         select(Car).where(Car.id == car_id)
-    #     )
-    #     car = result.scalars().first()
-    #     if car is None:
-    #         return {"error": f"No car found with car {car_id}"}
-    #
-    #     users = [user async for user in self.get_users_by_car_id(car_id)]
-    #     return users
-
     async def get_user_id_by_car_id(self, car_id: int):
         result = await self.db.execute(
             select(User.id).join(User.cars).where(Car.id == car_id)
