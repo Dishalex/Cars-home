@@ -34,7 +34,7 @@ async def login(data: dict, message: Message):
             if response.status == 200:
                 json_response = await response.json()
             else:
-                await message.answer(TRY_AGAIN)
+                await message.answer(InfoMessages.TRY_AGAIN)
                 return
         bearer = json_response.get("access_token")
         await token_storage.set_data(StorageKey(
@@ -51,7 +51,7 @@ async def login(data: dict, message: Message):
                     headers={"Authorization": f"Bearer {bearer}"}
             ):
                 pass
-    await message.answer(LOGIN, reply_markup=KB_REGISTERED)
+    await message.answer(InfoMessages.LOGIN, reply_markup=KeyboardButtons.KB_REGISTERED)
 
 
 @rtr.message(F.contact)
@@ -76,7 +76,7 @@ async def get_user(message: Message, state: FSMContext):
                     await state.set_state(Registration.full_name)
                     await message.answer(InfoMessages.FULLNAME)
                 case _:
-                    await message.answer(InfoMessages.TRY_AGAIN, reply_markup=KB_SUPPORT)
+                    await message.answer(InfoMessages.TRY_AGAIN, reply_markup=KeyboardButtons.KB_SUPPORT)
 
 
 @rtr.message(Registration.full_name)
@@ -105,4 +105,4 @@ async def get_password(message: Message, state: FSMContext):
         async with ClientSession(HOST) as session:
             await session.post('/api/auth/signup', json=data)
         await state.clear()
-        await message.answer(InfoMessages.REGISTERED, reply_markup=KB_REGISTERED)
+        await message.answer(InfoMessages.REGISTERED, reply_markup=KeyboardButtons.KB_REGISTERED)

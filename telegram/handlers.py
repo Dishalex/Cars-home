@@ -33,12 +33,12 @@ async def do_get(message: Message, url: str, token: str):
 
 @rt.message(CommandStart())
 async def starting(message: Message):
-    await message.answer(InfoMessages.START, 'HTML', reply_markup=KB_START)
+    await message.answer(InfoMessages.START, 'HTML', reply_markup=KeyboardButtons.KB_START)
 
 
 @rt.message(Command('help'))
 async def help_command(message: Message):
-    await message.answer(InfoMessages.HELP, 'HTML', reply_markup=KB_HELP)
+    await message.answer(InfoMessages.HELP, 'HTML', reply_markup=KeyboardButtons.KB_HELP)
 
 
 @rt.message(Command('show'))
