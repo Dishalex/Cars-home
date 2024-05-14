@@ -60,7 +60,7 @@ async def get_history_entries_with_null_car_id_route(session: AsyncSession = Dep
     return history_entries
 
 
-@router.patch("/update_car_history/{plate}", response_model=HistoryUpdateCar)
+@router.patch("/update_car_in_history/{plate}", response_model=HistoryUpdateCar)
 async def update_car_history(plate: str, history_update: HistoryUpdateCar,
                              session: AsyncSession = Depends(get_db),
                              admin: User = Depends(auth_service.get_current_admin)):
@@ -76,7 +76,7 @@ async def update_car_history(plate: str, history_update: HistoryUpdateCar,
     
 
 
-@router.get("/get_entries_by_period/{start_date}/{end_date}")
+@router.get("/get_all_entries_by_period/{start_date}/{end_date}")
 async def get_history_entries_by_period_route(start_date: str, end_date: str, session: AsyncSession = Depends(get_db),
                              admin: User = Depends(auth_service.get_current_admin)):
     if admin.role != Role.admin:
@@ -96,7 +96,7 @@ async def get_history_entries_by_period_route(start_date: str, end_date: str, se
     # return history_entries
 
 
-@router.get("/get_entries_by_period/{start_date}/{end_date}/{car_id}")
+@router.get("/get_car_entries_by_period/{start_date}/{end_date}/{car_id}")
 async def get_history_entries_by_period_route(start_date: str, end_date: str, car_id: int,
                                               current_user: User = Depends(auth_service.get_current_user), 
                                               session: AsyncSession = Depends(get_db)):
