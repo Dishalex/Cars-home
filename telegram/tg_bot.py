@@ -4,9 +4,10 @@ from aiogram import Bot, Dispatcher
 from aiogram.methods import DeleteWebhook
 from aiogram.types import *
 
-from backend.src.conf.config import config
-from tg_bot.handlers import rt
-from tg_bot.registration import rtr
+from telegram.config import config
+from telegram.constants import USR_COMMANDS
+from telegram.handlers import rt
+from telegram.registration import rtr
 
 bot = Bot(config.TG_TOKEN)
 dp = Dispatcher()

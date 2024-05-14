@@ -1,13 +1,27 @@
-from aiogram.types import InlineKeyboardMarkup, InlineKeyboardButton, ReplyKeyboardMarkup, KeyboardButton
+from aiogram.types import (
+    InlineKeyboardMarkup,
+    InlineKeyboardButton,
+    ReplyKeyboardMarkup,
+    KeyboardButton,
+)
 
 HOST = "http://localhost:8000"
 USR_COMMANDS = {
     "show": {
         "name": "Показати авто",
         "description": "Список твоїх авто і інформація про них",
-        "url": "api/admin/cars",
+        "url": "/api/users/cars",
     },
-    "history": {"name": "Історія", "description": "Ціни і час паркування", "url": ""},
+    "free": {
+        "name": "Вільні місця",
+        "description": "Кількість вільних місць",
+        "url": "/api/parking-rate/free-spaces",
+    },
+    "history": {
+        "name": "Історія",
+        "description": "Ціни і час паркування",
+        "url": "/api/telegram/history",
+    },
     "help": {"name": "Інструкція"},
 }
 ADM_COMMANDS = {
@@ -27,19 +41,8 @@ KB_START = ReplyKeyboardMarkup(
     resize_keyboard=True,
     input_field_placeholder="Більше можливостей після реєстріції",
 )
-KB_SITE = InlineKeyboardMarkup(
-    inline_keyboard=[
-        [
-            InlineKeyboardButton(text="Або зареєструйтесь на сайті", url=f"{HOST}/api/auth/signup"),
-        ]
-    ]
-)
 KB_REGISTERED = InlineKeyboardMarkup(
-    inline_keyboard=[
-        [
-            InlineKeyboardButton(text="Мої авто", callback_data="cars")
-        ]
-    ]
+    inline_keyboard=[[InlineKeyboardButton(text="Мої авто", callback_data="cars")]]
 )
 KB_HELP = InlineKeyboardMarkup(
     inline_keyboard=[
@@ -52,14 +55,14 @@ KB_HELP = InlineKeyboardMarkup(
 KB_LIMIT = InlineKeyboardMarkup(
     inline_keyboard=[
         [
-            InlineKeyboardButton(text="Поповнити картку"),
+            InlineKeyboardButton(text="Поповнити картку", callback_data="limit"),
         ]
     ]
 )
 KB_SUPPORT = InlineKeyboardMarkup(
     inline_keyboard=[
         [
-            InlineKeyboardButton(text="Підтримка"),
+            InlineKeyboardButton(text="Підтримка", callback_data="support"),
         ]
     ]
 )
@@ -80,17 +83,17 @@ HELP = (
 )
 NOTIFICATIONS = {
     "in": {
-        "message": "Авто прибуло в парк. Якщо це помилка, зверніться до підтримки",
+        "text": "Авто прибуло в парк. Якщо це помилка, зверніться до підтримки",
         "reply_markup": KB_SUPPORT,
     },
     "out": {
-        "message": "Авто покинуло парк. Якщо це помилка, зверніться до підтримки",
+        "text": "Авто покинуло парк. Якщо це помилка, зверніться до підтримки",
         "reply_markup": KB_SUPPORT,
     },
-    "limit": {"message": "Перевищено встановлені ліміти", "reply_markup": KB_LIMIT},
-    "rate": {"message": "Тарифи змінено"},
+    "limit": {"text": "Перевищено встановлені ліміти", "reply_markup": KB_LIMIT},
+    "rate": {"text": "Тарифи змінено"},
     "ban": {
-        "message": "Ваше авто в чорному списку. Дізнатись більше - зверніться до підтримки",
+        "text": "Ваше авто в чорному списку. Дізнатись більше - зверніться до підтримки",
         "reply_markup": KB_SUPPORT,
     },
 }
