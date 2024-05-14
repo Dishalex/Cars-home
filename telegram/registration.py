@@ -60,36 +60,37 @@ async def get_user(message: Message, state: FSMContext):
         async with session.get(
                 f"/api/telegram/user/{message.contact.phone_number}"
         ) as response:
-            if response.status == 200:
-                json_response = await response.json()
-                await state.update_data(**json_response)
-                await state.set_state(Registration.password)
-                await message.answer(GO_LOGIN)
-                await message.answer(PASSWORD)
-            elif response.status == 404:
-                data = {
-                    "phone_number": message.contact.phone_number,
-                    "telegram_id": message.contact.user_id,
-                }
-                await state.update_data(**data)
-                await state.set_state(Registration.full_name)
-                await message.answer(FULLNAME)
-            else:
-                await message.answer(TRY_AGAIN, reply_markup=KB_SUPPORT)
+            match response.status:
+                case 200:
+                    json_response = await response.json()
+                    await state.update_data(**json_response)
+                    await state.set_state(Registration.password)
+                    await message.answer(InfoMessages.GO_LOGIN)
+                    await message.answer(InfoMessages.PASSWORD)
+                case 404:
+                    data = {
+                        "phone_number": message.contact.phone_number,
+                        "telegram_id": message.contact.user_id,
+                    }
+                    await state.update_data(**data)
+                    await state.set_state(Registration.full_name)
+                    await message.answer(InfoMessages.FULLNAME)
+                case _:
+                    await message.answer(InfoMessages.TRY_AGAIN, reply_markup=KB_SUPPORT)
 
 
 @rtr.message(Registration.full_name)
 async def get_full_name(message: Message, state: FSMContext):
     await state.update_data(full_name=message.text)
     await state.set_state(Registration.email)
-    await message.answer(EMAIL)
+    await message.answer(InfoMessages.EMAIL)
 
 
 @rtr.message(Registration.email)
 async def get_email(message: Message, state: FSMContext):
     await state.update_data(email=message.text)
     await state.set_state(Registration.password)
-    await message.answer(PASSWORD)
+    await message.answer(InfoMessages.PASSWORD)
 
 
 @rtr.message(Registration.password)
@@ -104,4 +105,4 @@ async def get_password(message: Message, state: FSMContext):
         async with ClientSession(HOST) as session:
             await session.post('/api/auth/signup', json=data)
         await state.clear()
-        await message.answer(REGISTERED, reply_markup=KB_REGISTERED)
+        await message.answer(InfoMessages.REGISTERED, reply_markup=KB_REGISTERED)
