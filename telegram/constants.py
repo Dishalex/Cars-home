@@ -33,43 +33,48 @@ command_list = "\n".join(
     [f"* {command} - {info.get('name')}" for command, info in USR_COMMANDS.items()]
 )[:-1]
 
-KB_START = ReplyKeyboardMarkup(
-    keyboard=[
-        [KeyboardButton(text="Поділитись номером", request_contact=True)],
-    ],
-    one_time_keyboard=True,
-    resize_keyboard=True,
-    input_field_placeholder="Більше можливостей після реєстріції",
-)
-KB_REGISTERED = InlineKeyboardMarkup(
-    inline_keyboard=[[InlineKeyboardButton(text="Мої авто", callback_data="cars")]]
-)
-KB_HELP = InlineKeyboardMarkup(
-    inline_keyboard=[
-        [
-            InlineKeyboardButton(text=command, callback_data=f"{command}_info")
-            for command in USR_COMMANDS
-        ][:-1]
-    ]
-)
-KB_LIMIT = InlineKeyboardMarkup(
-    inline_keyboard=[
-        [
-            InlineKeyboardButton(text="Поповнити картку", callback_data="limit"),
+
+class KeyboardButtons:
+    KB_START = ReplyKeyboardMarkup(
+        keyboard=[
+            [KeyboardButton(text="Поділитись номером", request_contact=True)],
+        ],
+        one_time_keyboard=True,
+        resize_keyboard=True,
+        input_field_placeholder="Більше можливостей після реєстріції",
+    )
+    KB_REGISTERED = InlineKeyboardMarkup(
+        inline_keyboard=[[InlineKeyboardButton(text="Мої авто", callback_data="cars")]]
+    )
+    KB_HELP = InlineKeyboardMarkup(
+        inline_keyboard=[
+            [
+                InlineKeyboardButton(text=command, callback_data=f"{command}_info")
+                for command in USR_COMMANDS
+            ][:-1]
         ]
-    ]
-)
-KB_SUPPORT = InlineKeyboardMarkup(
-    inline_keyboard=[
-        [
-            InlineKeyboardButton(text="Підтримка", callback_data="support"),
+    )
+    KB_LIMIT = InlineKeyboardMarkup(
+        inline_keyboard=[
+            [
+                InlineKeyboardButton(text="Поповнити картку", callback_data="limit"),
+            ]
         ]
-    ]
-)
+    )
+    KB_SUPPORT = InlineKeyboardMarkup(
+        inline_keyboard=[
+            [
+                InlineKeyboardButton(text="Підтримка", callback_data="support"),
+            ]
+        ]
+    )
 
 
 class InfoMessages:
-    START = "Почнімо з реєстрації. Тисни <b>Поділитись номером</b> внизу. Або тисни <b>/help</b> щоб дізнатись можливості."
+    START = (
+        "Почнімо з реєстрації. Тисни <b>Поділитись номером</b> внизу. "
+        "Або тисни <b>/help</b> щоб дізнатись можливості."
+    )
     TRY_AGAIN = "Сервіс не доступний. Спробуй пізніше"
     REGISTERED = "Ви зареєстровані! Можете подивитись дані про свої авто"
     GO_LOGIN = "Ви зареєстровані! Авторизуйтесь для доступу до ваших даних"
@@ -86,21 +91,3 @@ class InfoMessages:
         f"<b>{command_list}</b>\n\n"
         "Про яку команду тобі розповісти?"
     )
-
-
-NOTIFICATIONS = {
-    "in": {
-        "text": "Авто прибуло в парк. Якщо це помилка, зверніться до підтримки",
-        "reply_markup": KB_SUPPORT,
-    },
-    "out": {
-        "text": "Авто покинуло парк. Якщо це помилка, зверніться до підтримки",
-        "reply_markup": KB_SUPPORT,
-    },
-    "limit": {"text": "Перевищено встановлені ліміти", "reply_markup": KB_LIMIT},
-    "rate": {"text": "Тарифи змінено"},
-    "ban": {
-        "text": "Ваше авто в чорному списку. Дізнатись більше - зверніться до підтримки",
-        "reply_markup": KB_SUPPORT,
-    },
-}
