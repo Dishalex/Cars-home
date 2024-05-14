@@ -16,21 +16,29 @@ async def do_get(message: Message, url: str, token: str):
                 url,
                 headers={"Authorization": f"Bearer {token}"},
         ) as response:
-            if response.status == 200:
-                json_response = await response.json()
-                await message.answer(json_response)
-            else:
-                await message.answer(TRY_AGAIN)
+            match response.status:
+                case 200:
+                    json_response = await response.json()
+                    await message.answer(json_response)
+                case 401:
+                    await message.answer(InfoMessages.UNAUTHORIZED)
+                case 403:
+                    await message.answer(InfoMessages.FORBIDDEN)
+                case 404:
+                    await message.answer(InfoMessages.NOT_FOUND)
+                case _:
+                    await message.answer(str(response))
+                    await message.answer(InfoMessages.TRY_AGAIN)
 
 
 @rt.message(CommandStart())
 async def starting(message: Message):
-    await message.answer(START, 'HTML', reply_markup=KB_START)
+    await message.answer(InfoMessages.START, 'HTML', reply_markup=KB_START)
 
 
 @rt.message(Command('help'))
 async def help_command(message: Message):
-    await message.answer(HELP, 'HTML', reply_markup=KB_HELP)
+    await message.answer(InfoMessages.HELP, 'HTML', reply_markup=KB_HELP)
 
 
 @rt.message(Command('show'))

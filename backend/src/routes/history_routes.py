@@ -94,12 +94,13 @@ async def get_history_entries_by_period_route(start_date: str, end_date: str, se
     file_path = "backend/history_entries.csv"
     await repositories_history.save_history_to_csv(history_entries, file_path)
     # return history_entries
+    return FileResponse(file_path, filename="history_entries.csv", media_type="text/csv")
 
 
-@router.get("/get_car_entries_by_period/{start_date}/{end_date}/{car_id}")
-async def get_history_entries_by_period_route(start_date: str, end_date: str, car_id: int,
-                                              current_user: User = Depends(auth_service.get_current_user), 
-                                              session: AsyncSession = Depends(get_db)):
+@router.get("/get_entries_by_period/{start_date}/{end_date}/{car_id}")
+async def get_history_entries_for_car_by_period_route(start_date: str, end_date: str, car_id: int,
+                                                      current_user: User = Depends(auth_service.get_current_user),
+                                                      session: AsyncSession = Depends(get_db)):
     
     car_repository = CarRepository(session)
     user_id = await car_repository.get_user_id_by_car_id(car_id)
@@ -121,7 +122,4 @@ async def get_history_entries_by_period_route(start_date: str, end_date: str, ca
     
     file_path = "backend/history_entries.csv"
     await repositories_history.save_history_to_csv(history_entries, file_path)
-
-    # return FileResponse(file_path)
-
-
+    return FileResponse(file_path, filename="history_entries.csv", media_type="text/csv")

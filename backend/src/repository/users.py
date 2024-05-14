@@ -5,7 +5,7 @@ from sqlalchemy.ext.asyncio import AsyncSession
 
 from backend.src.database.db import get_db
 from backend.src.entity.models import User, Role
-from backend.src.schemas.user_schema import UserSchema, UserUpdate
+from backend.src.schemas.user_schema import UserSchema, UserUpdate, NewUserSchema
 from backend.src.services import auth
 
 
@@ -60,12 +60,12 @@ async def get_user_by_number(phone_number: str, db: AsyncSession = Depends(get_d
     return user
 
 
-async def create_user(body: UserSchema, db: AsyncSession = Depends(get_db)):
+async def create_user(body: NewUserSchema, db: AsyncSession = Depends(get_db)):
     """
     Create a new user in the database.
 
-    :param body: UserSchema instance containing user data.
-    :type body: UserSchema
+    :param body: NewUserSchema instance containing user data.
+    :type body: NewUserSchema
     :param db: Asynchronous SQLAlchemy session (dependency injection).
     :type db: AsyncSession
     :return: The created user.
