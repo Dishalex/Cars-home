@@ -7,11 +7,11 @@ from pydantic import BaseModel, Field
 
 class CarUpdate(BaseModel):
     """Pydantic model for validating incoming car data for updating."""
-    credit: Optional[float]
-    plate: Optional[str]
-    model: Optional[str]
+    credit: Optional[float] = None
+    plate: Optional[str] = None
+    model: Optional[str] = None
     ban: bool = Field(default=False, nullable=True)
-    user_ids: List[int] = Field(default_factory=list)
+    user_ids: Optional[List[int]] = None
 
 
 class CarSchema(BaseModel):
@@ -34,21 +34,6 @@ class NewCarResponse(BaseModel):
     class Config:
         from_attributes = True
         # orm_mode = True
-
-
-class CarResponse(BaseModel):
-    """Pydantic model for serializing car data in responses."""
-    id: int
-    credit: Optional[float]
-    plate: str
-    model: Optional[str]
-    ban: Optional[bool]
-    history: List[Union[UUID, int]]
-    users: List[Union[UUID, int]]
-
-    class Config:
-        # orm_mode = True
-        from_attributes = True
 
 
 

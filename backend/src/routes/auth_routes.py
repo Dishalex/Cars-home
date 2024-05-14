@@ -25,7 +25,7 @@ async def signup(body: NewUserSchema, db: AsyncSession = Depends(get_db)):
         exist_user = await repositories_users.get_user_by_email(body.email, db)
         if exist_user:
             logger.error(f"Attempt to register with existing user: {body.full_name}")
-            # raise HTTPException(status_code=status.HTTP_409_CONFLICT, detail="Account already exists")
+            #raise HTTPException(status_code=status.HTTP_409_CONFLICT, detail="Account already exists")
             return JSONResponse(status_code=status.HTTP_409_CONFLICT, content={"message": "Account already exists"})
 
         body.password = auth_service.get_password_hash(body.password)
@@ -55,14 +55,16 @@ async def login(body: OAuth2PasswordRequestForm = Depends(), db: AsyncSession = 
     if user is None:
         user = await repositories_users.get_user_by_email(body.username, db)
     if user is None or not auth_service.verify_password(body.password, user.password):
+        logger.error(f"Invalid username or password: {body.username}")
         # raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Invalid username or password")
         return JSONResponse(status_code=status.HTTP_401_UNAUTHORIZED, content={"message": "Invalid username or password"})
 
     # if not auth_service.verify_password(body.password, user.password):
     #     raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Invalid password")
     if user.ban:
-        # raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="You were banned by an administrator")
-        return JSONResponse(status_code=status.HTTP_401_UNAUTHORIZED, content={"message": "You were banned by an administrator"})
+        logger.error(f"You were banned by an administrator: {body.username}")
+        #raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail="You were banned by an administrator")
+        return JSONResponse(status_code=status.HTTP_403_FORBIDDEN, content={"message": "You were banned by an administrator"})
     # Generate JWT
     access_token = await auth_service.create_access_token(data={"sub": user.email})
     refresh = await auth_service.create_refresh_token(data={"sub": user.email})
@@ -91,6 +93,7 @@ async def refresh_token(
     user = await repositories_users.get_user_by_email(email, db)
     if user.refresh_token != token:
         await repositories_users.update_token(user, None, db)
+        logger.error(f"Invalid refresh token: {email}")
         # raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Invalid refresh token")
         return JSONResponse(status_code=status.HTTP_401_UNAUTHORIZED, content={"message": "Invalid refresh token"})
 
