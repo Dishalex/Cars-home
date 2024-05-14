@@ -17,7 +17,7 @@ NOTIFICATIONS = {
 
 async def telegram_notification(option: str, user: User):
     if user.telegram_id:
-        url = f'https://api.telegram.org/bot{config.TG_TOKEN}/sendMessage'
+        url = f"https://api.telegram.org/bot{config.TG_TOKEN}/sendMessage"
         text = NOTIFICATIONS.get(option).get("text")
         params = {"chat_id": user.telegram_id, "text": text}
         async with ClientSession() as session:
