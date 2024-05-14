@@ -38,7 +38,7 @@ class Picture(TimeStampMixin, Base):
     """SQLAlchemy model representing the 'pictures' table in the database."""
 
     __tablename__ = "pictures"
-    find_plate: Mapped[str] = mapped_column(String(32), nullable=False, unique=True)
+    find_plate: Mapped[str] = mapped_column(String(32), nullable=False, unique=False)
     url: Mapped[str] = mapped_column(String(255), nullable=False)
     cloudinary_public_id: Mapped[str] = mapped_column(String, nullable=False)
     history: Mapped["History"] = relationship(

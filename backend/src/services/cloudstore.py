@@ -10,6 +10,7 @@ from requests.exceptions import RequestException
 
 from backend.src.conf.config import config
 
+
 cloudinary.config(
     cloud_name=config.CLD_NAME,
     api_key=config.CLD_API_KEY,
@@ -21,37 +22,33 @@ class CloudService:
     """Class for handling image and file uploads to Cloudinary."""
 
     @staticmethod
-    async def upload_picture(user_id: int, image_file: UploadFile, folder_name: str = None):
+    async def upload_picture(image_file: bytes, folder_name: str = None):
         """
         Upload an original image to Cloudinary.
 
-        :param user_id: User ID associated with the image.
-        :type user_id: int
-        :param image_file: UploadFile object representing the image file.
-        :type image_file: UploadFile
+        :param image_file: bytes object representing the image file.
+        :type image_file: bytes
         :param folder_name: Optional folder name for organizing images.
         :type folder_name: str
         :return: Tuple containing the URL and public ID of the uploaded image.
         :rtype: tuple
         """
         try:
-            if not folder_name:
-                folder_name = f"Cars-home/user_{user_id}/original_images"
             response = await asyncio.to_thread(
                 cloudinary.uploader.upload,
-                image_file.file,
-                folder=folder_name,  # type: ignore
+                image_file,
+                folder = f"Cars-home/{folder_name}"  # type: ignore
             )
             return response['url'], response['public_id']
         except CloudinaryError as e:
-            return JSONResponse(status_code=500, content={"message": f"Cloudinary error: {e}"})
-            # raise HTTPException(status_code=500, detail=f"Cloudinary error: {e}")
+            # return JSONResponse(status_code=500, content={"message": f"Cloudinary error: {e}"})
+            raise HTTPException(status_code=500, detail=f"Cloudinary error: {e}")
         except RequestException as e:
-            return JSONResponse(status_code=500, content={"message": f"Network error: {e}"})
-            # raise HTTPException(status_code=500, detail=f"Network error: {e}")
+            # return JSONResponse(status_code=500, content={"message": f"Network error: {e}"})
+            raise HTTPException(status_code=500, detail=f"Network error: {e}")
         except Exception as e:
-            return JSONResponse(status_code=500, content={"message": f"Uploading image error: {e}"})
-            # raise HTTPException(status_code=500, detail=f"Uploading image error: {e}")
+            # return JSONResponse(status_code=500, content={"message": f"Uploading image error: {e}"})
+            raise HTTPException(status_code=500, detail=f"Uploading image error: {e}")
 
     @staticmethod
     async def delete_picture(public_id: str):
@@ -68,8 +65,8 @@ class CloudService:
                 public_id
             )
         except Exception as e:
-            return JSONResponse(status_code=500, content={"message": f"Error deleting image: {e}"})
-            # raise HTTPException(status_code=500, detail=f"Error deleting image: {e}")
+            # return JSONResponse(status_code=500, content={"message": f"Error deleting image: {e}"})
+            raise HTTPException(status_code=500, detail=f"Error deleting image: {e}")
 
     @staticmethod
     async def update_picture_on_cloudinary(public_id: str, transformation_params: dict):
@@ -95,14 +92,14 @@ class CloudService:
                 eager_transformed_url = response['eager'][0]['url']
                 return eager_transformed_url
         except CloudinaryError as e:
-            return JSONResponse(status_code=500, content={"message": f"Cloudinary error: {e}"})
-            # raise HTTPException(status_code=500, detail=f"Cloudinary error: {e}")
+            # return JSONResponse(status_code=500, content={"message": f"Cloudinary error: {e}"})
+            raise HTTPException(status_code=500, detail=f"Cloudinary error: {e}")
         except RequestException as e:
-            return JSONResponse(status_code=500, content={"message": f"Network error: {e}"})
-            # raise HTTPException(status_code=500, detail=f"Network error: {e}")
+            # return JSONResponse(status_code=500, content={"message": f"Network error: {e}"})
+            raise HTTPException(status_code=500, detail=f"Network error: {e}")
         except Exception as e:
-            return JSONResponse(status_code=500, content={"message": f"Uploading image error: {e}"})
-            # raise HTTPException(status_code=500, detail=f"Помилка завантаження зображення: {e}")
+            # return JSONResponse(status_code=500, content={"message": f"Uploading image error: {e}"})
+            raise HTTPException(status_code=500, detail=f"Помилка завантаження зображення: {e}")
 
 
 cloud_service = CloudService()
