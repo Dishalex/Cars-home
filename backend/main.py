@@ -6,7 +6,7 @@ from sqlalchemy import text
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from backend.src.database.db import get_db
-from backend.src.routes import auth_routes, admin_routes, user_routes, history_routes, parking_routes, tg_routes
+from backend.src.routes import auth_routes, admin_routes, user_routes, history_routes, parking_routes, tg_routes, picture_routes
 
 # logging.basicConfig(level=logging.DEBUG,
 #                     format='%(asctime)s - %(levelname)s - %(message)s')
@@ -34,6 +34,7 @@ app.include_router(user_routes.router, prefix="/api")
 app.include_router(history_routes.router, prefix="/api")
 app.include_router(parking_routes.router, prefix="/api")
 app.include_router(tg_routes.router, prefix="/api")
+app.include_router(picture_routes.router, prefix="/api")
 
 
 # Health Check endpoint
