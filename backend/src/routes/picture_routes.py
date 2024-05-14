@@ -31,11 +31,11 @@ async def park_entry(user_id: int = Depends(auth_service.get_current_user), phot
         img_url, cloudinary_public_id = await cloud_service.upload_picture(img_processed, 'Entry_photos')
 
         
-        picture = await create_picture(session, recognized_symbols, img_url, cloudinary_public_id)
+        picture = await create_picture(session, recognized_symbols or plate_number, img_url, cloudinary_public_id)
 
         history = await create_entry(recognized_symbols or plate_number, picture.id, session)  # Виклик функції create_entry
 
-        return {"message": "Запис успішно створено", "image_url": img_url, "plate_number": recognized_symbols or plate_number}
+        return {"message": "Welcome to Cars Home!", "image_url": img_url, "plate_number": recognized_symbols or plate_number}
     #TODO create scheme
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
@@ -57,11 +57,11 @@ async def park_exit(user_id: int = Depends(auth_service.get_current_user), photo
         
         img_url, cloudinary_public_id = await cloud_service.upload_picture(img_processed, 'Entry_photos')
         
-        picture = await create_picture(session, recognized_symbols, img_url, cloudinary_public_id)
+        picture = await create_picture(session, recognized_symbols or plate_number, img_url, cloudinary_public_id)
 
         history = await create_exit(recognized_symbols or plate_number, picture.id, session)
 
-        return {"message": "Виїзд успішно зареєстровано", "image_url": img_url, "plate_number": recognized_symbols or plate_number}
+        return {"message": "Have a good trip!", "image_url": img_url, "plate_number": recognized_symbols or plate_number}
 
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))

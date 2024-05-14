@@ -60,8 +60,10 @@ async def detect_plate(img, text=''):
     # Додавання тексту 
     if text != '':
         plate_img = cv2.putText(plate_img, text, (15,15),
-                                cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 0, 255), 1, cv2.LINE_AA)
-    
+                                cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255, 255, 255), 2, cv2.LINE_AA)
+        plate_img = cv2.putText(plate_img, text, (15,15),
+                                cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 0, 0), 2, cv2.LINE_AA)
+            
     # Повертаємо оброблене зображення з виділеними номерними знаками та область номерного знаку
     return plate_img, plate
 
