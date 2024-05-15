@@ -76,7 +76,7 @@ class User(TimeStampMixin, Base):
     )
     ban: Mapped[bool] = mapped_column(default=False, nullable=True)
     blacklisted_tokens: Mapped["Blacklisted"] = relationship(
-        "Blacklisted", back_populates="user", lazy='joined', uselist=True
+        "Blacklisted", back_populates="user", lazy="joined", uselist=True
     )
     cars: Mapped[List["Car"]] = relationship(
         secondary=user_car_association, back_populates="users", lazy="joined"
@@ -90,7 +90,10 @@ class Blacklisted(TimeStampMixin, Base):
     token: Mapped[str] = mapped_column(String(255), nullable=True)
     user_id: Mapped[int] = mapped_column(Integer, ForeignKey("users.id"), nullable=True)
     user: Mapped["User"] = relationship(
-        "User", back_populates="blacklisted_tokens", lazy="joined", cascade="all, delete"
+        "User",
+        back_populates="blacklisted_tokens",
+        lazy="joined",
+        cascade="all, delete",
     )
 
 
@@ -119,27 +122,32 @@ class ParkingRate(TimeStampMixin, Base):
     rate_per_day: Mapped[float] = mapped_column(Float, default=5.0, nullable=True)
     number_of_spaces: Mapped[int] = mapped_column(Integer, default=100, nullable=True)
     history: Mapped["History"] = relationship(
-        "History", back_populates="rates", lazy="joined", cascade="all, delete",
+        "History",
+        back_populates="rates",
+        lazy="joined",
+        cascade="all, delete",
+        uselist=True,
     )
+
 
 class History(TimeStampMixin, Base):
     """SQLAlchemy model representing the 'history' table in the database."""
 
     __tablename__ = "history"
-    entry_time: Mapped[DateTime] = mapped_column(
-        DateTime, nullable=True
-    )
-    exit_time: Mapped[DateTime] = mapped_column(
-        DateTime, nullable=True
-    )
+    entry_time: Mapped[DateTime] = mapped_column(DateTime, nullable=True)
+    exit_time: Mapped[DateTime] = mapped_column(DateTime, nullable=True)
     parking_time: Mapped[float] = mapped_column(Float, nullable=True)
     cost: Mapped[float] = mapped_column(Float, nullable=True)
     paid: Mapped[bool] = mapped_column(default=False, nullable=True)
     number_free_spaces: Mapped[int] = mapped_column(Integer, nullable=True)
     car_id: Mapped[int] = mapped_column(Integer, ForeignKey("cars.id"), nullable=True)
-    picture_id: Mapped[int] = mapped_column(Integer, ForeignKey("pictures.id"), nullable=True)
-    rate_id: Mapped[int] = mapped_column(Integer, ForeignKey("parking_rates.id"), nullable=True)
-    
+    picture_id: Mapped[int] = mapped_column(
+        Integer, ForeignKey("pictures.id"), nullable=True
+    )
+    rate_id: Mapped[int] = mapped_column(
+        Integer, ForeignKey("parking_rates.id"), nullable=True
+    )
+
     car: Mapped["Car"] = relationship(
         "Car",
         back_populates="history",
