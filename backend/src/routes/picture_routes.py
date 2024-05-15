@@ -62,7 +62,7 @@ async def park_exit(
         if not recognized_symbols and not plate_number:
             raise HTTPException(status_code=400, detail="Номерний знак не розпізнано і не введено вручну")
         
-        img_url, cloudinary_public_id = await cloud_service.upload_picture(img_processed, 'Entry_photos')
+        img_url, cloudinary_public_id = await cloud_service.upload_picture(img_processed, 'Exit_photos')
         
         picture = await create_picture(session, recognized_symbols or plate_number, img_url, cloudinary_public_id)
 
