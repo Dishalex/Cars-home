@@ -1,3 +1,23 @@
+# Щодо залежностей
+poetry add fastapi==0.108.0
+
+poetry add 'uvicorn[standard]' 'pydantic[email]'
+
+# Коротка інформація щодо запуску сервера
+
+1. Створити локальну копію гілки із вказанням імені користувача та фічі що міняється
+2. Ініціалізувати віртуальне оточення **poetry shell**
+3. Оновити залежності **poetry update**
+
+   Подальші дії виконувати з кореневого каталогу: **CARS-HOME**
+5. За потреби виконати міграції БД **alembic upgrade head**
+6. Запуск серверу однією з команд:
+   **uvicorn backend.main:app --host localhost --port 8000 --reload**
+
+   або з використанням логування:
+   **uvicorn backend.main:app --host localhost --port 8000 --reload --log-level debug > logs.txt**
+
+
 # Cars-home
 Team 4 Python Data Science project
 
@@ -52,3 +72,5 @@ _Додатково:_
 
 - Створення докладної покрокової інструкції щодо встановлення та використання вашого проєкту.
 
+# Database relations scheme:
+![car_park6 - public-diagram](https://github.com/Dishalex/Cars-home/assets/131618968/fb9d735b-00ea-4f83-a75c-7152f87d6962)
