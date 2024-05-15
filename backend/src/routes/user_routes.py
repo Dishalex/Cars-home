@@ -101,8 +101,8 @@ async def ban_user(
 
 @router.get("/cars/{user_id}", response_model=list[NewCarResponse], status_code=200)
 async def read_cars_by_user(user_id: int, db: AsyncSession = Depends(get_db),
-                            current_user: User = Depends(auth_service.get_current_user)):
-    if current_user.role != Role.admin and current_user.id != user_id:
+                            user: User = Depends(auth_service.get_current_user)):
+    if user.role != Role.admin and user.id != user_id:
         raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail="Not enough permissions")
     car_repository = CarRepository(db)
     cars = await car_repository.get_cars_by_user(user_id)

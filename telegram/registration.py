@@ -9,6 +9,7 @@ from telegram.tg_schema import UserUpdate
 from telegram.constants import *
 
 rtr = Router()
+id_storage = MemoryStorage()
 token_storage = MemoryStorage()
 
 
@@ -19,10 +20,6 @@ class Registration(StatesGroup):
     phone_number = State()
     telegram_id = State()
     plate = State()
-
-
-class Token(StatesGroup):
-    token = State()
 
 
 async def login(data: dict, message: Message):
@@ -36,7 +33,7 @@ async def login(data: dict, message: Message):
             else:
                 return await message.answer(InfoMessages.TRY_AGAIN)
         bearer = json_response.get("access_token")
-        await token_storage.set_data(StorageKey(
+        await id_storage.set_data(StorageKey(
             bot_id=message.bot.id, chat_id=message.chat.id, user_id=message.from_user.id
         ), {"id": data.get("id")})
         await token_storage.set_data(StorageKey(
