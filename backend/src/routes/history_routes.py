@@ -76,8 +76,12 @@ async def update_car_history(plate: str, history_update: HistoryUpdateCar,
 
 
 @router.get("/get_all_entries_by_period/{start_date}/{end_date}")
-async def get_history_entries_by_period_route(start_date: str, end_date: str, session: AsyncSession = Depends(get_db),
-                                              admin: User = Depends(auth_service.get_current_admin)):
+async def get_history_entries_by_period_route(
+        start_date: str,
+        end_date: str,
+        session: AsyncSession = Depends(get_db),
+        admin: User = Depends(auth_service.get_current_admin),
+):
     if admin.role != Role.admin:
         raise HTTPException(status_code=400, detail="Not authorized to access this resource")
     try:
@@ -97,9 +101,12 @@ async def get_history_entries_by_period_route(start_date: str, end_date: str, se
 
 
 @router.get("/get_entries_by_period/{start_date}/{end_date}/{car_id}")
-async def get_history_entries_for_car_by_period_route(start_date: str, end_date: str, car_id: int,
-                                                      current_user: User = Depends(auth_service.get_current_user),
-                                                      session: AsyncSession = Depends(get_db)):
+
+async def get_history_entries_for_car_by_period_route(
+        start_date: str, end_date: str, car_id: int,
+        current_user: User = Depends(auth_service.get_current_user),
+        session: AsyncSession = Depends(get_db),
+):
     car_repository = CarRepository(session)
     user_id = await car_repository.get_user_id_by_car_id(car_id)
     if user_id is None:
