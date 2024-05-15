@@ -13,6 +13,15 @@ from backend.src.routes import auth_routes, admin_routes, user_routes, history_r
 
 app = FastAPI()
 
+origins = ["*"]
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+
 # Налаштування логера
 # logger = logging.getLogger("myapp")
 # logging.basicConfig(level=logging.DEBUG)
