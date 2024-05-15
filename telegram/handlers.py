@@ -7,7 +7,7 @@ from aiogram.types import *
 from aiohttp import ClientSession
 
 from telegram.constants import *
-from telegram.registration import token_storage
+from telegram.registration import token_storage, id_storage
 
 rt = Router()
 
@@ -44,11 +44,18 @@ async def help_command(message: Message):
 
 @rt.message(Command('show'))
 async def show(message: Message, command: CommandObject):
-    access_token = await token_storage.get_data(StorageKey(
-        bot_id=message.bot.id, chat_id=message.chat.id, user_id=message.from_user.id
+    user_id = await id_storage.get_data(StorageKey(
+        bot_id=message.bot.id, chat_id=message.chat.id, user_id=message.from_user.id,
     ))
-    url = f'{USR_COMMANDS.get(command.command).get("url")}/{access_token.get("id")}'
-    response = await do_get(message, url, access_token.get("access_token"))
+    access_token = await token_storage.get_data(StorageKey(
+        bot_id=message.bot.id, chat_id=message.chat.id, user_id=message.from_user.id,
+    ))
+    await message.answer(str(user_id))
+    await message.answer(str(access_token))
+    url = f'{USR_COMMANDS.get(command.command).get("url")}/{user_id.get("id", 0)}'
+    response = await do_get(message, url, access_token.get("access_token", 0))
+    if response:
+        await message.answer(str(response))
 
 
 @rt.message(Command('free'))
@@ -58,11 +65,12 @@ async def free(message: Message, command: CommandObject):
     ))
     url = f'{USR_COMMANDS.get(command.command).get("url")}'
     response = await do_get(message, url, access_token.get("access_token"))
-    await message.answer(
-        f"<b>{response.get('number_of_spaces')} вільних місць\n\n"
-        f"Тарифи:</b>\n{response.get('rate_per_hour')}/год.\n"
-        f"{response.get('rate_per_day')*24}/добу"
-    )
+    if response:
+        await message.answer(
+            f"<b>{response.get('number_of_spaces')} вільних місць\n\n"
+            f"Тарифи:</b>\n{response.get('rate_per_hour')}/год.\n"
+            f"{response.get('rate_per_day')*24}/добу"
+        )
 
 
 @rt.message(Command('history'))
@@ -97,6 +105,7 @@ async def get_id(message: Message):
 
 @rt.callback_query(F.data == "cars")
 async def get_cars(callback: CallbackQuery):
+    await callback.answer()
     await show(callback.message, CommandObject(command="show"))
 
 
