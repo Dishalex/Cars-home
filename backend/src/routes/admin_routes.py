@@ -5,6 +5,7 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from backend.src import UserResponse
 from backend.src.repository.car_repository import CarRepository
 from backend.src.repository.parking import create_rate, create_or_update_rate, get_default_rate_values
+from backend.src.routes.notification import telegram_notification
 from backend.src.schemas.car_schemas import CarSchema, CarUpdate, NewCarResponse
 from backend.src.database import get_db
 from backend.src.schemas.parking_schema import ParkingRateSchema, NewParkingRateSchema
@@ -158,11 +159,13 @@ async def ban_car(plate: str, db: AsyncSession = Depends(get_db),
         return JSONResponse(status_code=403, content={"message": "Not authorized to access this resource"})
 
     car_repository = CarRepository(db)
-    car = await car_repository.ban_car(plate)
+    car = await car_repository.ban_car(plate)  # TODO: add users (car, users = ...) for notification
 
     if car is None:
         return JSONResponse(status_code=404, content={"message": "Car not found"})
     elif car:
+        # for user in users:
+        #     await telegram_notification("ban", user)
         return JSONResponse(status_code=200, content={"message": f"Car {plate} has been banned"})
     else:
         return JSONResponse(status_code=400, content={"message": "Error banning the car"})

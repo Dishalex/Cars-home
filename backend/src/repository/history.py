@@ -8,6 +8,8 @@ from typing import List, Sequence, Tuple
 from backend.src.repository.car_repository import CarRepository
 import csv
 
+from backend.src.routes.notification import telegram_notification
+
 
 async def create_exit(find_plate: str, picture_id: int, session: AsyncSession):
     history_entries = await get_history_entries_with_null_exit_time(session)
@@ -44,6 +46,8 @@ async def create_exit(find_plate: str, picture_id: int, session: AsyncSession):
 
                 if car_row.credit >= 0:
                     history.paid = True
+                else:
+                    await telegram_notification("limit", car_row)
 
                 await session.commit()
                 await session.refresh(history)

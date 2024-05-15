@@ -34,8 +34,7 @@ async def login(data: dict, message: Message):
             if response.status == 200:
                 json_response = await response.json()
             else:
-                await message.answer(InfoMessages.TRY_AGAIN)
-                return
+                return await message.answer(InfoMessages.TRY_AGAIN)
         bearer = json_response.get("access_token")
         await token_storage.set_data(StorageKey(
             bot_id=message.bot.id, chat_id=message.chat.id, user_id=message.from_user.id

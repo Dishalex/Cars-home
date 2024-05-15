@@ -16,6 +16,7 @@ async def do_get(message: Message, url: str, token: str):
                 url,
                 headers={"Authorization": f"Bearer {token}"},
         ) as response:
+            await message.answer(str(response))
             match response.status:
                 case 200:
                     json_response = await response.json()
@@ -27,7 +28,6 @@ async def do_get(message: Message, url: str, token: str):
                 case 404:
                     await message.answer(InfoMessages.NOT_FOUND)
                 case _:
-                    await message.answer(str(response))
                     await message.answer(InfoMessages.TRY_AGAIN)
 
 
@@ -42,7 +42,7 @@ async def help_command(message: Message):
 
 
 @rt.message(Command('show'))
-async def show(message: Message, command: CommandObject):
+async def show(message: Message, command: CommandObject = 'show'):
     access_token = await token_storage.get_data(StorageKey(
         bot_id=message.bot.id, chat_id=message.chat.id, user_id=message.from_user.id
     ))
@@ -97,4 +97,5 @@ async def get_cars(callback: CallbackQuery):
 @rt.callback_query(F.data.endswith("_info"))
 async def get_info(callback: CallbackQuery):
     await callback.answer()
-    await callback.message.answer(USR_COMMANDS.get(callback.data.split("_")[0]).get("description"))
+    info = callback.data.split("_")[0]
+    await callback.message.answer(f'{info}: {USR_COMMANDS.get(info).get("description")}')
