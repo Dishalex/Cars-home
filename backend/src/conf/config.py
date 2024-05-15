@@ -7,6 +7,7 @@ class Settings(BaseSettings):
 
     DB_URL: str = "postgresql+asyncpg://user:password@localhost:5432/db"
     SECRET_KEY_JWT: str = "secret"
+    TG_TOKEN: str = "token"
     ALGORITHM: str = "HS256"
     CLD_NAME: str = "cloud_name"
     CLD_API_KEY: int = 12345678
