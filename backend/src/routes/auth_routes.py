@@ -1,7 +1,7 @@
 # backend/src/routes/auth_routes.py
 from fastapi import APIRouter, HTTPException, Depends, status
 from fastapi.security import OAuth2PasswordRequestForm, HTTPAuthorizationCredentials, HTTPBearer
-from fastapi.responses import JSONResponse
+
 from sqlalchemy.ext.asyncio import AsyncSession
 import logging
 
@@ -25,8 +25,7 @@ async def signup(body: NewUserSchema, db: AsyncSession = Depends(get_db)):
         exist_user = await repositories_users.get_user_by_email(body.email, db)
         if exist_user:
             logger.error(f"Attempt to register with existing user: {body.full_name}")
-            #raise HTTPException(status_code=status.HTTP_409_CONFLICT, detail="Account already exists")
-            return JSONResponse(status_code=status.HTTP_409_CONFLICT, content={"message": "Account already exists"})
+            raise HTTPException(status_code=status.HTTP_409_CONFLICT, detail="Account already exists")
 
         body.password = auth_service.get_password_hash(body.password)
         new_user = await repositories_users.create_user(body, db)
@@ -34,8 +33,7 @@ async def signup(body: NewUserSchema, db: AsyncSession = Depends(get_db)):
         return new_user
     except Exception as e:
         logger.exception("Failed to register a new user")
-        # raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail=str(e))
-        return JSONResponse(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, content={"message": str(e)})
+        raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail=str(e))
 
 
 @router.post("/login", response_model=TokenSchema)
@@ -56,15 +54,14 @@ async def login(body: OAuth2PasswordRequestForm = Depends(), db: AsyncSession = 
         user = await repositories_users.get_user_by_email(body.username, db)
     if user is None or not auth_service.verify_password(body.password, user.password):
         logger.error(f"Invalid username or password: {body.username}")
-        # raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Invalid username or password")
-        return JSONResponse(status_code=status.HTTP_401_UNAUTHORIZED, content={"message": "Invalid username or password"})
+        raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Invalid username or password")
 
     # if not auth_service.verify_password(body.password, user.password):
     #     raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Invalid password")
     if user.ban:
         logger.error(f"You were banned by an administrator: {body.username}")
-        #raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail="You were banned by an administrator")
-        return JSONResponse(status_code=status.HTTP_403_FORBIDDEN, content={"message": "You were banned by an administrator"})
+        raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail="You were banned by an administrator")
+
     # Generate JWT
     access_token = await auth_service.create_access_token(data={"sub": user.email})
     refresh = await auth_service.create_refresh_token(data={"sub": user.email})
@@ -94,8 +91,7 @@ async def refresh_token(
     if user.refresh_token != token:
         await repositories_users.update_token(user, None, db)
         logger.error(f"Invalid refresh token: {email}")
-        # raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Invalid refresh token")
-        return JSONResponse(status_code=status.HTTP_401_UNAUTHORIZED, content={"message": "Invalid refresh token"})
+        raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Invalid refresh token")
 
     access_token = await auth_service.create_access_token(data={"sub": email})
     refresh = await auth_service.create_refresh_token(data={"sub": email})

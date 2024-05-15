@@ -18,7 +18,6 @@ async def do_get(message: Message, url: str, token: str):
                 url,
                 headers={"Authorization": f"Bearer {token}"},
         ) as response:
-            await message.answer(str(response))
             match response.status:
                 case 200:
                     json_response = await response.json()

@@ -19,7 +19,7 @@ class CarRepository:
         existing_car = await self.db.execute(select(Car).filter(Car.plate == car_data.plate))
         existing_car = existing_car.scalars().first()
         if existing_car:
-            return {'error': f'The plate {car_data.plate} is already in use'}
+            raise HTTPException(status_code=400, detail=f'Car with plate {car_data.plate} already exists')
 
         self.db.add(new_car)
 
@@ -28,7 +28,7 @@ class CarRepository:
             user = await self.db.get(User, user_id)
             if not user:
                 await self.db.rollback()
-                return {'error': f'User with id {user_id} does not exist'}
+                raise HTTPException(status_code=404, detail=f"User with id {user_id} does not exist")
             new_car.users.append(user)
 
         await self.db.commit()
@@ -71,7 +71,7 @@ class CarRepository:
     async def get_cars_by_user(self, user_id: int):
         user_exists = await self.db.scalar(select(User.id).where(User.id == user_id))
         if not user_exists:
-            return {"error": f"User with id {user_id} does not exist"}
+            raise HTTPException(status_code=404, detail="User not found")
         result = await self.db.execute(
             select(Car).options(selectinload(Car.users)).join(Car.users).where(User.id == user_id)
         )
@@ -92,14 +92,14 @@ class CarRepository:
         statement = select(Car).where(Car.plate == plate)
         result = await self.db.execute(statement)
         car = result.scalars().first()
-        if car is None:
-            return None
+        if not car:
+            raise HTTPException(status_code=404, detail="Car not found")
 
         if car_update.plate and car_update.plate != plate:
             existing_car = await self.db.execute(select(Car).filter(Car.plate == car_update.plate))
             existing_car = existing_car.scalars().first()
             if existing_car:
-                return {'error': f'The plate {car_update.plate} is already in use'}
+                raise HTTPException(status_code=400, detail=f"Car with plate {car_update.plate} already exists")
 
         if car_update.user_ids is not None:
             car.users.clear()  # Очищення списку користувачів
@@ -107,7 +107,7 @@ class CarRepository:
                 user = await self.db.get(User, user_id)
                 if not user:
                     await self.db.rollback()
-                    return {'error': f'User with id {user_id} does not exist'}
+                    raise HTTPException(status_code=404, detail=f"User with id {user_id} does not exist")
                 car.users.append(user)
 
         for var, value in car_update.dict(exclude_unset=True, exclude={'user_ids'}).items():
@@ -135,7 +135,6 @@ class CarRepository:
         car = result.scalars().first()
         if car is None:
             return None
-
         car.ban = True
         await self.db.commit()
         return True
