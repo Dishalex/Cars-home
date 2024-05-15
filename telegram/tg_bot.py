@@ -1,6 +1,7 @@
 import asyncio
 
 from aiogram import Bot, Dispatcher
+from aiogram.enums import ParseMode
 from aiogram.methods import DeleteWebhook
 from aiogram.types import *
 
@@ -9,7 +10,7 @@ from telegram.constants import USR_COMMANDS
 from telegram.handlers import rt
 from telegram.registration import rtr
 
-bot = Bot(config.TG_TOKEN)
+bot = Bot(config.TG_TOKEN, parse_mode=ParseMode.HTML)
 dp = Dispatcher()
 dp.include_router(rt)
 dp.include_router(rtr)

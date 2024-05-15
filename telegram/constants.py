@@ -20,7 +20,7 @@ USR_COMMANDS = {
     "history": {
         "name": "Історія",
         "description": "Ціни і час паркування",
-        "url": "/api/telegram/history",
+        "url": "/api/history/get_all_entries_by_period",
     },
     "help": {"name": "Інструкція"},
 }
