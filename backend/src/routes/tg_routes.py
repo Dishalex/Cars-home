@@ -1,4 +1,4 @@
-from fastapi import APIRouter, Depends, status
+from fastapi import APIRouter, Depends, status, HTTPException
 from fastapi.responses import JSONResponse
 from sqlalchemy.ext.asyncio import AsyncSession
 
@@ -17,5 +17,5 @@ async def get_user(
 ) -> User | JSONResponse:
     user = await repositories_users.get_user_by_number(phone_number, db)
     if not user:
-        return JSONResponse({'message': 'User not found'}, status.HTTP_404_NOT_FOUND)
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail='User not found')
     return user
