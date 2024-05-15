@@ -5,7 +5,7 @@ from aiogram.types import (
     KeyboardButton,
 )
 
-HOST = "http://localhost:8000"
+HOST = "https://cars-home-app-private-student-cf52bc9b.koyeb.app"
 USR_COMMANDS = {
     "show": {
         "name": "Показати авто",
@@ -15,7 +15,7 @@ USR_COMMANDS = {
     "free": {
         "name": "Вільні місця",
         "description": "Кількість вільних місць",
-        "url": "/api/parking-rate/free-spaces",
+        "url": "/api/admin/default-parking-rate",
     },
     "history": {
         "name": "Історія",
