@@ -1,3 +1,5 @@
+from datetime import date
+
 from aiogram import Router, F
 from aiogram.filters import CommandStart, Command, CommandObject
 from aiogram.fsm.storage.memory import StorageKey
@@ -16,7 +18,6 @@ async def do_get(message: Message, url: str, token: str):
                 url,
                 headers={"Authorization": f"Bearer {token}"},
         ) as response:
-            await message.answer(str(response))
             match response.status:
                 case 200:
                     json_response = await response.json()
@@ -33,12 +34,12 @@ async def do_get(message: Message, url: str, token: str):
 
 @rt.message(CommandStart())
 async def starting(message: Message):
-    await message.answer(InfoMessages.START, 'HTML', reply_markup=KeyboardButtons.KB_START)
+    await message.answer(InfoMessages.START, reply_markup=KeyboardButtons.KB_START)
 
 
 @rt.message(Command('help'))
 async def help_command(message: Message):
-    await message.answer(InfoMessages.HELP, 'HTML', reply_markup=KeyboardButtons.KB_HELP)
+    await message.answer(InfoMessages.HELP, reply_markup=KeyboardButtons.KB_HELP)
 
 
 @rt.message(Command('show'))
@@ -64,7 +65,7 @@ async def history(message: Message, command: CommandObject):
     access_token = await token_storage.get_data(StorageKey(
         bot_id=message.bot.id, chat_id=message.chat.id, user_id=message.from_user.id
     ))
-    url = f'{USR_COMMANDS.get(command.command).get("url")}'
+    url = f'{USR_COMMANDS.get(command.command).get("url")}/2024-05-15/{date.today()}'
     await do_get(message, url, access_token.get("access_token"))
 
 
@@ -98,4 +99,4 @@ async def get_cars(callback: CallbackQuery):
 async def get_info(callback: CallbackQuery):
     await callback.answer()
     info = callback.data.split("_")[0]
-    await callback.message.answer(f'{info}: {USR_COMMANDS.get(info).get("description")}')
+    await callback.message.answer(f'<b>{info}</b>: {USR_COMMANDS.get(info).get("description")}')
