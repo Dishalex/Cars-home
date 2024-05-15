@@ -7,15 +7,6 @@ from pydantic import BaseModel, EmailStr, Field
 from backend.src.entity.models import Role
 
 
-class UserSchema(BaseModel):
-    """Pydantic model for validating incoming user registration data."""
-    full_name: str = Field(min_length=2, max_length=50)
-    email: EmailStr
-    password: str = Field(min_length=4, max_length=20)
-    phone_number: str = Field(min_length=10, max_length=20)
-    telegram_id: int | None = None
-
-
 class NewUserSchema(BaseModel):
     """Pydantic model for validating incoming user registration data."""
     full_name: str = Field(min_length=2, max_length=50)
@@ -55,7 +46,7 @@ class AnotherUsers(BaseModel):
     full_name: str
     email: EmailStr
     phone_number: str
-    telegram_id: int
+    telegram_id: int | None = None
     created_at: datetime
 
 

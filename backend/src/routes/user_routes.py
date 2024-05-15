@@ -1,6 +1,5 @@
 # backend/src/routes/user_routes.py
 from fastapi import APIRouter, HTTPException, Depends, status
-from fastapi.responses import JSONResponse
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from backend.src.database.db import get_db
@@ -44,8 +43,7 @@ async def get_user_profile(user_id: int, db: AsyncSession = Depends(get_db)):
     user_info = await repositories_users.get_user_by_userid(user_id, db)
 
     if not user_info:
-        # raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="User not found.")
-        return JSONResponse(status_code=status.HTTP_404_NOT_FOUND, content={"message": "User not found."})
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="User not found.")
 
     return user_info
 
@@ -93,13 +91,11 @@ async def ban_user(
     :rtype: dict
     """
     if not current_user.role == Role.admin:
-        return JSONResponse(status_code=status.HTTP_403_FORBIDDEN,
-                            content={"message": "You don't have permission to perform this action."})
+        raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail="Not enough permissions")
 
     banned = await repositories_users.ban_user(username, db)
     if not banned:
-        # raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="User not found.")
-        return JSONResponse(status_code=status.HTTP_404_NOT_FOUND, content={"message": "User not found."})
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="User not found.")
     return {"message": f"{username} has been banned."}
 
 
@@ -107,10 +103,8 @@ async def ban_user(
 async def read_cars_by_user(user_id: int, db: AsyncSession = Depends(get_db),
                             current_user: User = Depends(auth_service.get_current_user)):
     if current_user.role != Role.admin and current_user.id != user_id:
-        return JSONResponse(status_code=400, content={"message": "Not authorized to access this resource"})
+        raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail="Not enough permissions")
     car_repository = CarRepository(db)
     cars = await car_repository.get_cars_by_user(user_id)
-    if isinstance(cars, dict) and cars.get("error"):
-        return JSONResponse(status_code=404, content={"message": cars["error"]})
     return cars
 

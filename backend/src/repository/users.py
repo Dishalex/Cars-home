@@ -5,7 +5,7 @@ from sqlalchemy.ext.asyncio import AsyncSession
 
 from backend.src.database.db import get_db
 from backend.src.entity.models import User, Role
-from backend.src.schemas.user_schema import UserSchema, UserUpdate, NewUserSchema
+from backend.src.schemas.user_schema import UserUpdate, NewUserSchema
 from backend.src.services import auth
 
 
