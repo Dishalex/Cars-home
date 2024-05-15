@@ -30,8 +30,8 @@ ADM_COMMANDS = {
     "id": {"name": "Ваш ІД"},
 }
 command_list = "\n".join(
-    [f"* {command} - {info.get('name')}" for command, info in USR_COMMANDS.items()]
-)[:-1]
+    [f"* {command} - {info.get('name')}" for command, info in USR_COMMANDS.items()][:-1]
+)
 
 
 class KeyboardButtons:
