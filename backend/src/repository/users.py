@@ -26,23 +26,6 @@ async def get_user_by_email(email: str, db: AsyncSession = Depends(get_db)):
     return user
 
 
-async def get_user_by_telegram_id(telegram_id: int, db: AsyncSession = Depends(get_db)):
-    """
-        Retrieve a user from the database based on the Telegram ID.
-
-        :param telegram_id: Telegram ID of the user to be retrieved.
-        :type telegram_id: int
-        :param db: Asynchronous SQLAlchemy session (dependency injection).
-        :type db: AsyncSession
-        :return: The retrieved user or None if not found.
-        :rtype: User or None
-        """
-    stmt = select(User).where(User.telegram_id == telegram_id)
-    user = await db.execute(stmt)
-    user = user.unique().scalar_one_or_none()
-    return user
-
-
 async def get_user_by_number(phone_number: str, db: AsyncSession = Depends(get_db)):
     """
         Retrieve a user from the database based on the phone number.

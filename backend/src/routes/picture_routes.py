@@ -9,7 +9,6 @@ from backend.src.database.db import get_db
 from backend.src.entity.models import User
 from backend.src.repository.history import create_entry, create_exit
 from backend.src.repository.picture import create_picture
-from backend.src.routes.notification import telegram_notification
 from backend.src.services.auth import auth_service
 from backend.src.services.cloudstore import cloud_service
 
@@ -38,9 +37,7 @@ async def park_entry(
     logging.info(img_url)
 
     picture = await create_picture(session, recognized_symbols or plate_number, img_url, cloudinary_public_id)
-
     history = await create_entry(recognized_symbols or plate_number, picture.id, session)  # Виклик функції create_entry
-    await telegram_notification("in", user)
     return {"message": "Welcome to Cars Home!", "image_url": img_url, "plate_number": recognized_symbols or plate_number}
     # #TODO create scheme
     # except Exception as e:
@@ -66,12 +63,10 @@ async def park_exit(
         raise HTTPException(status_code=400, detail="Номерний знак не розпізнано і не введено вручну")
 
     img_url, cloudinary_public_id = await cloud_service.upload_picture(img_processed, 'Exit_photos')
-    logging.info(img_url)
 
     picture = await create_picture(session, recognized_symbols or plate_number, img_url, cloudinary_public_id)
 
     history = await create_exit(recognized_symbols or plate_number, picture.id, session)
-    await telegram_notification("out", user)
     return {"message": "Have a good trip!", "image_url": img_url, "plate_number": recognized_symbols or plate_number}
 
     # except Exception as e:
