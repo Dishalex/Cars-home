@@ -5,8 +5,8 @@ from aiogram.types import (
     KeyboardButton,
 )
 
-HOST = "https://cars-home-app-private-student-cf52bc9b.koyeb.app"
-# HOST = "http://127.0.0.1:8000"
+# HOST = "https://cars-home-app-private-student-cf52bc9b.koyeb.app"
+HOST = "http://127.0.0.1:8000"
 USR_COMMANDS = {
     "show": {
         "name": "Показати авто",
