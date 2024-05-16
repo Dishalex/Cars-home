@@ -1,76 +1,99 @@
-# Щодо залежностей
-poetry add fastapi==0.108.0
-
-poetry add 'uvicorn[standard]' 'pydantic[email]'
-
-# Коротка інформація щодо запуску сервера
-
-1. Створити локальну копію гілки із вказанням імені користувача та фічі що міняється
-2. Ініціалізувати віртуальне оточення **poetry shell**
-3. Оновити залежності **poetry update**
-
-   Подальші дії виконувати з кореневого каталогу: **CARS-HOME**
-5. За потреби виконати міграції БД **alembic upgrade head**
-6. Запуск серверу однією з команд:
-   **uvicorn backend.main:app --host localhost --port 8000 --reload**
-
-   або з використанням логування:
-   **uvicorn backend.main:app --host localhost --port 8000 --reload --log-level debug > logs.txt**
+# Cars-Home ![qrcode(1)](https://github.com/Dishalex/Cars-home/assets/131618968/b250accb-1a6b-4a9d-8825-4cf90647e77c)
 
 
-# Cars-home
-Team 4 Python Data Science project
+# Automated Parking Management System
 
-Загальний опис проєкту:
+## Overview
 
-****Система управління паркуванням на основі моделі комп'ютерного зору****
+This project is a web application designed to automate the management of parking spaces. It provides the following key features:
+1. Automatic recognition of vehicle license plates from images.
+2. Tracking the duration of parking for each unique vehicle.
+3. Calculating accumulated parking charges.
 
-**Огляд:**
+### Additional Features
+7. Real-time mobile notifications for each user's vehicle entry/exit events.
+8. Graphs and reports on the number of available and occupied parking spots.
 
-_Розробити веб-застосунок, який автоматично може:_
-1. визначати номери автомобільних знаків на зображеннях;
-2. відстежити тривалість паркування для кожного унікального транспортного засобу;
-3. розраховувати накопичені паркувальні витрати.
+## Required Features
+
+1. **User Account Management:**
+   - Administrator and regular user roles.
+   - Administrator functions: adding/removing registered license plates, setting parking rates, and creating a blacklist of vehicles.
+   - User functions: viewing personal license plate information and parking history.
+
+2. **Image Processing:**
+   - Accepting images from users.
+   - Detecting license plates in images.
+   - Extracting and highlighting the license plate area from images.
+
+3. **Optical Character Recognition (OCR):**
+   - Identifying text on the license plate.
+   - Searching for the license plate number in the registered vehicle database.
+
+4. **Parking Duration Tracking:**
+   - Recording entry/exit times whenever a license plate is recognized.
+   - Calculating the total parking duration for each unique license plate.
+
+5. **Data Storage:**
+   - Storing duration data associated with license plates in a database.
+   - Calculating parking costs.
+
+6. **User Notifications:**
+   - Notifying users if accumulated parking charges exceed set limits.
+
+7. **Report Generation:**
+   - Generating reports on calculations, exportable in CSV format.
+
+## Technical Implementation
+
+- **Backend Framework:** Developed using FastAPI.
+- **Computer Vision:** Implemented with TensorFlow/Keras and OpenCV.
+- **Database:** PostgreSQL for persistent storage of license plates and data.
+- **Real-Time Notifications:** Implemented via a Telegram bot.
+
+## Telegram Bot
+
+You can interact with the application through the Telegram bot: [CarsHomeBot](https://t.me/CarsHomeBot)
+
+## Running the Application
+
+### Prerequisites
+
+Ensure you have the following installed on your machine:
+- Python 3.8+
+- PostgreSQL
+- Virtual environment tool (e.g., `venv` or `virtualenv`)
+
+### Setup
+
+1. **Clone the Repository:**
+   ```bash
+   git clone https://github.com/yourusername/parking-management-system.git
+   cd parking-management-system
    
-_Додатково:_
+2. **Create and Activate Virtual Environment:**
+   python -m venv venv
+   source venv/bin/activate  # On Windows, use `venv\Scripts\activate`
 
-5. Інтеграція веб камери
-6. Інтеграція управління воротами для відкриття за допомогою визначення номерного знака
-7. Real Time мобільні сповіщення для подій в'їзду/виїзду для кожного користувача
-8. Графіки та звіти про кількість вільних та зайнятих паркомісць.
+   
+3. **Install Dependencies:**
+   pip install -r requirements.txt
 
-**Необхідні функції:**
-1. Управління обліковими записами користувачів.
-2. Ролі адміністратора та звичайного користувача.
-3. Функції адміністратора - додавання/видалення зареєстрованих номерних знаків, налаштування тарифів на паркування та можливість створення чорного списку транспортних засобів.
-4. Функції користувача - перегляд власної інформації про номерний знак та історії паркування
-5. Приймання зображень від користувача. Детекція номерного знаку. Виявлення та виділення області з номерним знаком із зображень.
-6. Оптичне розпізнавання символів для ідентифікації тексту номерного знаку.
-7. Пошук номера авто у базі даних зареєстрованих транспортних засобів.
-8. Відстеження тривалості паркування.
-9. Запис часу в'їзду/виїзду кожного разу, коли визначається номерний знак.
-10. Розрахунок загальної тривалості паркування для кожного унікального номерного знаку.
-11. Зберігання даних про тривалість, пов'язаних із номерними знаками в базі даних. Розрахунок вартості паркування.
-12. Сповіщення користувача, якщо накопичені парковочні витрати перевищують встановлені ліміти.
-13. Генерація звітів про розрахунки, які можна експортувати у форматі CSV.
+   
+4. **Configure Database:**
+   -   Create a PostgreSQL database.
+   -   Update the database connection settings in backend/src/database/db.py.
 
-**Технічна реалізація:**
-- Розробка веб-сервісу на основі фреймворку FastAPI
-- При розробці веб-сервісу дотримуйтесь використання корпоративних кольорів (по можливості)
-- Модель компʼютерного зору реалізована за допомогою Tensorflow/Keras та OpenCV
-- База даних Postgres для постійного зберігання номерних знаків та даних
-**Створення Dockerfile:**
-- розробити Dockerfile для створення образу Docker, який дозволить розміщувати та запускати програму в контейнеризованому середовищі.
-- Dockerfile має включати всі необхідні інструкції для створення образу, включаючи:
-- - вибір базового образу,
-  - копіювання вихідного коду програми до контейнера,
-  - встановлення необхідних залежностей та визначення команди для запуску програми.
-**Використання Docker Compose**:
-- Інтегрувати інструмент Docker Compose для спрощення процесу розгортання та управління проєктом у середовищі Docker.
-- Створити файл docker-compose.yml, який описує послуги, мережі та томи, необхідні для проєкту.
-- Файл повинен дозволяти запускати весь проєкт за допомогою однієї команди docker-compose up, автоматизуючи створення та запуск необхідних Docker контейнерів.
+  
+5. **Run Database Migrations:**
+   alembic upgrade head
 
-- Створення докладної покрокової інструкції щодо встановлення та використання вашого проєкту.
+   
+6. **Start the Application:**
+   uvicorn backend.main:app --reload
+   
+The application should now be running at http://127.0.0.1:8000.
 
-# Database relations scheme:
-![car_park6 - public-diagram](https://github.com/Dishalex/Cars-home/assets/131618968/fb9d735b-00ea-4f83-a75c-7152f87d6962)
+# [Telegram bot](https://t.me/CarsHomeBot):
+![frame](https://github.com/Dishalex/Cars-home/assets/131618968/932cc6c4-52f0-40f0-8094-76236ebb2dfd)
+
