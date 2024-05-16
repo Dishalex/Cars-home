@@ -1,4 +1,5 @@
-# [Cars-Home](https://cars-home-app-private-student-cf52bc9b.koyeb.app/docs) ![qrcode(1)](https://github.com/Dishalex/Cars-home/assets/131618968/b250accb-1a6b-4a9d-8825-4cf90647e77c)
+# [Cars-Home](https://cars-home-app-private-student-cf52bc9b.koyeb.app/docs) 
+![qrcode](https://github.com/Dishalex/Cars-home/assets/131618968/9c7b7d45-82f5-41a9-8122-1ddf366a5c6a)
 
 
 # Automated Parking Management System
@@ -95,5 +96,4 @@ Ensure you have the following installed on your machine:
 The application should now be running at http://127.0.0.1:8000.
 
 # [Telegram bot](https://t.me/CarsHomeBot):
-![frame](https://github.com/Dishalex/Cars-home/assets/131618968/932cc6c4-52f0-40f0-8094-76236ebb2dfd)
-
+![qrcode(1)](https://github.com/Dishalex/Cars-home/assets/131618968/b250accb-1a6b-4a9d-8825-4cf90647e77c)
